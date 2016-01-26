@@ -1,0 +1,52 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#0099cc"
+    tools:context="ru.spbau.anastasia.race.RoadForTwo">
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+
+    <!-- This FrameLayout insets its children based on system windows using
+         android:fitsSystemWindows. -->
+    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <ru.spbau.anastasia.race.TwoPlayerGameView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/game_view" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonBack"
+            android:layout_gravity="right|bottom"
+            android:src="@drawable/back"
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            android:layout_marginBottom="10dp"
+            android:onClick="onClickButtonBackRoadForTwo" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonPause"
+            android:layout_gravity="left|bottom"
+            android:src="@drawable/pause"
+            android:layout_marginBottom="10dp"
+            android:background="@null"
+            android:layout_marginLeft="10dp"
+            android:onClick="onClickButtonPauseRoadForTwo"
+            android:nestedScrollingEnabled="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/count2"
+            android:layout_gravity="center_horizontal|top" />
+
+    </FrameLayout>
+
+</FrameLayout>

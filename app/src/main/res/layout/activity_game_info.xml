@@ -1,0 +1,60 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0099cc"
+    tools:context="ru.spbau.anastasia.race.GameInfo">
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+    <TextView
+        android:id="@+id/fullscreen_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:keepScreenOn="true"
+        android:textColor="#33b5e5"
+        android:textStyle="bold"
+        android:textSize="50sp"
+        android:gravity="center"
+        android:text="" />
+
+    <!-- This FrameLayout insets its children based on system windows using
+         android:fitsSystemWindows. -->
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/imageGameInfo"
+        android:layout_gravity="center"
+        android:scaleType="fitXY"
+        android:src="@drawable/info" />
+
+    <TextView
+        android:layout_width="395dp"
+        android:layout_height="fill_parent"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/game_info"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="5dp"
+        android:textStyle="bold"
+        android:maxLines = "12"
+        android:scrollbars = "vertical"
+        android:elegantTextHeight="true"
+        android:nestedScrollingEnabled="true"
+        android:layout_marginRight="25dp"
+        android:textColor="#ffffff"
+        android:id="@+id/gameInfo" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonBack"
+        android:layout_gravity="right|bottom"
+        android:background="@null"
+        android:src="@drawable/back"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:onClick="onClickButtonBackGameInfo" />
+
+</FrameLayout>

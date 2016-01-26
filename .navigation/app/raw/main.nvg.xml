@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigationModel
+  ns = "http://schemas.android.com?import=com.android.tools.idea.editors.navigation.model.*">
+  <locations  
+    class = "java.util.ArrayList">
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "ru.spbau.anastasia.race.OneGamerOption"/>
+      <point      
+        x = "372"      
+        y = "1024"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "ru.spbau.anastasia.race.GameSettings"/>
+      <point      
+        x = "2124"      
+        y = "172"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "ru.spbau.anastasia.race.GameMenu"/>
+      <point      
+        x = "568"      
+        y = "176"/>
+    </statePointEntry>
+  </locations>
+</navigationModel>

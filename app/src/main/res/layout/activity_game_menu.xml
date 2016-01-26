@@ -1,0 +1,81 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0099cc"
+    tools:context=".GameMenu" >
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+
+    <!-- This FrameLayout insets its children based on system windows using
+         android:fitsSystemWindows. -->
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/imageGameMenu"
+        android:layout_gravity="center"
+        android:scaleType="fitXY"
+        android:src="@drawable/menu" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonOnePlayer"
+        android:layout_gravity="center_horizontal|top"
+        android:src="@drawable/one_player"
+        android:onClick="onClickButtonOnePlayerOption"
+        android:layout_marginTop="20dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonTwoPlayers"
+        android:layout_gravity="center"
+        android:src="@drawable/two_players"
+        android:onClick="onClickButtonTConnection" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonGameInfo"
+        android:layout_gravity="left|bottom"
+        android:onClick="onClickButtonGameInfo"
+        android:src="@drawable/rules"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="20dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonGameAbout"
+        android:layout_gravity="right|bottom"
+        android:src="@drawable/about"
+        android:onClick="onClickButtonGameAbout"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="30dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonSound"
+        android:layout_gravity="right|top"
+        android:src="@drawable/sound"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:layout_marginRight="10dp"
+        android:onClick="onClickSound" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Winter Theme"
+        android:id="@+id/winter"
+        android:layout_gravity="left|top"
+        android:onClick="onClickChooseWinterTheme"
+        android:checked="false" />
+
+</FrameLayout>
