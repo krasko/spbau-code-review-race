@@ -49,12 +49,12 @@ public class mPlayerSprite extends mSimpleSprite {
         damagedBmp = BitmapFactory.decodeResource(res, id4);
     }
 
-    public mBasic updateExist(mScene scene){
+    public mBasic updateExist(mScene scene) {
 
         if (timerDamaged == DAMAGED_TIME) {
             isDamaged = false;
             if (live == 0) {
-                died(scene);
+                dying(scene);
                 scene.sound.play(Sound.LOSE);
             }
             scene.isSleeping = false;
@@ -65,7 +65,7 @@ public class mPlayerSprite extends mSimpleSprite {
         }
 
         for (mBasic a : scene.layers[0].data) {
-            if (a != null && this.isSelected(a)) {
+            if (a != null && isSelected(a)) {
                 live--;
                 isDamaged = true;
                 timerDamaged = 0;
@@ -78,7 +78,7 @@ public class mPlayerSprite extends mSimpleSprite {
         return null;
     }
 
-    public int getLive (){
+    public int getLive() {
         return live;
     }
 
@@ -116,7 +116,7 @@ public class mPlayerSprite extends mSimpleSprite {
 
     public void startJump(Sound sound, boolean isStop) {
 
-        if (timerLastDead < DEAD_TIME){
+        if (timerLastDead < DEAD_TIME) {
             return;
         }
 
@@ -134,8 +134,8 @@ public class mPlayerSprite extends mSimpleSprite {
     void update(float dx, float dy) {
 
         if (!isJumping && !isDamaged) {
-            truAddDX(dx);
-            truAddDY(dy);
+            addDX(dx);
+            addDY(dy);
         }
 
         src.set(0, 0, bmp.getWidth(), bmp.getHeight());
@@ -154,10 +154,10 @@ public class mPlayerSprite extends mSimpleSprite {
         timerDamaged = 0;
         timerJump = 0;
 
-        exist = true;
+        exists = true;
     }
 
-    private void died(mScene scene) {
+    private void dying(mScene scene) {
 
         for (mLayer line : scene.layers) {
             line.clear();
@@ -165,10 +165,10 @@ public class mPlayerSprite extends mSimpleSprite {
         }
 
         scene.status = mScene.STOPED;
-        exist = false;
+        exists = false;
     }
 
-    private void truAddDX(float dx) {
+    private void addDX(float dx) {
         x += dx;
         if (y < (1.62 * mSettings.CurrentYRes * x
                 / mSettings.CurrentXRes - 0.82 * mSettings.CurrentYRes)) {
@@ -176,12 +176,13 @@ public class mPlayerSprite extends mSimpleSprite {
         }
     }
 
-    private void truAddDY(float dy) {
+    private void addDY(float dy) {
         if (y + dy > mSettings.CurrentXRes / 6 && y + dy < mSettings.CurrentYRes * 7 / 8) {
             y += dy;
         }
     }
 
     @Override
-    void update() {}
+    void update() {
+    }
 }

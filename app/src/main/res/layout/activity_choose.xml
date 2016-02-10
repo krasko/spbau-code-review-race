@@ -11,25 +11,27 @@
         android:layout_gravity="center"
         android:scaleType="fitXY" />
 
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/device_list"
+        android:layout_gravity="top|left" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Scan for devices"
         android:id="@+id/scan_for_devices"
         android:layout_gravity="left|bottom"
-        android:singleLine="false" />
+        android:singleLine="false"
+        android:background="@android:color/transparent" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/enable_discoverable"
         android:text="@string/enable_discoverable"
-        android:layout_gravity="right|bottom" />
-
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/device_list"
-        android:layout_gravity="right|bottom" />
+        android:layout_gravity="right|bottom"
+        android:background="@android:color/transparent" />
 
 </FrameLayout>

@@ -29,7 +29,8 @@
         android:layout_gravity="center_horizontal|bottom"
         android:src="@drawable/start"
         android:onClick="onClickButtonStartOnePlayer"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/transparent" />
 
     <ImageButton
         android:layout_width="wrap_content"

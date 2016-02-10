@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/ConnectionView"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center"
+        android:scaleType="fitXY" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -26,7 +27,7 @@
             android:src="@drawable/abc_ic_clear_mtrl_alpha"
             android:nestedScrollingEnabled="false"
             android:onClick="onClickButtonReconnection"
-            android:background="@null"
+            android:background="@android:color/transparent"
             android:adjustViewBounds="false" />
 
         <Button
@@ -37,13 +38,14 @@
             android:layout_gravity="right" />
 
 
-        <ListView
+        <ListViewvddddd
             android:id="@+id/messages"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:stackFromBottom="true"
-            android:transcriptMode="alwaysScroll" />
+            android:transcriptMode="alwaysScroll"
+            android:layout_gravity="top|left" />
 
 
         <ImageButton
@@ -60,10 +62,12 @@
         <EditText
             android:id="@+id/edit_text"
             android:inputType="text"
-            android:layout_width="0dp"
+            android:layout_width="420dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal" />
+            android:layout_gravity="bottom|center_horizontal"
+            android:height="30dp"
+            android:width="300dp" />
     </FrameLayout>
 
     <FrameLayout
@@ -78,25 +82,27 @@
             android:id="@+id/count2"
             android:layout_gravity="center_horizontal|top" />
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/back"
-            android:src="@drawable/back"
-            android:layout_marginRight="10dp"
-            android:background="@null"
-            android:layout_marginBottom="10dp"
-            android:nestedScrollingEnabled="false"
-            android:onClick="onClickButtonBackTwoPlayerOption"
-            android:layout_gravity="right|bottom" />
-
         <ru.spbau.anastasia.race.TwoPlayerGameView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/game_view"
-            android:layout_gravity="left|bottom" />
+            android:layout_gravity="left|bottom"
+            android:background="@android:color/transparent" />
 
     </FrameLayout>
+
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/back"
+        android:src="@drawable/back"
+        android:layout_marginRight="10dp"
+        android:background="@null"
+        android:layout_marginBottom="10dp"
+        android:nestedScrollingEnabled="false"
+        android:onClick="onClickButtonBackTwoPlayerOption"
+        android:layout_gravity="right|bottom" />
 
 
 </FrameLayout>

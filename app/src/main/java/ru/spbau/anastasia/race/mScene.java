@@ -31,10 +31,10 @@ public class mScene {
     public static int[] coordinates;
     public static final int SINGLE_PLAY = 1;
     public static final int PLAY_TOGETHER = 2;
-    public static final double DELTE_SPEED = 0.1;
-    public static final double DELTE_ADDING_BARRIERS = 0.2;
+    public static final double DELTA_SPEED = 0.1;
+    public static final double DELTA_ADDING_BARRIERS = 0.2;
 
-    public static final int PLAYED= 1;
+    public static final int PLAYED = 1;
     public static final int STOPED = 2;
 
     public static final int FINN = 0;
@@ -44,8 +44,8 @@ public class mScene {
     public int type;
     public int player_id;
 
-    public static final int LAY_COUNT = 3;
-    protected mLayer[] layers = new mLayer[LAY_COUNT];
+    public static final int LAYER_COUNT = 3;
+    protected mLayer[] layers = new mLayer[LAYER_COUNT];
 
     private Resources res;
 
@@ -64,7 +64,7 @@ public class mScene {
 
     public mScene(Resources res, int type_, int numOfTheme_, Sound sound_) {
         this.res = res;
-        for (int i = 0; i < LAY_COUNT; i++) {
+        for (int i = 0; i < LAYER_COUNT; i++) {
             layers[i] = new mLayer(i, numOfTheme);
         }
         type = type_;
@@ -74,7 +74,7 @@ public class mScene {
 
         coordinates = new int[100];
         for (int i = 0; i < 100; i++) {
-            coordinates[i] = (i^3  + i^2 * 2 + i * 4  - 3) % 5;
+            coordinates[i] = (i ^ 3 + i ^ 2 * 2 + i * 4 - 3) % 5;
         }
     }
 
@@ -109,8 +109,8 @@ public class mScene {
         }
     }
 
-    private synchronized void recalcNewRound () {
-        if ((int)count % TIME_OF_ROUND == 0 && count > TIME_OF_ROUND) {
+    private synchronized void recalcNewRound() {
+        if ((int) count % TIME_OF_ROUND == 0 && count > TIME_OF_ROUND) {
             newRound();
             count++;
         }
@@ -120,11 +120,11 @@ public class mScene {
         if (lastRound == PAUSE_ON_SLEEP && isNewRound) {
             for (mLayer l : layers) {
                 if (l.frequencyOfAdding > 2) {
-                    l.frequencyOfAdding -= DELTE_ADDING_BARRIERS;
+                    l.frequencyOfAdding -= DELTA_ADDING_BARRIERS;
                 }
                 l.isDamaged = false;
             }
-            speed += DELTE_SPEED;
+            speed += DELTA_SPEED;
             isNewRound = false;
             isSleeping = false;
         }
@@ -145,7 +145,7 @@ public class mScene {
         FileForSent fileNew = null;
 
         if (status != STOPED) {
-            if (!isNewRound){
+            if (!isNewRound) {
                 player.updateStatus(isSleeping);
                 player2.updateStatus(isSleeping);
             }
@@ -173,7 +173,7 @@ public class mScene {
     public synchronized void addBarrierForTwo() {
         if (layers[0].tryToAdd()) {
             num++;
-            if (num >= 50){
+            if (num >= 50) {
                 num = 0;
             }
             mBarrierSprite barrierSprite = new mBarrierSprite(speed, numOfTheme, height, coordinates[2 * num], coordinates[2 * num + 1]);
@@ -189,10 +189,10 @@ public class mScene {
 
     public synchronized void initScene() {
         switch (type) {
-            case SINGLE_PLAY :
+            case SINGLE_PLAY:
                 initSingleScene();
                 break;
-            case PLAY_TOGETHER :
+            case PLAY_TOGETHER:
                 initDoubleScene();
                 break;
         }
@@ -202,7 +202,7 @@ public class mScene {
         mBarrierSprite.initBarrier(res);
         mBackgroundSprite.initBarrier(res);
 
-        player = new mPlayerSprite(width/2, height - 120 * mSettings.ScaleFactorY, res,
+        player = new mPlayerSprite(width / 2, height - 120 * mSettings.ScaleFactorY, res,
                 (player_id == JAKE) ? R.drawable.jake1 : R.drawable.finn1,
                 (player_id == JAKE) ? R.drawable.jake2 : R.drawable.finn2,
                 (player_id == JAKE) ? R.drawable.jake3 : R.drawable.finn3,
@@ -214,23 +214,23 @@ public class mScene {
     public synchronized void initDoubleScene() {
         mBarrierSprite.initBarrier(res);
         mBackgroundSprite.initBarrier(res);
-        if (isServer){
-            player = new mPlayerSprite(width/2 - 60 * mSettings.ScaleFactorX,
+        if (isServer) {
+            player = new mPlayerSprite(width / 2 - 60 * mSettings.ScaleFactorX,
                     height - 120 * mSettings.ScaleFactorY, res, R.drawable.jake1, R.drawable.jake2,
                     R.drawable.jake3, R.drawable.jake4, height);
             live = new mLive(res, mLive.FIRST_PLAYER, height);
 
-            player2 = new mPlayerSprite(width/2 + 60 * mSettings.ScaleFactorX,
+            player2 = new mPlayerSprite(width / 2 + 60 * mSettings.ScaleFactorX,
                     height - 120 * mSettings.ScaleFactorY, res, R.drawable.finn1, R.drawable.finn2,
                     R.drawable.finn3, R.drawable.finn4, height);
             live2 = new mLive(res, mLive.SECOND_PLAYER, height);
         } else {
-            player2 = new mPlayerSprite(width/2 - 60 * mSettings.ScaleFactorX,
+            player2 = new mPlayerSprite(width / 2 - 60 * mSettings.ScaleFactorX,
                     height - 120 * mSettings.ScaleFactorY, res, R.drawable.jake1, R.drawable.jake2,
                     R.drawable.jake3, R.drawable.jake4, height);
             live2 = new mLive(res, mLive.FIRST_PLAYER, height);
 
-            player = new mPlayerSprite(width/2 + 60 * mSettings.ScaleFactorX,
+            player = new mPlayerSprite(width / 2 + 60 * mSettings.ScaleFactorX,
                     height - 120 * mSettings.ScaleFactorY, res, R.drawable.finn1, R.drawable.finn2,
                     R.drawable.finn3, R.drawable.finn4, height);
             live = new mLive(res, mLive.SECOND_PLAYER, height);
@@ -246,7 +246,7 @@ public class mScene {
     public synchronized void addBarrier() {
         if (layers[0].tryToAdd()) {
             num++;
-            if (num >= 50){
+            if (num >= 50) {
                 num = 0;
             }
             mBarrierSprite barrierSprite = new mBarrierSprite(speed, numOfTheme, height, coordinates[2 * num], coordinates[2 * num + 1]);
@@ -271,7 +271,7 @@ public class mScene {
     }
 
     public synchronized void updateExist() {
-        for (int i = 0; i < LAY_COUNT; i++) {
+        for (int i = 0; i < LAYER_COUNT; i++) {
             layers[i].updateExist();
         }
         mBasic barrier = player.updateExist(this);
@@ -293,7 +293,7 @@ public class mScene {
         isNewRound = false;
         isSleeping = false;
         count = 0;
-        for (int i = 0; i < LAY_COUNT; i++) {
+        for (int i = 0; i < LAYER_COUNT; i++) {
             layers[i].restart();
         }
         player.restart();
@@ -315,7 +315,7 @@ public class mScene {
 
     public synchronized void update(float dx, float dy, float dx2, float dy2) {
         update(dx, dy);
-        if(type == PLAY_TOGETHER){
+        if (type == PLAY_TOGETHER) {
             player2.update(dx2, dy2);
             live2.update(player2);
         }

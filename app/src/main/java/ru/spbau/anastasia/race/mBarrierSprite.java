@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class mBarrierSprite extends mSimpleSprite {
 
-    private static Bitmap [][] barriersSprite = new Bitmap[2][6];
+    private static Bitmap[][] barriersSprite = new Bitmap[2][6];
     public static int row = 1;
     private static float[] rowX = new float[5];
     private static float[] rowY = new float[5];
@@ -29,7 +29,7 @@ public class mBarrierSprite extends mSimpleSprite {
         this.type = TYPE_BARRIERSPRITE;
     }
 
-    public static void initBarrier(Resources res){
+    public static void initBarrier(Resources res) {
 
         barriersSprite[0][0] = BitmapFactory.decodeResource(res, R.drawable.barrier6);
         barriersSprite[0][1] = BitmapFactory.decodeResource(res, R.drawable.barrier1);
@@ -51,13 +51,12 @@ public class mBarrierSprite extends mSimpleSprite {
     }
 
     private static Bitmap withBarrier(int numOfTheme, int num) {
-        row = num % 5;
-        numOfImage = num % 5;
+        row = numOfImage = num % 5;
         return barriersSprite[numOfTheme][numOfImage];
     }
 
     private void updateExist() {
-        this.exist = (this.y < mSettings.CurrentYRes) && (this.x < mSettings.CurrentXRes)
+        this.exists = (this.y < mSettings.CurrentYRes) && (this.x < mSettings.CurrentXRes)
                 && (this.x > 0);
     }
 

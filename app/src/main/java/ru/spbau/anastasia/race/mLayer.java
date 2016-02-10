@@ -21,7 +21,7 @@ public class mLayer {
     }
 
     public boolean tryToAdd() {
-        lastAdding = (int)((lastAdding + 1) % frequencyOfAdding);
+        lastAdding = (int) ((lastAdding + 1) % frequencyOfAdding);
         return lastAdding == 0;
     }
 
@@ -31,11 +31,11 @@ public class mLayer {
         }
     }
 
-    public synchronized void updateExist(){
+    public synchronized void updateExist() {
         Iterator<mBasic> iter = data.iterator();
         while (iter.hasNext()) {
             mBasic s = iter.next();
-            if (!s.exist) {
+            if (!s.exists) {
                 iter.remove();
             }
         }

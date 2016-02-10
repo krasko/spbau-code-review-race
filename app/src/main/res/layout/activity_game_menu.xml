@@ -19,7 +19,8 @@
         android:id="@+id/imageGameMenu"
         android:layout_gravity="center"
         android:scaleType="fitXY"
-        android:src="@drawable/menu" />
+        android:src="@drawable/menu"
+        android:background="@android:color/transparent" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -28,7 +29,8 @@
         android:layout_gravity="center_horizontal|top"
         android:src="@drawable/one_player"
         android:onClick="onClickButtonOnePlayerOption"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:background="@android:color/transparent" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -36,7 +38,8 @@
         android:id="@+id/buttonTwoPlayers"
         android:layout_gravity="center"
         android:src="@drawable/two_players"
-        android:onClick="onClickButtonTConnection" />
+        android:onClick="onClickButtonTConnection"
+        android:background="@android:color/transparent" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -46,7 +49,8 @@
         android:onClick="onClickButtonGameInfo"
         android:src="@drawable/rules"
         android:layout_marginLeft="30dp"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/transparent" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -56,7 +60,14 @@
         android:src="@drawable/about"
         android:onClick="onClickButtonGameAbout"
         android:layout_marginBottom="20dp"
-        android:layout_marginRight="30dp" />
+        android:layout_marginRight="30dp"
+        android:focusableInTouchMode="false"
+        android:focusable="false"
+        android:cropToPadding="false"
+        android:contextClickable="false"
+        android:clickable="false"
+        android:baselineAlignBottom="false"
+        android:background="@android:color/transparent" />
 
     <ImageButton
         android:layout_width="wrap_content"

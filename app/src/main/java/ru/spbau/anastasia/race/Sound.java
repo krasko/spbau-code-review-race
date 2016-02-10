@@ -19,10 +19,10 @@ public class Sound {
     public static final int LOSE = 2;
     public static final int JUMP = 3;
 
-    private int mLose, mCrash, mJump, mTheme;
-    private SoundPool mSoundPool;
-    private AssetManager mAssetManager;
-    private int mStreamID;
+    private int soundLose, soundCrash, soundJump, soundTheme;
+    private SoundPool soundPool;
+    private AssetManager assetManager;
+    private int streamID;
 
     public boolean isStopped;
     public int theme;
@@ -33,16 +33,16 @@ public class Sound {
             if (isStopped) {
                 return;
             }
-            playSound(mTheme);
+            playSound(soundTheme);
         }
     }
 
-    public Sound(AssetManager asset, int theme_, int menu) {
+    public Sound(AssetManager asset, int theme, int menu) {
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            // Для устройств до Android 5
+            // For devices to Android 5
             createOldSoundPool();
         } else {
-            // Для новых устройств
+            // For new devices
             createNewSoundPool();
         }
 
@@ -50,21 +50,21 @@ public class Sound {
             SceneTask task = new SceneTask();
             Timer timer = new Timer();
             timer.schedule(task, 0, MUSIC_TIME);
-            theme = theme_;
+            this.theme = theme;
         }
 
         isStopped = false;
-        mAssetManager = asset;
-        mLose = loadSound("lose.mp3");
-        mCrash = loadSound("crash.mp3");
+        assetManager = asset;
+        soundLose = loadSound("lose.mp3");
+        soundCrash = loadSound("crash.mp3");
 
         if (theme == GameMenu.NOT_IS_CHECKED) {
-            mJump = loadSound("jump.mp3");
+            soundJump = loadSound("jump.soundp3");
         } else {
-            mJump = loadSound("jump_in_snow.mp3");
+            soundJump = loadSound("jump_in_snow.mp3");
         }
 
-        mTheme = loadSound("race.mp3");
+        soundTheme = loadSound("race.mp3");
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -73,14 +73,14 @@ public class Sound {
                 .setUsage(AudioAttributes.USAGE_GAME)
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                 .build();
-        mSoundPool = new SoundPool.Builder()
+        soundPool = new SoundPool.Builder()
                 .setAudioAttributes(attributes)
                 .build();
     }
 
     @SuppressWarnings("deprecation")
     public void createOldSoundPool() {
-        mSoundPool = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
+        soundPool = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
     }
 
     public void play(int sound) {
@@ -89,32 +89,32 @@ public class Sound {
         }
         switch (sound) {
             case LOSE:
-                playSound(mLose);
+                playSound(soundLose);
                 break;
             case JUMP:
-               playSound(mJump);
+                playSound(soundJump);
                 break;
             case CRASH:
-                playSound(mCrash);
+                playSound(soundCrash);
                 break;
         }
     }
 
     private int playSound(int sound) {
         if (sound > 0) {
-            mStreamID = mSoundPool.play(sound, 1, 1, 1, 0, 1);
+            streamID = soundPool.play(sound, 1, 1, 1, 0, 1);
         }
-        return mStreamID;
+        return streamID;
     }
 
     private int loadSound(String fileName) {
         AssetFileDescriptor afd;
         try {
-            afd = mAssetManager.openFd(fileName);
+            afd = assetManager.openFd(fileName);
         } catch (IOException e) {
             e.printStackTrace();
             return -1;
         }
-        return mSoundPool.load(afd, 1);
+        return soundPool.load(afd, 1);
     }
 }

@@ -28,7 +28,8 @@
             android:src="@drawable/connect"
             android:layout_marginTop="50dp"
             android:onClick="onClickButtonConnection"
-            android:nestedScrollingEnabled="false" />
+            android:nestedScrollingEnabled="false"
+            android:background="@android:color/transparent" />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -37,7 +38,8 @@
             android:layout_gravity="center"
             android:layout_marginTop="40dp"
             android:src="@drawable/start"
-            android:onClick="onClickButtonStartTwoPlayers" />
+            android:onClick="onClickButtonStartTwoPlayers"
+            android:background="@android:color/transparent" />
 
         <ImageButton
             android:layout_width="wrap_content"

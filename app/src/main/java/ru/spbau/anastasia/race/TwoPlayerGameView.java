@@ -23,8 +23,8 @@ public class TwoPlayerGameView extends OnePlayerGameView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        synchronized (scene){
-            if (scene.status == mScene.PLAYED){
+        synchronized (scene) {
+            if (scene.status == mScene.PLAYED) {
                 scene.player2.draw(canvas, mainPaint);
                 scene.live2.draw(canvas, mainPaint);
             }

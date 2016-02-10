@@ -80,7 +80,7 @@ public class RoadForOne extends Activity implements mScene.SceneListener {
         restart.setVisibility(View.GONE);
         pause.setOnClickListener(onPauseListener);
 
-        gameView.initFon(numOfTheme);
+        gameView.initBackground(numOfTheme);
 
     }
 

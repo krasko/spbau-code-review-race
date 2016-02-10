@@ -35,6 +35,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ConnectionGame extends Activity {
+    public static final int LENGTH_OF_RECEIVED_BLOCK = 4;
     private final int REQUEST_CONNECT = 1;
     private final int REQUEST_ENABLE_BT = 2;
     private final int HANDLER_MESSAGE_GET = 1;
@@ -47,11 +48,10 @@ public class ConnectionGame extends Activity {
     private Sensor sensor;
     private mScene scene;
 
-    private boolean isStoped;
     private static final String STOP_MESSAGE = "stop";
     private static final String START_MESSAGE = "start";
     private static final String PAUSE_MESSAGE = "pause";
-    private static final String RESUM_MESSAGE = "resum";
+    private static final String RESUME_MESSAGE = "resume";
     private ArrayAdapter<String> arrayAdapter;
     private EditText editText;
 
@@ -104,10 +104,10 @@ public class ConnectionGame extends Activity {
             e.printStackTrace();
         }
         btService.write(START_MESSAGE.getBytes());
-        sinchron();
+        reviseAllDivices();
     }
 
-    private void sinchron(){
+    private void reviseAllDivices() {
         sensorManager.unregisterListener(sceneManager);
         sceneManager.stop();
         sensorManager.registerListener(sceneManager, sensor, SensorManager.SENSOR_DELAY_GAME);
@@ -142,14 +142,14 @@ public class ConnectionGame extends Activity {
             btService.write(sceneManager.forTwoPlayer(file));
         }
         synchronized (scene) {
-            gameView.initFon(numOfTheme);
+            gameView.initBackground(numOfTheme);
             gameView.scene = scene;
         }
     }
 
 
     public void onClickButtonBackTwoPlayerOption(View view) {
-        if (btService != null && btService.isBegin){
+        if (btService != null && btService.isBegin) {
             btService.write(STOP_MESSAGE.getBytes());
         }
         finish();
@@ -173,7 +173,7 @@ public class ConnectionGame extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        if(btService != null && btService.isBegin){
+        if (btService != null && btService.isBegin) {
             btService.write(STOP_MESSAGE.getBytes());
         }
     }
@@ -190,7 +190,7 @@ public class ConnectionGame extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(btService != null && btService.isBegin){
+        if (btService != null && btService.isBegin) {
             btService.write(STOP_MESSAGE.getBytes());
         }
         unbindService(connection);
@@ -202,7 +202,7 @@ public class ConnectionGame extends Activity {
         public void onServiceConnected(ComponentName name, IBinder service) {
             btService = ((BluetoothService.BtBinder) service).getService();
 
-            btService.setOnMessageReceived(new BluetoothService.OnMessageReceived() {
+            btService.setMessageReceiver(new BluetoothService.MessageReceiver() {
                 @Override
                 public void process(int bytes, byte[] buffer) {
                     handler.obtainMessage(HANDLER_MESSAGE_GET, bytes, -1, buffer)
@@ -279,12 +279,12 @@ public class ConnectionGame extends Activity {
             super.handleMessage(msg);
             byte[] bytes = (byte[]) msg.obj;
             boolean flag = true;
-            for (int i = 0; i < 4; i++){
-                if (bytes[i] != STOP_MESSAGE.getBytes()[i]){
+            for (int i = 0; i < LENGTH_OF_RECEIVED_BLOCK; i++) {
+                if (bytes[i] != STOP_MESSAGE.getBytes()[i]) {
                     flag = false;
                 }
             }
-            if (flag){
+            if (flag) {
                 toDeviceChooser();
                 arrayAdapter.clear();
             }
@@ -292,54 +292,56 @@ public class ConnectionGame extends Activity {
             boolean startFlag = true;
             boolean pauseFlag = true;
             boolean resumFlag = true;
-            for (int i = 0; i < 5; i++){
+            for (int i = 0; i < 5; i++) {
                 if (bytes[i] !=
-                        START_MESSAGE.getBytes()[i]){
+                        START_MESSAGE.getBytes()[i]) {
                     startFlag = false;
                 }
-                if (bytes[i] != PAUSE_MESSAGE.getBytes()[i]){
+                if (bytes[i] != PAUSE_MESSAGE.getBytes()[i]) {
                     pauseFlag = false;
                 }
-                if (bytes[i] != RESUM_MESSAGE.getBytes()[i]){
+                if (bytes[i] != RESUME_MESSAGE.getBytes()[i]) {
                     resumFlag = false;
                 }
             }
-            if (startFlag){
+            if (startFlag) {
                 try {
                     toPlayForTwo();
-                    sinchron();
+                    reviseAllDivices();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
 
             if (isPlayed) {
-            synchronized (scene) {
-                scene.playerStatus = bytes;
-                FileForSent file = new FileForSent(scene.playerStatus);
-                sinchron();
-                try {
-                    if (btService != null && btService.isBegin){
-                        Thread.sleep(1000/(SceneManager.FPS - 10));
+                synchronized (scene) {
+                    scene.playerStatus = bytes;
+                    FileForSent file = new FileForSent(scene.playerStatus);
+                    reviseAllDivices();
+                    try {
+                        if (btService != null && btService.isBegin) {
+                            Thread.sleep(1000 / (SceneManager.FPS));
+                        }
+                    } catch (InterruptedException ignor) {
                     }
-                } catch (InterruptedException ignor) { }
-                FileForSent comeIn = new FileForSent(bytes);
-                byte[] bytes1 = sceneManager.forTwoPlayer(comeIn);
-                Log.d("tag", bytes1.toString());
-                btService.write(bytes1);
-                sinchron();
-            }
+                    FileForSent comeIn = new FileForSent(bytes);
+                    byte[] bytes1 = sceneManager.forTwoPlayer(comeIn);
+                    Log.d("tag", bytes1.toString());
+                    btService.write(bytes1);
+                    reviseAllDivices();
+                }
             } else {
-                    arrayAdapter.add(btService.getBluetoothSocket().getRemoteDevice().getName() + ": " +
-                            new String((byte[]) msg.obj, 0, msg.arg1));
+                arrayAdapter.add(btService.getBluetoothSocket().getRemoteDevice().getName() + ": " +
+                        new String((byte[]) msg.obj, 0, msg.arg1));
             }
         }
     };
 
-    public void onRestartButtonClick(View view) {}
+    public void onRestartButtonClick(View view) {
+    }
 
     public void onClickButtonBackRoadForTwo(View view) {
-        if (btService != null &&  btService.isBegin){
+        if (btService != null && btService.isBegin) {
             btService.write(STOP_MESSAGE.getBytes());
         }
         finish();

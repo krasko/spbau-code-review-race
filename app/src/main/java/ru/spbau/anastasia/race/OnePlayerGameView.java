@@ -17,8 +17,8 @@ public class OnePlayerGameView extends View {
 
     protected mScene scene;
     protected Paint mainPaint, textPaint;
-    protected Bitmap fon;
-    protected Bitmap restart;
+    private Bitmap fon;
+    private Bitmap restart;
 
     public OnePlayerGameView(Context context) {
         super(context);
@@ -32,7 +32,7 @@ public class OnePlayerGameView extends View {
 
     private void init() {
         mSettings.GenerateSettings(getWidth(), getHeight());
-        fon = BitmapFactory.decodeResource(getResources(), R.drawable.game_road);
+        fon = BitmapFactory.decodeResource(getResources(), R.drawable.game_road_new);
         restart = BitmapFactory.decodeResource(getResources(), R.drawable.restart);
         mainPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         textPaint = new Paint();
@@ -41,12 +41,12 @@ public class OnePlayerGameView extends View {
         textPaint.setStyle(Paint.Style.STROKE);
     }
 
-    public void initFon(int numOfTheme) {
+    public void initBackground(int numOfTheme) {
         if (numOfTheme == GameMenu.IS_CHECKED) {
             fon = BitmapFactory.decodeResource(getResources(), R.drawable.winter_road);
             restart = BitmapFactory.decodeResource(getResources(), R.drawable.restart2);
         } else {
-            fon = BitmapFactory.decodeResource(getResources(), R.drawable.game_road);
+            fon = BitmapFactory.decodeResource(getResources(), R.drawable.game_road_new);
             restart = BitmapFactory.decodeResource(getResources(), R.drawable.restart);
         }
     }

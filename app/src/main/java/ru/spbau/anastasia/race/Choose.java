@@ -30,9 +30,10 @@ import java.util.concurrent.FutureTask;
 
 public class Choose extends Activity {
 
+    public static final int LENGTH_OF_UNUSEFULL_END_OF_STRING = -17;
     private BluetoothService btService;
 
-    private static final int REQUEST_ENABLE_DISCOVERABLE = 1;
+    public static final int REQUEST_ENABLE_DISCOVERABLE = 1;
 
     private ArrayAdapter<String> arrayAdapter;
 
@@ -88,10 +89,14 @@ public class Choose extends Activity {
         }
     };
 
+    private String getNameAndAdressFromDevice(BluetoothDevice bluetoothDevice){
+        return bluetoothDevice.getName() + "\n" + bluetoothDevice.getAddress();
+    }
+
     private void initBt() {
         Set<BluetoothDevice> paired = btService.getBluetoothAdapter().getBondedDevices();
-        for (BluetoothDevice device : paired) {
-            arrayAdapter.add(device.getName() + "\n" + device.getAddress());
+        for (BluetoothDevice bluetoothDevice : paired) {
+            arrayAdapter.add(getNameAndAdressFromDevice(bluetoothDevice));
         }
         btService.startAcceptThread();
     }
@@ -124,7 +129,7 @@ public class Choose extends Activity {
             btService.getBluetoothAdapter().cancelDiscovery();
 
             String str = ((TextView) view).getText().toString();
-            String address = str.substring(str.length() - 17);
+            String address = str.substring(str.length() + LENGTH_OF_UNUSEFULL_END_OF_STRING);
 
             makeToast(address);
 

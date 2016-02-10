@@ -27,9 +27,7 @@ public class DataBaseHelper extends SQLiteOpenHelper implements BaseColumns {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Удаляем старую таблицу и создаём новую
         db.execSQL("DROP TABLE IF IT EXISTS " + DATABASE_TABLE);
-        // Создаём новую таблицу
         onCreate(db);
     }
 }

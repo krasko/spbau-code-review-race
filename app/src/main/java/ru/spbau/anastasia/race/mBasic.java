@@ -8,7 +8,7 @@ public abstract class mBasic {
 
 	protected Bitmap bmp;
 	protected int type;
-	protected boolean exist = true;
+	protected boolean exists = true;
 
 	protected float x, y;
 	protected float dx, dy;
