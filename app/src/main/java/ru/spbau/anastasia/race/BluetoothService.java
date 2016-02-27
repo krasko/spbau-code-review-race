@@ -23,10 +23,11 @@ import java.util.concurrent.FutureTask;
 
 public class BluetoothService extends Service {
 
-    private boolean isServer;
-    private boolean isBegin;
     public static final String TAG = "BluetoothService";
     private static final UUID MY_UUID = UUID.fromString("27e86a38-a29c-421e-9d17-fe9c0c3bf2e6");
+
+    private boolean isServer;
+    private boolean isBegin;
 
     private BluetoothAdapter btAdapter;
     private BluetoothSocket btSocket;
@@ -34,6 +35,8 @@ public class BluetoothService extends Service {
     private AcceptThread acceptThread;
     private CreateConnectionThread createConnectionThread;
     private AcceptConnectionThread acceptConnectionThread;
+
+    private final IBinder binder = new BtBinder();
 
     public boolean isServer() {
         return isServer;
@@ -68,7 +71,8 @@ public class BluetoothService extends Service {
                 btSocket.close();
             } catch (IOException e) {
                 Log.d(TAG, "SocketData: " + btSocket.toString() + "; exception data: "
-                        + e.toString() + "; BluetoothService.java: 69");
+                        + e.toString()
+                        + "; BluetoothService.java: btSocket was closed with an error");
             }
         }
     }
@@ -85,15 +89,13 @@ public class BluetoothService extends Service {
         }
     }
 
-    private final IBinder binder = new BtBinder();
-
     private void closeSocket(BluetoothSocket bluetoothSocket) {
         try {
             bluetoothSocket.close();
         } catch (IOException e) {
             Log.d(TAG, "SocketData: " + btSocket.toString() + "; exception data: "
                     + e.toString()
-                    + "; BluetoothService.java: 94: socket was closed with an error");
+                    + "; BluetoothService.java: bluetoothSocket was closed with an error");
         }
     }
 
@@ -103,7 +105,7 @@ public class BluetoothService extends Service {
         } catch (IOException e) {
             Log.d(TAG, "SocketData: " + btSocket.toString() + "; exception data: "
                     + e.toString()
-                    + "; BluetoothService.java: 99: socket was closed with an error");
+                    + "; BluetoothService.java: bluetoothServerSocket was closed with an error");
         }
     }
 
@@ -207,7 +209,7 @@ public class BluetoothService extends Service {
             } catch (IOException e) {
                 Log.d(TAG, "SocketData: " + btSocket.toString() + "; exception data: "
                         + e.toString()
-                        + "; BluetoothService.java: 208: socket was created with an error");
+                        + "; BluetoothService.java: serverSocket was created with an error");
                 makeToast("ServerSocket was created with an error");
             }
         }
@@ -248,7 +250,7 @@ public class BluetoothService extends Service {
             } catch (IOException e) {
                 Log.d(TAG, "SocketData: " + btSocket.toString() + "; exception data: "
                         + e.toString()
-                        + "; BluetoothService.java: 249: socket was created with an error");
+                        + "; BluetoothService.java: socket was created with an error");
             }
         }
 
@@ -294,7 +296,7 @@ public class BluetoothService extends Service {
             } catch (IOException e) {
                 Log.d(TAG, "SocketData: " + btSocket.toString() + "; exception data: "
                         + e.toString()
-                        + "; BluetoothService.java: 295: socket was created with an error");
+                        + "; BluetoothService.java: tmpStreams were created with an error");
             }
 
             inputStream = tmpInputStream;
