@@ -1,6 +1,5 @@
 package ru.spbau.anastasia.race;
 
-import android.app.PendingIntent;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
@@ -9,27 +8,25 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
 public class BluetoothService extends Service {
 
-    public boolean isServer;
-    public boolean isBegin;
+    private boolean isServer;
+    private boolean isBegin;
     public static final String TAG = "BluetoothService";
     private static final UUID MY_UUID = UUID.fromString("27e86a38-a29c-421e-9d17-fe9c0c3bf2e6");
-
-    public static final int NOTIFICATION_ID = 1;
 
     private BluetoothAdapter btAdapter;
     private BluetoothSocket btSocket;
@@ -37,6 +34,18 @@ public class BluetoothService extends Service {
     private AcceptThread acceptThread;
     private CreateConnectionThread createConnectionThread;
     private AcceptConnectionThread acceptConnectionThread;
+
+    public boolean isServer() {
+        return isServer;
+    }
+
+    public boolean isBegin() {
+        return isBegin;
+    }
+
+    private void makeToast(String s) {
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public void onDestroy() {
@@ -57,7 +66,9 @@ public class BluetoothService extends Service {
         if (btSocket != null) {
             try {
                 btSocket.close();
-            } catch (IOException ignored) {
+            } catch (IOException e) {
+                Log.d(TAG, "SocketData: " + btSocket.toString() + "; exception data: "
+                        + e.toString() + "; BluetoothService.java: 69");
             }
         }
     }
@@ -79,16 +90,20 @@ public class BluetoothService extends Service {
     private void closeSocket(BluetoothSocket bluetoothSocket) {
         try {
             bluetoothSocket.close();
-        } catch (IOException ignored) {
-            Log.d(TAG, "Socket was closed with errror.");
+        } catch (IOException e) {
+            Log.d(TAG, "SocketData: " + btSocket.toString() + "; exception data: "
+                    + e.toString()
+                    + "; BluetoothService.java: 94: socket was closed with an error");
         }
     }
 
     private void closeServerSocket(BluetoothServerSocket bluetoothServerSocket) {
         try {
             bluetoothServerSocket.close();
-        } catch (IOException ignored) {
-            Log.d(TAG, "ServerSocket was closed with errror.");
+        } catch (IOException e) {
+            Log.d(TAG, "SocketData: " + btSocket.toString() + "; exception data: "
+                    + e.toString()
+                    + "; BluetoothService.java: 99: socket was closed with an error");
         }
     }
 
@@ -138,15 +153,15 @@ public class BluetoothService extends Service {
         void process(int bytes, byte[] buffer);
     }
 
-    private MessageReceiver MessageReceiver;
+    private MessageReceiver messageReceiver;
     List<Integer> sizes = new ArrayList<>();
     List<byte[]> cache = new ArrayList<>();
 
-    public void setMessageReceiver(MessageReceiver MessageReceiver) {
-        this.MessageReceiver = MessageReceiver;
+    public void setMessageReceiver(MessageReceiver messageReceiver) {
+        this.messageReceiver = messageReceiver;
 
         for (int i = 0; i < cache.size(); ++i) {
-            MessageReceiver.process(sizes.get(i), cache.get(i));
+            messageReceiver.process(sizes.get(i), cache.get(i)); // TODO
         }
         cache.clear();
         sizes.clear();
@@ -158,17 +173,6 @@ public class BluetoothService extends Service {
 
     public BluetoothSocket getBluetoothSocket() {
         return btSocket;
-    }
-
-    public void showNotification(Class<?> aClass, String string) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setContentTitle(string)
-                .setContentText(string)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentIntent(PendingIntent.getActivity(this, 0,
-                        new Intent(this, aClass), 0));
-
-        startForeground(NOTIFICATION_ID, builder.build());
     }
 
     private synchronized void connect(BluetoothSocket socket) throws ExecutionException, InterruptedException {
@@ -184,8 +188,8 @@ public class BluetoothService extends Service {
 
         FutureTask futureTask = onConnected.success();
         try {
-            Integer integer = (Integer) futureTask.get();
-        } catch (InterruptedException e) {
+            futureTask.get();
+        } catch (InterruptedException ignored) {
 
         }
 
@@ -200,8 +204,11 @@ public class BluetoothService extends Service {
         public AcceptThread() {
             try {
                 serverSocket = btAdapter.listenUsingRfcommWithServiceRecord(TAG, MY_UUID);
-            } catch (IOException ignored) {
-                Log.d(TAG, "ServerSocket was created with errror.");
+            } catch (IOException e) {
+                Log.d(TAG, "SocketData: " + btSocket.toString() + "; exception data: "
+                        + e.toString()
+                        + "; BluetoothService.java: 208: socket was created with an error");
+                makeToast("ServerSocket was created with an error");
             }
         }
 
@@ -211,18 +218,16 @@ public class BluetoothService extends Service {
                 try {
                     socket = serverSocket.accept();
                     isServer = true;
-                } catch (IOException e) {
-                    break;
-                }
-                if (socket != null) {
-                    try {
-                        connect(socket);
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    if (socket != null) {
+                        try {
+                            connect(socket);
+                        } catch (ExecutionException | InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        closeServerSocket(serverSocket);
+                        break;
                     }
-                    closeServerSocket(serverSocket);
+                } catch (IOException e) {
                     break;
                 }
             }
@@ -240,8 +245,10 @@ public class BluetoothService extends Service {
         public CreateConnectionThread(String address) {
             try {
                 socket = btAdapter.getRemoteDevice(address).createRfcommSocketToServiceRecord(MY_UUID);
-            } catch (IOException ignored) {
-                Log.d(TAG, "Socket was created with errror.");
+            } catch (IOException e) {
+                Log.d(TAG, "SocketData: " + btSocket.toString() + "; exception data: "
+                        + e.toString()
+                        + "; BluetoothService.java: 249: socket was created with an error");
             }
         }
 
@@ -261,9 +268,7 @@ public class BluetoothService extends Service {
             socket = null;
             try {
                 connect(tmp);
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
+            } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
         }
@@ -286,8 +291,10 @@ public class BluetoothService extends Service {
             try {
                 tmpInputStream = btSocket.getInputStream();
                 tmpOutputStream = btSocket.getOutputStream();
-            } catch (IOException ignored) {
-                Log.d(TAG, "AcceptConnectionThread was created with error");
+            } catch (IOException e) {
+                Log.d(TAG, "SocketData: " + btSocket.toString() + "; exception data: "
+                        + e.toString()
+                        + "; BluetoothService.java: 295: socket was created with an error");
             }
 
             inputStream = tmpInputStream;
@@ -303,7 +310,7 @@ public class BluetoothService extends Service {
                     bytes = inputStream.read(buffer);
                     Log.d(TAG, "read");
                     try {
-                        MessageReceiver.process(bytes, buffer);
+                        messageReceiver.process(bytes, buffer);
                     } catch (NullPointerException ignored) {
                         sizes.add(bytes);
                         cache.add(buffer);
@@ -317,7 +324,7 @@ public class BluetoothService extends Service {
         public void write(byte[] bytes) {
             try {
                 outputStream.write(bytes);
-                Log.d(TAG, "Trying to write: " + bytes.toString());
+                Log.d(TAG, "Trying to write: " + Arrays.toString(bytes));
             } catch (IOException ignored) {
             }
         }

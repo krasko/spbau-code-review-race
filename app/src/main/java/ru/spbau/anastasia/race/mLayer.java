@@ -32,11 +32,11 @@ public class mLayer {
     }
 
     public synchronized void updateExist() {
-        Iterator<mBasic> iter = data.iterator();
-        while (iter.hasNext()) {
-            mBasic s = iter.next();
+        Iterator<mBasic> iterator = data.iterator();
+        while (iterator.hasNext()) {
+            mBasic s = iterator.next();
             if (!s.exists) {
-                iter.remove();
+                iterator.remove();
             }
         }
     }

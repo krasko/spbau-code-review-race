@@ -6,30 +6,30 @@ import android.graphics.Paint;
 
 public abstract class mBasic {
 
-	protected Bitmap bmp;
-	protected int type;
-	protected boolean exists = true;
+    protected Bitmap bmp;
+    protected int type;
+    protected boolean exists = true;
 
-	protected float x, y;
-	protected float dx, dy;
-	protected float width, height;
+    protected float x, y;
+    protected float dx, dy;
+    protected float width, height;
 
-	public static final int TYPE_PLAYERSPRITE = 1;
-	public static final int TYPE_BARRIERSPRITE = 2;
-	public static final int TYPE_BACKGROUNDSPRITE = 3;
-	public static final int TYPE_LIVE = 4;
+    public static final int TYPE_PLAYER_SPRITE = 1;
+    public static final int TYPE_BARRIER_SPRITE = 2;
+    public static final int TYPE_BACKGROUND_SPRITE = 3;
+    public static final int TYPE_LIVE = 4;
 
-	abstract void update();
+    abstract void update();
 
-	abstract boolean isSelected(mBasic player);
-	
-	abstract void draw(Canvas c, Paint p);
+    abstract boolean isSelected(mBasic player);
 
-	public float getWidth() {
-		return width;
-	}
+    abstract void draw(Canvas c, Paint p);
 
-	public float getHeight() {
-		return height;
-	}
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
 }

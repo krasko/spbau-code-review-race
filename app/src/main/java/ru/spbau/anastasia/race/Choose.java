@@ -1,8 +1,5 @@
 package ru.spbau.anastasia.race;
 
-import ru.spbau.anastasia.race.util.SystemUiHider;
-
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -12,11 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,12 +24,12 @@ import java.util.concurrent.FutureTask;
 
 public class Choose extends Activity {
 
-    public static final int LENGTH_OF_UNUSEFULL_END_OF_STRING = -17;
+    public static final int LENGTH_OF_USELESS_END_OF_STRING = -17;
     private BluetoothService btService;
 
     public static final int REQUEST_ENABLE_DISCOVERABLE = 1;
 
-    private ArrayAdapter<String> arrayAdapter;
+    private ArrayAdapter<String> ArrayOfDevisesCapableToConnecting;
 
     private int devicesFound;
 
@@ -51,8 +45,8 @@ public class Choose extends Activity {
         scanForDevices.setOnClickListener(onScanForDevices);
 
         ListView deviceList = (ListView) findViewById(R.id.device_list);
-        arrayAdapter = new ArrayAdapter<>(this, R.layout.device);
-        deviceList.setAdapter(arrayAdapter);
+        ArrayOfDevisesCapableToConnecting = new ArrayAdapter<>(this, R.layout.device);
+        deviceList.setAdapter(ArrayOfDevisesCapableToConnecting);
         deviceList.setOnItemClickListener(onItemClickListener);
 
         bindService(new Intent(this, BluetoothService.class), serviceConnection, Context.BIND_AUTO_CREATE);
@@ -89,14 +83,14 @@ public class Choose extends Activity {
         }
     };
 
-    private String getNameAndAdressFromDevice(BluetoothDevice bluetoothDevice){
+    private String getNameAndAddressFromDevice(BluetoothDevice bluetoothDevice){
         return bluetoothDevice.getName() + "\n" + bluetoothDevice.getAddress();
     }
 
     private void initBt() {
         Set<BluetoothDevice> paired = btService.getBluetoothAdapter().getBondedDevices();
         for (BluetoothDevice bluetoothDevice : paired) {
-            arrayAdapter.add(getNameAndAdressFromDevice(bluetoothDevice));
+            ArrayOfDevisesCapableToConnecting.add(getNameAndAddressFromDevice(bluetoothDevice));
         }
         btService.startAcceptThread();
     }
@@ -117,7 +111,7 @@ public class Choose extends Activity {
     private View.OnClickListener onScanForDevices = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            arrayAdapter.clear();
+            ArrayOfDevisesCapableToConnecting.clear();
             btService.getBluetoothAdapter().startDiscovery();
             devicesFound = 0;
         }
@@ -129,7 +123,7 @@ public class Choose extends Activity {
             btService.getBluetoothAdapter().cancelDiscovery();
 
             String str = ((TextView) view).getText().toString();
-            String address = str.substring(str.length() + LENGTH_OF_UNUSEFULL_END_OF_STRING);
+            String address = str.substring(str.length() + LENGTH_OF_USELESS_END_OF_STRING);
 
             makeToast(address);
 
@@ -142,7 +136,7 @@ public class Choose extends Activity {
         public void onReceive(Context context, Intent intent) {
             if (BluetoothDevice.ACTION_FOUND.equals(intent.getAction())) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                arrayAdapter.add(device.getName() + "\n" + device.getAddress());
+                ArrayOfDevisesCapableToConnecting.add(device.getName() + "\n" + device.getAddress());
                 ++devicesFound;
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(intent.getAction())) {
                 makeToast(Integer.toString(devicesFound) +

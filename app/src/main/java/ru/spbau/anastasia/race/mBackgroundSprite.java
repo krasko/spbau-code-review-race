@@ -18,7 +18,7 @@ public class mBackgroundSprite extends mSimpleSprite {
         super(rowX[row], rowY[row], rowDX[row] * speed_, rowDY[row] * speed_,
                 withBarrier(numOfTheme_, isLeft_), height_);
 
-        type = TYPE_BACKGROUNDSPRITE;
+        type = TYPE_BACKGROUND_SPRITE;
     }
 
     public static void initBarrier(Resources res) {

@@ -11,31 +11,24 @@ import android.content.ServiceConnection;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.Arrays;
 
 public class ConnectionGame extends Activity {
-    public static final int LENGTH_OF_RECEIVED_BLOCK = 4;
+    public static final int RECEIVED_BLOCK_LENGTH = 4;
     private final int REQUEST_CONNECT = 1;
     private final int REQUEST_ENABLE_BT = 2;
     private final int HANDLER_MESSAGE_GET = 1;
@@ -50,8 +43,6 @@ public class ConnectionGame extends Activity {
 
     private static final String STOP_MESSAGE = "stop";
     private static final String START_MESSAGE = "start";
-    private static final String PAUSE_MESSAGE = "pause";
-    private static final String RESUME_MESSAGE = "resume";
     private ArrayAdapter<String> arrayAdapter;
     private EditText editText;
 
@@ -104,10 +95,10 @@ public class ConnectionGame extends Activity {
             e.printStackTrace();
         }
         btService.write(START_MESSAGE.getBytes());
-        reviseAllDivices();
+        reviseAllDevices();
     }
 
-    private void reviseAllDivices() {
+    private void reviseAllDevices() {
         sensorManager.unregisterListener(sceneManager);
         sceneManager.stop();
         sensorManager.registerListener(sceneManager, sensor, SensorManager.SENSOR_DELAY_GAME);
@@ -124,7 +115,7 @@ public class ConnectionGame extends Activity {
             scene.width = gameView.getWidth();
             scene.height = gameView.getHeight();
             scene.player_id = mScene.FINN;
-            scene.isServer = btService.isServer;
+            scene.isServer = btService.isServer();
             scene.type = mScene.PLAY_TOGETHER;
             sceneManager = new SceneManager(scene);
             sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -149,7 +140,7 @@ public class ConnectionGame extends Activity {
 
 
     public void onClickButtonBackTwoPlayerOption(View view) {
-        if (btService != null && btService.isBegin) {
+        if (btService != null && btService.isBegin()) {
             btService.write(STOP_MESSAGE.getBytes());
         }
         finish();
@@ -173,7 +164,7 @@ public class ConnectionGame extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (btService != null && btService.isBegin) {
+        if (btService != null && btService.isBegin()) {
             btService.write(STOP_MESSAGE.getBytes());
         }
     }
@@ -190,7 +181,7 @@ public class ConnectionGame extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (btService != null && btService.isBegin) {
+        if (btService != null && btService.isBegin()) {
             btService.write(STOP_MESSAGE.getBytes());
         }
         unbindService(connection);
@@ -279,7 +270,7 @@ public class ConnectionGame extends Activity {
             super.handleMessage(msg);
             byte[] bytes = (byte[]) msg.obj;
             boolean flag = true;
-            for (int i = 0; i < LENGTH_OF_RECEIVED_BLOCK; i++) {
+            for (int i = 0; i < RECEIVED_BLOCK_LENGTH; i++) {
                 if (bytes[i] != STOP_MESSAGE.getBytes()[i]) {
                     flag = false;
                 }
@@ -290,24 +281,24 @@ public class ConnectionGame extends Activity {
             }
 
             boolean startFlag = true;
-            boolean pauseFlag = true;
-            boolean resumFlag = true;
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 5; i++) { // TODO
                 if (bytes[i] !=
                         START_MESSAGE.getBytes()[i]) {
                     startFlag = false;
                 }
+                /* TODO
+                 * Why do we need these empty ifs here?
+
                 if (bytes[i] != PAUSE_MESSAGE.getBytes()[i]) {
-                    pauseFlag = false;
                 }
                 if (bytes[i] != RESUME_MESSAGE.getBytes()[i]) {
-                    resumFlag = false;
                 }
+                */
             }
             if (startFlag) {
                 try {
                     toPlayForTwo();
-                    reviseAllDivices();
+                    reviseAllDevices();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -316,19 +307,19 @@ public class ConnectionGame extends Activity {
             if (isPlayed) {
                 synchronized (scene) {
                     scene.playerStatus = bytes;
-                    FileForSent file = new FileForSent(scene.playerStatus);
-                    reviseAllDivices();
+                    new FileForSent(scene.playerStatus);
+                    reviseAllDevices();
                     try {
-                        if (btService != null && btService.isBegin) {
+                        if (btService != null && btService.isBegin()) {
                             Thread.sleep(1000 / (SceneManager.FPS));
                         }
-                    } catch (InterruptedException ignor) {
+                    } catch (InterruptedException ignore) {
                     }
                     FileForSent comeIn = new FileForSent(bytes);
                     byte[] bytes1 = sceneManager.forTwoPlayer(comeIn);
-                    Log.d("tag", bytes1.toString());
+                    Log.d("tag", Arrays.toString(bytes1));
                     btService.write(bytes1);
-                    reviseAllDivices();
+                    reviseAllDevices();
                 }
             } else {
                 arrayAdapter.add(btService.getBluetoothSocket().getRemoteDevice().getName() + ": " +
@@ -341,7 +332,7 @@ public class ConnectionGame extends Activity {
     }
 
     public void onClickButtonBackRoadForTwo(View view) {
-        if (btService != null && btService.isBegin) {
+        if (btService != null && btService.isBegin()) {
             btService.write(STOP_MESSAGE.getBytes());
         }
         finish();

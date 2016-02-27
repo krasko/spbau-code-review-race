@@ -18,11 +18,11 @@ public class mLive extends mSimpleSprite {
         super(0, 10, 0, 0, init(res), height_);
         typeOfGame = type_;
         numOfAlive = 3;
-        recalcX();
+        recalculateX();
         type = TYPE_LIVE;
     }
 
-    private void recalcX() {
+    private void recalculateX() {
         if (typeOfGame == FIRST_PLAYER) {
             x = 10;
         } else {

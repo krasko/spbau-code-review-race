@@ -59,7 +59,7 @@ public class Sound {
         soundCrash = loadSound("crash.mp3");
 
         if (theme == GameMenu.NOT_IS_CHECKED) {
-            soundJump = loadSound("jump.soundp3");
+            soundJump = loadSound("jump.mp3");
         } else {
             soundJump = loadSound("jump_in_snow.mp3");
         }

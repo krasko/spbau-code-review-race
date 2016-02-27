@@ -103,7 +103,7 @@ public class OnePlayerGameView extends View {
                 canvas.drawBitmap(restart, 0, 0, mainPaint);
 
                 if (scene.dead) {
-                    double newScore = (int)scene.count;
+                    double newScore = scene.count;
 
                     DataBaseHelper mDatabaseHelper = new DataBaseHelper(getContext(), "best_scores.db", null, 1);
                     SQLiteDatabase mSqLiteDatabase = mDatabaseHelper.getWritableDatabase();
@@ -143,7 +143,7 @@ public class OnePlayerGameView extends View {
 
         synchronized (scene) {
             if (!scene.player.isDamaged) {
-                scene.player.startJump(scene.sound, scene.status == mScene.STOPED);
+                scene.player.startJump(scene.sound, scene.status == mScene.STOPPED);
             }
         }
         return true;

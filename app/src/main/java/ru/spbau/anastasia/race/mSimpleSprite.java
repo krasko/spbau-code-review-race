@@ -66,7 +66,7 @@ public abstract class mSimpleSprite extends mBasic {
 
     private void recalcParametrs() {
         switch (type) {
-            case TYPE_BACKGROUNDSPRITE:
+            case TYPE_BACKGROUND_SPRITE:
                 height = y / delteOfSizeOfBackgroun + sizeOfBackgroun;
                 width = height / 4;
                 break;

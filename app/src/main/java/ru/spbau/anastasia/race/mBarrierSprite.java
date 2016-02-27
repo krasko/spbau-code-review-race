@@ -5,8 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import java.util.Random;
-
 public class mBarrierSprite extends mSimpleSprite {
 
     private static Bitmap[][] barriersSprite = new Bitmap[2][6];
@@ -17,8 +15,6 @@ public class mBarrierSprite extends mSimpleSprite {
     private static float[] rowDY = new float[5];
     public static int numOfImage;
 
-    public static final Random RND = new Random();
-
     public mBarrierSprite(float speed_, int numOfTheme_, float height_, int row_, int numOfImage_) {
         super(rowX[row_], rowY[row_], rowDX[row_] * speed_, rowDY[row_] * speed_,
                 withBarrier(numOfTheme_, numOfImage_), height_);
@@ -26,7 +22,7 @@ public class mBarrierSprite extends mSimpleSprite {
         row = row_;
         numOfImage = numOfImage_;
         Log.d("server", "row: " + row + "; numOfImage");
-        this.type = TYPE_BARRIERSPRITE;
+        this.type = TYPE_BARRIER_SPRITE;
     }
 
     public static void initBarrier(Resources res) {

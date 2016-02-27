@@ -2,10 +2,12 @@ package ru.spbau.anastasia.race;
 
 import android.content.res.Resources;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.util.Random;
 
 public class mScene {
+
+    final Random random = new Random(3571);
+
     public static int num = 0;
 
     public float speed = 1;
@@ -35,7 +37,7 @@ public class mScene {
     public static final double DELTA_ADDING_BARRIERS = 0.2;
 
     public static final int PLAYED = 1;
-    public static final int STOPED = 2;
+    public static final int STOPPED = 2;
 
     public static final int FINN = 0;
     public static final int JAKE = 1;
@@ -68,13 +70,15 @@ public class mScene {
             layers[i] = new mLayer(i, numOfTheme);
         }
         type = type_;
-        status = STOPED;
+        status = STOPPED;
         sound = sound_;
         numOfTheme = numOfTheme_;
 
         coordinates = new int[100];
         for (int i = 0; i < 100; i++) {
-            coordinates[i] = (i ^ 3 + i ^ 2 * 2 + i * 4 - 3) % 5;
+            coordinates[i] = random.nextInt(5); // TODO
+            // 5 should be a constant by I don't
+            // remember what it describes
         }
     }
 
@@ -83,13 +87,13 @@ public class mScene {
     }
 
     public synchronized void stop() {
-        status = STOPED;
+        status = STOPPED;
     }
 
     public synchronized void oneStep(float dx, float dy) {
-        recalcNewRound();
+        recalculateNewRound();
 
-        if (status != STOPED) {
+        if (status != STOPPED) {
             if (!isNewRound) {
                 player.updateStatus(isSleeping);
             }
@@ -99,17 +103,17 @@ public class mScene {
                 count += DELTA_COUNT;
             }
             updateExist();
-            recalcParametrs();
+            recalculateParameters();
         }
     }
 
-    private synchronized void recalcParametrs() {
-        if (status == STOPED && sceneListener != null) {
+    private synchronized void recalculateParameters() {
+        if (status == STOPPED && sceneListener != null) {
             sceneListener.onGameOver();
         }
     }
 
-    private synchronized void recalcNewRound() {
+    private synchronized void recalculateNewRound() {
         if ((int) count % TIME_OF_ROUND == 0 && count > TIME_OF_ROUND) {
             newRound();
             count++;
@@ -141,10 +145,9 @@ public class mScene {
     }
 
     public synchronized FileForSent oneStepForTwo(float dx, float dy, FileForSent file) {
-        recalcNewRound();
-        FileForSent fileNew = null;
+        recalculateNewRound();
 
-        if (status != STOPED) {
+        if (status != STOPPED) {
             if (!isNewRound) {
                 player.updateStatus(isSleeping);
                 player2.updateStatus(isSleeping);
@@ -156,9 +159,9 @@ public class mScene {
                 count += DELTA_COUNT;
             }
             updateExist();
-            recalcParametrs();
+            recalculateParameters();
             if (file != null) {
-                return fileNew;
+                return null;
             }
             return new FileForSent(player.dx, player.dy, player.isJumping);
         }

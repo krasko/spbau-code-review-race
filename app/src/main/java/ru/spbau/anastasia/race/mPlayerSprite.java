@@ -37,7 +37,7 @@ public class mPlayerSprite extends mSimpleSprite {
         startX = x;
         startY = y;
 
-        type = TYPE_PLAYERSPRITE;
+        type = TYPE_PLAYER_SPRITE;
 
         live = 3;
 
@@ -164,7 +164,7 @@ public class mPlayerSprite extends mSimpleSprite {
             line.isDamaged = true;
         }
 
-        scene.status = mScene.STOPED;
+        scene.status = mScene.STOPPED;
         exists = false;
     }
 
