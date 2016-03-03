@@ -9,7 +9,8 @@
         android:id="@+id/imageView"
         android:src="@drawable/device_chooser2"
         android:layout_gravity="center"
-        android:scaleType="fitXY" />
+        android:scaleType="fitXY"
+        android:contentDescription="@string/description_general_background" />
 
     <ListView
         android:layout_width="wrap_content"
@@ -20,7 +21,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Scan for devices"
+        android:text="@string/scan_for_devices"
         android:id="@+id/scan_for_devices"
         android:layout_gravity="left|bottom"
         android:singleLine="false"

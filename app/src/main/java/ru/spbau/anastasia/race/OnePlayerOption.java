@@ -34,7 +34,7 @@ public class OnePlayerOption extends Activity {
         }
 
         finn = (ImageButton) findViewById(R.id.buttonChooseFinn);
-        jake = (ImageButton) findViewById(R.id.buttonChooseJacke);
+        jake = (ImageButton) findViewById(R.id.buttonChooseJake);
     }
 
     public void onClickButtonStartOnePlayer(View view) {

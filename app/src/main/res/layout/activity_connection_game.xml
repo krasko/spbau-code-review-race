@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:background="#0099cc"
     tools:context="ru.spbau.anastasia.race.ConnectionGame"
-    android:onClick="startPlay"
     android:nestedScrollingEnabled="false"
     android:longClickable="false">
 
@@ -12,7 +11,8 @@
         android:layout_height="match_parent"
         android:id="@+id/ConnectionView"
         android:layout_gravity="center"
-        android:scaleType="fitXY" />
+        android:scaleType="fitXY"
+        android:contentDescription="@string/description_general_background" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -28,7 +28,8 @@
             android:nestedScrollingEnabled="false"
             android:onClick="onClickButtonReconnection"
             android:background="@android:color/transparent"
-            android:adjustViewBounds="false" />
+            android:adjustViewBounds="false"
+            android:contentDescription="@string/button_reconnect" />
 
         <Button
             android:id="@+id/send"
@@ -38,11 +39,10 @@
             android:layout_gravity="right" />
 
 
-        <ListViewvddddd
+        <ListView
             android:id="@+id/messages"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:stackFromBottom="true"
             android:transcriptMode="alwaysScroll"
             android:layout_gravity="top|left" />
@@ -57,13 +57,13 @@
             android:src="@drawable/play"
             android:onClick="onClickButtonStartPlay"
             android:nestedScrollingEnabled="false"
-            android:background="@null" />
+            android:background="@null"
+            android:contentDescription="@string/button_start_playing" />
 
         <EditText
             android:id="@+id/edit_text"
             android:inputType="text"
             android:layout_width="420dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:height="30dp"
@@ -102,7 +102,8 @@
         android:layout_marginBottom="10dp"
         android:nestedScrollingEnabled="false"
         android:onClick="onClickButtonBackTwoPlayerOption"
-        android:layout_gravity="right|bottom" />
+        android:layout_gravity="right|bottom"
+        android:contentDescription="@string/button_back" />
 
 
 </FrameLayout>

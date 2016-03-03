@@ -20,7 +20,8 @@
         android:layout_gravity="center"
         android:scaleType="fitXY"
         android:src="@drawable/menu"
-        android:background="@android:color/transparent" />
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/description_general_background" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -30,7 +31,8 @@
         android:src="@drawable/one_player"
         android:onClick="onClickButtonOnePlayerOption"
         android:layout_marginTop="20dp"
-        android:background="@android:color/transparent" />
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/button_select_game_mode" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -39,7 +41,8 @@
         android:layout_gravity="center"
         android:src="@drawable/two_players"
         android:onClick="onClickButtonTConnection"
-        android:background="@android:color/transparent" />
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/button_select_game_mode" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -50,7 +53,8 @@
         android:src="@drawable/rules"
         android:layout_marginLeft="30dp"
         android:layout_marginBottom="20dp"
-        android:background="@android:color/transparent" />
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/button_game_info" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -67,7 +71,8 @@
         android:contextClickable="false"
         android:clickable="false"
         android:baselineAlignBottom="false"
-        android:background="@android:color/transparent" />
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/button_game_about" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -78,12 +83,13 @@
         android:layout_marginTop="10dp"
         android:background="@null"
         android:layout_marginRight="10dp"
-        android:onClick="onClickSound" />
+        android:onClick="onClickSound"
+        android:contentDescription="@string/button_sound" />
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Winter Theme"
+        android:text="@string/check_box_winter_theme"
         android:id="@+id/winter"
         android:layout_gravity="left|top"
         android:onClick="onClickChooseWinterTheme"

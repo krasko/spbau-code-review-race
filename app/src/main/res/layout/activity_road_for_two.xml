@@ -26,7 +26,8 @@
             android:layout_marginRight="10dp"
             android:background="@null"
             android:layout_marginBottom="10dp"
-            android:onClick="onClickButtonBackRoadForTwo" />
+            android:onClick="onClickButtonBackRoadForTwo"
+            android:contentDescription="@string/button_back" />
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -38,7 +39,8 @@
             android:background="@null"
             android:layout_marginLeft="10dp"
             android:onClick="onClickButtonPauseRoadForTwo"
-            android:nestedScrollingEnabled="false" />
+            android:nestedScrollingEnabled="false"
+            android:contentDescription="@string/button_stop_playing" />
 
         <TextView
             android:layout_width="wrap_content"

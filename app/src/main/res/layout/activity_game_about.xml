@@ -28,7 +28,8 @@
         android:id="@+id/imageGameAbout"
         android:layout_gravity="center"
         android:scaleType="fitXY"
-        android:src="@drawable/game_about" />
+        android:src="@drawable/game_about"
+        android:contentDescription="@string/description_general_background" />
 
 
     <ImageButton
@@ -40,7 +41,8 @@
         android:src="@drawable/back"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
-        android:onClick="onClickButtonBackGameAbout" />
+        android:onClick="onClickButtonBackGameAbout"
+        android:contentDescription="@string/button_back" />
 
     <TextView
         android:layout_width="397dp"

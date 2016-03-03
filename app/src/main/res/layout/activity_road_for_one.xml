@@ -24,7 +24,8 @@
         android:layout_marginRight="10dp"
         android:background="@null"
         android:layout_marginBottom="10dp"
-        android:onClick="onBackButtonClickRoadForOne" />
+        android:onClick="onBackButtonClickRoadForOne"
+        android:contentDescription="@string/button_back" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -34,7 +35,8 @@
         android:src="@drawable/pause"
         android:layout_marginBottom="10dp"
         android:background="@null"
-        android:layout_marginLeft="10dp" />
+        android:layout_marginLeft="10dp"
+        android:contentDescription="@string/button_stop_playing" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -52,6 +54,7 @@
         android:onClick="onRestartButtonClick"
         android:background="@null"
         android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:contentDescription="@string/button_start_playing" />
 
 </FrameLayout>

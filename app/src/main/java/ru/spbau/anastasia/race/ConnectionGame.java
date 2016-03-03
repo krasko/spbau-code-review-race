@@ -87,7 +87,6 @@ public class ConnectionGame extends Activity {
                 REQUEST_CONNECT);
     }
 
-
     public void onClickButtonStartPlay(View view) {
         try {
             toPlayForTwo();
@@ -137,7 +136,6 @@ public class ConnectionGame extends Activity {
             gameView.scene = scene;
         }
     }
-
 
     public void onClickButtonBackTwoPlayerOption(View view) {
         if (btService != null && btService.isBegin()) {
@@ -337,4 +335,5 @@ public class ConnectionGame extends Activity {
         }
         finish();
     }
+
 }
