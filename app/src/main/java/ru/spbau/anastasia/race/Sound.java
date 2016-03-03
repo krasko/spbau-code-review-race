@@ -39,7 +39,7 @@ public class Sound {
 
     public Sound(AssetManager asset, int theme, int menu) {
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            // For devices to Android 5
+            // For devices with Android 5
             createOldSoundPool();
         } else {
             // For new devices

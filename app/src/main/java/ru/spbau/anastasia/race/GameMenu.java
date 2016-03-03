@@ -11,21 +11,61 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+/**
+ * The GameMenu class is the main activity where everything starts.
+ * From this activity you can choose game mode (one or two players mode),
+ * go to have a look at the rules and some information about creators,
+ * choose game theme (original and winter) and turn the sound on/off.
+ */
+
 public class GameMenu extends Activity {
+
+    /**
+     * CheckBox to choose theme,
+     * ImageButton to manager sounds,
+     * ImageView to set the background (it depends on theme).
+     */
 
     private CheckBox chooseWinterTheme;
     private ImageButton soundButton;
     private ImageView backgroundImage;
 
+    /**
+     * MediaPlayer controls sound in the game.
+     */
+
     private MediaPlayer mediaPlayer;
+
+    /**
+     * First two integers mean which theme is chosen:
+     * IS_CHECKED for winter and other for original theme.
+     * Last integer is used in class Sound to restart the background music
+     * (if we create Sound from GameMenu activity).
+     */
 
     public static final int IS_CHECKED = 1;
     public static final int NOT_IS_CHECKED = 0;
     public static final int MENU_ACTIVITY = 100;
 
-    private int numOfTheme = 0;
+    /**
+     * numOfTheme contains information about which theme is chosen right now.
+     * By default, the theme is the original one.
+     * When sound is turned on the isSound is True and False else.
+     * Sound contains all information about what and when should be played.
+     */
+
+    private int numOfTheme = NOT_IS_CHECKED;
     private boolean isSound;
     private Sound sound;
+
+    /**
+     * Create an activity:
+     * Set all images in activity,
+     * Set sound,
+     * Create DataBase for this game session.
+     *
+     * @param savedInstanceState default parameter for this method
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +93,21 @@ public class GameMenu extends Activity {
         mSqLiteDatabase.insert("Scores", null, newValues);
     }
 
+    /**
+     * Go to activity with settings for one player game mode.
+     *
+     * @param view default parameter for this method
+     */
+
     public void onClickButtonOnePlayerOption(View view) {
         startActivity(new Intent(GameMenu.this, OnePlayerOption.class));
     }
+
+    /**
+     * Change theme (including almost all images and sounds).
+     *
+     * @param view default parameter for this method
+     */
 
     public void onClickChooseWinterTheme(View view) {
         if (chooseWinterTheme.isChecked()) {
@@ -67,6 +119,12 @@ public class GameMenu extends Activity {
         }
         sound.theme = numOfTheme;
     }
+
+    /**
+     * Turn the sound off.
+     *
+     * @param view default parameter for this method
+     */
 
     public void onClickSound(View view) {
         if (isSound) {
@@ -81,13 +139,31 @@ public class GameMenu extends Activity {
         sound.isStopped = !isSound;
     }
 
+    /**
+     * Go to activity with settings for two player game mode.
+     *
+     * @param view default parameter for this method
+     */
+
     public void onClickButtonTConnection(View view) {
         startActivity(new Intent(GameMenu.this, ConnectionGame.class));
     }
 
+    /**
+     * Go to activity with game's rules.
+     *
+     * @param view default parameter for this method
+     */
+
     public void onClickButtonGameInfo(View view) {
         startActivity(new Intent(GameMenu.this, GameInfo.class));
     }
+
+    /**
+     * Go to activity with game developers' information.
+     *
+     * @param view default parameter for this method
+     */
 
     public void onClickButtonGameAbout(View view) {
         startActivity(new Intent(GameMenu.this, GameAbout.class));
