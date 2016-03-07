@@ -6,8 +6,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * The GameInfo class only provides information about rules of the game.
+ */
 public class GameInfo extends BaseActivity {
 
+    /**
+     * Create activity, set background (depends on chosen theme) and text with game's description.
+     *
+     * @param savedInstanceState default parameter for this method
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +33,12 @@ public class GameInfo extends BaseActivity {
         }
     }
 
-    public void onClickButtonBackGameInfo(View view) {
+    /**
+     * Finish the activity and go back to the GameMenu activity.
+     *
+     * @param view default parameter for this method
+     */
+    protected void onClickButtonBackGameInfo(View view) {
         finish();
     }
 }

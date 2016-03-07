@@ -5,12 +5,24 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
+/**
+ * The DataBaseHelper class provides creating and updating the data base table with the best score.
+ */
 public class DataBaseHelper extends SQLiteOpenHelper implements BaseColumns {
 
+    /**
+     * Column of the data base table with the best score.
+     */
     public static final String SCORE_COLUMN = "score";
 
+    /**
+     * Name of the database table.
+     */
     private static final String DATABASE_TABLE = "Scores";
 
+    /**
+     * Describes creating of database table Scores.
+     */
     private static final String DATABASE_CREATE_SCRIPT = "create table "
             + DATABASE_TABLE + " (" + BaseColumns._ID + " integer primary key autoincrement, "
             + SCORE_COLUMN + " integer);";

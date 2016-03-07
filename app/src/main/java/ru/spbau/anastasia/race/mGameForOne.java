@@ -36,6 +36,14 @@ public class mGameForOne extends mGame {
         super.initGame();
     }
 
+    public void update() {
+        for (mLayer l : layers) {
+            l.update();
+        }
+        player.update(dx, dy);
+        live.update(player);
+    }
+
     protected void restart() {
         speed = 1;
         for (mLayer l : layers) {
@@ -50,13 +58,5 @@ public class mGameForOne extends mGame {
         player.restart();
         live.update();
         start();
-    }
-
-    public void update() {
-        for (mLayer l : layers) {
-            l.update();
-        }
-        player.update(dx, dy);
-        live.update(player);
     }
 }

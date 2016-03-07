@@ -36,6 +36,13 @@ public class mBackgroundSprite extends mSimpleSprite {
         }
     }
 
+    @Override
+    protected void update() {
+        x = x + dx;
+        y = y + dy;
+        updateExist();
+    }
+
     private static Bitmap withBarrier(int numOfTheme, boolean isLeft_) {
         row = isLeft_ ? 1 : 0;
         return backgroundSprite[numOfTheme][row];
@@ -44,12 +51,5 @@ public class mBackgroundSprite extends mSimpleSprite {
     private void updateExist() {
         this.exists = (this.y < mSettings.CurrentYRes) && (this.x < mSettings.CurrentXRes)
                 && (this.x > 0) && (this.y > 0);
-    }
-
-    @Override
-    void update() {
-        x = x + dx;
-        y = y + dy;
-        updateExist();
     }
 }

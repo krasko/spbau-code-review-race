@@ -10,19 +10,48 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+/**
+ * The GameMenu class is the main activity where everything starts.
+ * From this activity you can choose game mode (one or two players mode),
+ * go to have a look at the rules and some information about creators,
+ * choose game theme (original and winter) and turn the sound on/off.
+ */
 public class GameMenu extends BaseActivity {
 
+    /**
+     * First two integers mean which theme is chosen:
+     * IS_CHECKED for winter and other one for original theme.
+     * Last integer is used in class Sound to restart the background music
+     * (if we create Sound from GameMenu activity).
+     */
     public static final int IS_CHECKED = 1;
     public static final int NOT_IS_CHECKED = 0;
     public static final int MENU_ACTIVITY = 100;
 
-    private CheckBox chooseWinterTheme;
-    private ImageButton soundButton;
-    private ImageView backgroundImage;
+    /**
+     * CheckBox to choose theme,
+     * ImageButton to manager sounds,
+     * ImageView to set the background (it depends on theme).
+     */
+    private CheckBox chooseWinterTheme = null;
+    private ImageButton soundButton = null;
+    private ImageView backgroundImage = null;
 
-    private MediaPlayer mediaPlayer;
-    private Sound sound;
+    /**
+     * MediaPlayer controls sound in the game.
+     * Sound contains all information about what and when should be played.
+     */
+    private MediaPlayer mediaPlayer = null;
+    private Sound sound = null;
 
+    /**
+     * Create an activity:
+     * Set all images in activity,
+     * Set sound,
+     * Create DataBase for this game session.
+     *
+     * @param savedInstanceState default parameter for this method
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +78,21 @@ public class GameMenu extends BaseActivity {
         mSqLiteDatabase.insert("Scores", null, newValues);
     }
 
-    public void onClickButtonOnePlayerOption(View view) {
+    /**
+     * Go to activity with settings for one player game mode.
+     *
+     * @param view default parameter for this method
+     */
+    protected void onClickButtonOnePlayerOption(View view) {
         startActivity(new Intent(GameMenu.this, OnePlayerOption.class));
     }
 
-    public void onClickChooseWinterTheme(View view) {
+    /**
+     * Change theme (including almost all images and sounds).
+     *
+     * @param view default parameter for this method
+     */
+    protected void onClickChooseWinterTheme(View view) {
         if (chooseWinterTheme.isChecked()) {
             backgroundImage.setImageResource(R.drawable.menu2);
             numOfTheme = IS_CHECKED;
@@ -64,7 +103,12 @@ public class GameMenu extends BaseActivity {
         sound.theme = numOfTheme;
     }
 
-    public void onClickSound(View view) {
+    /**
+     * Turn the sound off.
+     *
+     * @param view default parameter for this method
+     */
+    protected void onClickSound(View view) {
         if (isSound) {
             soundButton.setImageResource(R.drawable.no_sound);
         } else {
@@ -77,15 +121,30 @@ public class GameMenu extends BaseActivity {
         sound.isStopped = !isSound;
     }
 
-    public void onClickButtonTConnection(View view) {
+    /**
+     * Go to activity with settings for two player game mode.
+     *
+     * @param view default parameter for this method
+     */
+    protected void onClickButtonTConnection(View view) {
         startActivity(new Intent(GameMenu.this, DeviseChooser.class));
     }
 
-    public void onClickButtonGameInfo(View view) {
+    /**
+     * Go to activity with game's rules.
+     *
+     * @param view default parameter for this method
+     */
+    protected void onClickButtonGameInfo(View view) {
         startActivity(new Intent(GameMenu.this, GameInfo.class));
     }
 
-    public void onClickButtonGameAbout(View view) {
+    /**
+     * Go to activity with game developers' information.
+     *
+     * @param view default parameter for this method
+     */
+    protected void onClickButtonGameAbout(View view) {
         startActivity(new Intent(GameMenu.this, GameAbout.class));
     }
 }

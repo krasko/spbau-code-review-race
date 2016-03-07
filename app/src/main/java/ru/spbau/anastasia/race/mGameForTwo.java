@@ -62,24 +62,6 @@ public class mGameForTwo extends mGame {
         super.initGame();
     }
 
-    protected void restart() {
-        speed = 1;
-        for (mLayer l : layers) {
-            l.frequencyOfAdding = 5;
-        }
-        isNewRound = false;
-        playerDidNotMoved = false;
-        countOfRound = 0;
-        for (int i = 0; i < LAYER_COUNT; i++) {
-            layers[i].restart();
-        }
-        player.restart();
-        live.update();
-        player2.restart();
-        live2.update();
-        start();
-    }
-
     public void update() {
         for (mLayer l : layers) {
             l.update();
@@ -103,5 +85,23 @@ public class mGameForTwo extends mGame {
             return toSend;
         }
         return null;
+    }
+
+    protected void restart() {
+        speed = 1;
+        for (mLayer l : layers) {
+            l.frequencyOfAdding = 5;
+        }
+        isNewRound = false;
+        playerDidNotMoved = false;
+        countOfRound = 0;
+        for (int i = 0; i < LAYER_COUNT; i++) {
+            layers[i].restart();
+        }
+        player.restart();
+        live.update();
+        player2.restart();
+        live2.update();
+        start();
     }
 }

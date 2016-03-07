@@ -33,17 +33,6 @@ public class OnePlayerGameView extends View {
         init();
     }
 
-    private void init() {
-        mSettings.GenerateSettings(getWidth(), getHeight());
-        background = BitmapFactory.decodeResource(getResources(), R.drawable.game_road_new);
-        restart = BitmapFactory.decodeResource(getResources(), R.drawable.restart);
-        mainPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        textPaint = new Paint();
-        textPaint.setTextAlign(Paint.Align.CENTER);
-        textPaint.setTextSize(120f);
-        textPaint.setStyle(Paint.Style.STROKE);
-    }
-
     public void initBackground(int numOfTheme) {
         if (numOfTheme == GameMenu.IS_CHECKED) {
             background = BitmapFactory.decodeResource(getResources(), R.drawable.winter_road);
@@ -52,6 +41,20 @@ public class OnePlayerGameView extends View {
             background = BitmapFactory.decodeResource(getResources(), R.drawable.game_road_new);
             restart = BitmapFactory.decodeResource(getResources(), R.drawable.restart);
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() != MotionEvent.ACTION_DOWN) {
+            return super.onTouchEvent(event);
+        }
+
+        synchronized (game) {
+            if (!game.player.isDamaged) {
+                game.player.startJump(game.sound, game.isGameStopped);
+            }
+        }
+        return true;
     }
 
     @Override
@@ -138,17 +141,14 @@ public class OnePlayerGameView extends View {
         }
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() != MotionEvent.ACTION_DOWN) {
-            return super.onTouchEvent(event);
-        }
-
-        synchronized (game) {
-            if (!game.player.isDamaged) {
-                game.player.startJump(game.sound, game.isGameStopped);
-            }
-        }
-        return true;
+    private void init() {
+        mSettings.GenerateSettings(getWidth(), getHeight());
+        background = BitmapFactory.decodeResource(getResources(), R.drawable.game_road_new);
+        restart = BitmapFactory.decodeResource(getResources(), R.drawable.restart);
+        mainPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        textPaint = new Paint();
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        textPaint.setTextSize(120f);
+        textPaint.setStyle(Paint.Style.STROKE);
     }
 }

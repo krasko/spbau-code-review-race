@@ -12,15 +12,29 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * The Sound class provides music and sounds in the game.
+ */
 public class Sound {
 
+    /**
+     * Boolean means is the sound turn off (True) or turn on (False), player can choose it in the
+     * GameMenu activity. Some sounds can be different in different themes. The number of the
+     * current theme is in the integer.
+     */
     public boolean isStopped;
     public int theme;
 
+    /**
+     * Integers describes three types of sound (not music) that player can hear during the race.
+     */
     public static final int CRASH = 1;
     public static final int LOSE = 2;
     public static final int JUMP = 3;
 
+    /**
+     * The background music repeats every period of this time interval. 
+     */
     private static final int MUSIC_TIME = 90000;
 
     private int soundLose, soundCrash, soundJump, soundTheme;
@@ -68,17 +82,6 @@ public class Sound {
         soundTheme = loadSound("race.mp3");
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void createNewSoundPool() {
-        AudioAttributes attributes = new AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_GAME)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .build();
-        soundPool = new SoundPool.Builder()
-                .setAudioAttributes(attributes)
-                .build();
-    }
-
     @SuppressWarnings("deprecation")
     public void createOldSoundPool() {
         soundPool = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
@@ -99,6 +102,17 @@ public class Sound {
                 playSound(soundCrash);
                 break;
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void createNewSoundPool() {
+        AudioAttributes attributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(attributes)
+                .build();
     }
 
     private int playSound(int sound) {

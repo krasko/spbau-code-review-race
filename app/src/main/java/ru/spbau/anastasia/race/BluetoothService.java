@@ -33,48 +33,11 @@ public class BluetoothService extends Service {
     private CreateConnectionThread createConnectionThread;
     private AcceptConnectionThread acceptConnectionThread;
 
+    private MessageReceiver messageReceiver;
+
+    private OnConnected onConnected;
+
     private final IBinder binder = new BtBinder();
-
-    public boolean isConnectionBegin() {
-        return isConnectionBegin;
-    }
-
-    private void makeToast(String s) {
-        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        if (acceptThread != null) {
-            acceptThread.cancel();
-        }
-
-        if (createConnectionThread != null) {
-            createConnectionThread.cancel();
-        }
-
-        if (acceptConnectionThread != null) {
-            acceptConnectionThread.cancel();
-        }
-
-        if (bluetoothSocket != null) {
-            try {
-                bluetoothSocket.close();
-            } catch (IOException error) {
-                Log.d(TAG, "SocketData: " + bluetoothSocket.toString() + "; exception data: "
-                        + error.toString()
-                        + "; BluetoothService.java: bluetoothSocket was closed with an error");
-            }
-        }
-    }
-
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return binder;
-    }
 
     public class BtBinder extends Binder {
         BluetoothService getService() {
@@ -82,103 +45,8 @@ public class BluetoothService extends Service {
         }
     }
 
-    private void closeSocket(BluetoothSocket bluetoothSocket) {
-        try {
-            bluetoothSocket.close();
-        } catch (IOException error) {
-            Log.d(TAG, "SocketData: " + this.bluetoothSocket.toString() + "; exception data: "
-                    + error.toString()
-                    + "; BluetoothService.java: bluetoothSocket was closed with an error");
-        }
-    }
-
-    private void closeServerSocket(BluetoothServerSocket bluetoothServerSocket) {
-        try {
-            bluetoothServerSocket.close();
-        } catch (IOException error) {
-            Log.d(TAG, "SocketData: " + bluetoothSocket.toString() + "; exception data: "
-                    + error.toString()
-                    + "; BluetoothService.java: bluetoothServerSocket was closed with an error");
-        }
-    }
-
-    public static class BtUnavailableException extends Exception {
-        public BtUnavailableException() {
-            super("Bluetooth is not supported.");
-        }
-    }
-
-    public void initBtAdapter() throws BtUnavailableException {
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (bluetoothAdapter == null) {
-            throw new BtUnavailableException();
-        }
-        isConnectionBegin = false;
-    }
-
-    public BluetoothAdapter getBluetoothAdapter() {
-        return bluetoothAdapter;
-    }
-
-    public interface OnConnected {
-        FutureTask success();
-    }
-
-    private OnConnected onConnected;
-
-    public void setOnConnected(OnConnected onConnected) {
-        this.onConnected = onConnected;
-    }
-
-    public synchronized void startAcceptThread() {
-        acceptThread = new AcceptThread();
-        acceptThread.start();
-    }
-
-    public synchronized void startConnectThread(String address) {
-        createConnectionThread = new CreateConnectionThread(address);
-        createConnectionThread.start();
-    }
-
     public interface MessageReceiver {
         void process(int bytes, byte[] buffer);
-    }
-
-    private MessageReceiver messageReceiver;
-
-    public void setMessageReceiver(MessageReceiver messageReceiver) {
-        this.messageReceiver = messageReceiver;
-    }
-
-    public void write(byte[] bytes) {
-        acceptConnectionThread.write(bytes);
-    }
-
-    public BluetoothSocket getBluetoothSocket() {
-        return bluetoothSocket;
-    }
-
-    private synchronized void connect(BluetoothSocket socket) throws ExecutionException, InterruptedException {
-        this.bluetoothSocket = socket;
-
-        if (acceptThread != null) {
-            acceptThread.cancel();
-        }
-
-        if (createConnectionThread != null) {
-            createConnectionThread.cancel();
-        }
-
-        FutureTask futureTask = onConnected.success();
-        try {
-            futureTask.get();
-        } catch (InterruptedException ignored) {
-
-        }
-
-        isConnectionBegin = true;
-        acceptConnectionThread = new AcceptConnectionThread();
-        acceptConnectionThread.start();
     }
 
     private class AcceptThread extends Thread {
@@ -316,10 +184,142 @@ public class BluetoothService extends Service {
         }
     }
 
+    public boolean isConnectionBegin() {
+        return isConnectionBegin;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (acceptThread != null) {
+            acceptThread.cancel();
+        }
+
+        if (createConnectionThread != null) {
+            createConnectionThread.cancel();
+        }
+
+        if (acceptConnectionThread != null) {
+            acceptConnectionThread.cancel();
+        }
+
+        if (bluetoothSocket != null) {
+            try {
+                bluetoothSocket.close();
+            } catch (IOException error) {
+                Log.d(TAG, "SocketData: " + bluetoothSocket.toString() + "; exception data: "
+                        + error.toString()
+                        + "; BluetoothService.java: bluetoothSocket was closed with an error");
+            }
+        }
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return binder;
+    }
+
+    public static class BtUnavailableException extends Exception {
+        public BtUnavailableException() {
+            super("Bluetooth is not supported.");
+        }
+    }
+
+    public void initBtAdapter() throws BtUnavailableException {
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (bluetoothAdapter == null) {
+            throw new BtUnavailableException();
+        }
+        isConnectionBegin = false;
+    }
+
+    public BluetoothAdapter getBluetoothAdapter() {
+        return bluetoothAdapter;
+    }
+
+    public interface OnConnected {
+        FutureTask success();
+    }
+
+    public void setOnConnected(OnConnected onConnected) {
+        this.onConnected = onConnected;
+    }
+
+    public synchronized void startAcceptThread() {
+        acceptThread = new AcceptThread();
+        acceptThread.start();
+    }
+
+    public synchronized void startConnectThread(String address) {
+        createConnectionThread = new CreateConnectionThread(address);
+        createConnectionThread.start();
+    }
+
+    public void setMessageReceiver(MessageReceiver messageReceiver) {
+        this.messageReceiver = messageReceiver;
+    }
+
+    public void write(byte[] bytes) {
+        acceptConnectionThread.write(bytes);
+    }
+
+    public BluetoothSocket getBluetoothSocket() {
+        return bluetoothSocket;
+    }
+
     public void closeConnection() {
         if (acceptConnectionThread != null) {
             acceptConnectionThread.cancel();
             acceptConnectionThread = null;
+        }
+    }
+
+    private synchronized void connect(BluetoothSocket socket) throws ExecutionException, InterruptedException {
+        this.bluetoothSocket = socket;
+
+        if (acceptThread != null) {
+            acceptThread.cancel();
+        }
+
+        if (createConnectionThread != null) {
+            createConnectionThread.cancel();
+        }
+
+        FutureTask futureTask = onConnected.success();
+        try {
+            futureTask.get();
+        } catch (InterruptedException ignored) {
+
+        }
+
+        isConnectionBegin = true;
+        acceptConnectionThread = new AcceptConnectionThread();
+        acceptConnectionThread.start();
+    }
+
+    private void makeToast(String s) {
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+    }
+
+    private void closeSocket(BluetoothSocket bluetoothSocket) {
+        try {
+            bluetoothSocket.close();
+        } catch (IOException error) {
+            Log.d(TAG, "SocketData: " + this.bluetoothSocket.toString() + "; exception data: "
+                    + error.toString()
+                    + "; BluetoothService.java: bluetoothSocket was closed with an error");
+        }
+    }
+
+    private void closeServerSocket(BluetoothServerSocket bluetoothServerSocket) {
+        try {
+            bluetoothServerSocket.close();
+        } catch (IOException error) {
+            Log.d(TAG, "SocketData: " + bluetoothSocket.toString() + "; exception data: "
+                    + error.toString()
+                    + "; BluetoothService.java: bluetoothServerSocket was closed with an error");
         }
     }
 }

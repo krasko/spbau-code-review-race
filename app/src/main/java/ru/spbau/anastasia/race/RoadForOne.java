@@ -26,6 +26,23 @@ public class RoadForOne extends BaseActivity implements mGame.SceneListener {
     private mGameForOne game;
 
     @Override
+    public void onGameOver() {
+        gameView.gameStopped = true;
+        runOnUiThread(activateRestartButton);
+    }
+
+    @Override
+    public void onNextStep() {
+    }
+
+    public void onRestartButtonClick(View view) {
+        game.restart();
+        gameView.invalidate();
+        restart.setVisibility(View.GONE);
+        pause.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -75,7 +92,7 @@ public class RoadForOne extends BaseActivity implements mGame.SceneListener {
         pause.setOnClickListener(onPauseListener);
     }
 
-    public void onBackButtonClickRoadForOne(View view) {
+    protected void onBackButtonClickRoadForOne(View view) {
         finish();
     }
 
@@ -91,23 +108,6 @@ public class RoadForOne extends BaseActivity implements mGame.SceneListener {
         super.onPause();
         sensorManager.unregisterListener(game);
         game.pause();
-    }
-
-    @Override
-    public void onGameOver() {
-        gameView.gameStopped = true;
-        runOnUiThread(activateRestartButton);
-    }
-
-    @Override
-    public void onNextStep() {
-    }
-
-    public void onRestartButtonClick(View view) {
-        game.restart();
-        gameView.invalidate();
-        restart.setVisibility(View.GONE);
-        pause.setVisibility(View.VISIBLE);
     }
 
     @Override

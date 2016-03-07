@@ -6,8 +6,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * The GameAbout class only provides information about this project and it's authors.
+ */
 public class GameAbout extends BaseActivity {
 
+    /**
+     * Create activity, set background (depends on chosen theme) and text with project's description.
+     *
+     * @param savedInstanceState default parameter for this method
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +33,12 @@ public class GameAbout extends BaseActivity {
         }
     }
 
-    public void onClickButtonBackGameAbout(View view) {
+    /**
+     * Finish the activity and go back to the GameMenu activity.
+     *
+     * @param view default parameter for this method
+     */
+    protected void onClickButtonBackGameAbout(View view) {
         finish();
     }
 }

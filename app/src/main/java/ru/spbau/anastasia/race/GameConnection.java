@@ -38,49 +38,6 @@ public class GameConnection extends BaseActivity {
 
     private BluetoothService btService;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_connection_game);
-
-        ImageView backgroundImage = (ImageView) findViewById(R.id.ConnectionView);
-
-        if (numOfTheme == GameMenu.IS_CHECKED) {
-            backgroundImage.setImageResource(R.drawable.connection_game);
-        } else {
-            backgroundImage.setImageResource(R.drawable.connection_game2);
-        }
-
-        arrayAdapter = new ArrayAdapter<>(this, R.layout.message);
-        ((ListView) findViewById(R.id.messages)).setAdapter(arrayAdapter);
-        editText = (EditText) findViewById(R.id.edit_text);
-        Button button = (Button) findViewById(R.id.send);
-        button.setOnClickListener(onClickListener);
-
-        bindService(new Intent(this, BluetoothService.class), connection, Context.BIND_AUTO_CREATE);
-    }
-
-    public void onClickButtonReconnection(View view) {
-        finish();
-    }
-
-    public void onClickButtonStartPlay(View view) {
-        if (btService != null && btService.isConnectionBegin()) {
-            btService.write(START_MESSAGE.getBytes());
-            startGame(true);
-        }
-    }
-
-    public void onClickButtonBackTwoPlayerOption(View view) {
-        finish();
-    }
-
-    @Override
-    protected void onDestroy() {
-        unbindService(connection);
-        super.onDestroy();
-    }
-
     @SuppressLint("HandlerLeak")
     private final Handler handler = new Handler() {
         @Override
@@ -141,17 +98,6 @@ public class GameConnection extends BaseActivity {
         }
     };
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_GAME) {
-            btService.write(new byte[]{RoadForTwo.FINISH_ACTIVITY});
-            arrayAdapter.clear();
-            btService.setMessageReceiver(gameConnectionMessageReceiver);
-
-        }
-    }
-
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -161,8 +107,57 @@ public class GameConnection extends BaseActivity {
         }
     };
 
-    public void onClickButtonBackRoadForTwo(View view) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_connection_game);
+
+        ImageView backgroundImage = (ImageView) findViewById(R.id.ConnectionView);
+
+        if (numOfTheme == GameMenu.IS_CHECKED) {
+            backgroundImage.setImageResource(R.drawable.connection_game);
+        } else {
+            backgroundImage.setImageResource(R.drawable.connection_game2);
+        }
+
+        arrayAdapter = new ArrayAdapter<>(this, R.layout.message);
+        ((ListView) findViewById(R.id.messages)).setAdapter(arrayAdapter);
+        editText = (EditText) findViewById(R.id.edit_text);
+        Button button = (Button) findViewById(R.id.send);
+        button.setOnClickListener(onClickListener);
+
+        bindService(new Intent(this, BluetoothService.class), connection, Context.BIND_AUTO_CREATE);
+    }
+
+    protected void onClickButtonReconnection(View view) {
         finish();
+    }
+
+    protected void onClickButtonStartPlay(View view) {
+        if (btService != null && btService.isConnectionBegin()) {
+            btService.write(START_MESSAGE.getBytes());
+            startGame(true);
+        }
+    }
+
+    protected void onClickButtonBackTwoPlayerOption(View view) {
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        unbindService(connection);
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_GAME) {
+            btService.write(new byte[]{RoadForTwo.FINISH_ACTIVITY});
+            arrayAdapter.clear();
+            btService.setMessageReceiver(gameConnectionMessageReceiver);
+        }
     }
 
     protected void startGame(boolean isClient) {

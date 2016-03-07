@@ -22,6 +22,21 @@ public class mLive extends mSimpleSprite {
         type = TYPE_LIVE;
     }
 
+    public void update(mPlayerSprite player) {
+        numOfAlive = player.getLive();
+    }
+
+    @Override
+    public void draw(Canvas c, Paint p) {
+        for (int i = 0; i < numOfAlive; i++) {
+            c.drawBitmap(bmp, x + i * 50, y, p);
+        }
+    }
+
+    @Override
+    protected void update() {
+    }
+
     private void recalculateX() {
         if (typeOfGame == FIRST_PLAYER) {
             x = 10;
@@ -33,20 +48,5 @@ public class mLive extends mSimpleSprite {
     private static Bitmap init(Resources res) {
         Bitmap bmp = BitmapFactory.decodeResource(res, R.drawable.live);
         return Bitmap.createScaledBitmap(bmp, 40, 40, false);
-    }
-
-    @Override
-    void update() {
-    }
-
-    void update(mPlayerSprite player) {
-        numOfAlive = player.getLive();
-    }
-
-    @Override
-    public void draw(Canvas c, Paint p) {
-        for (int i = 0; i < numOfAlive; i++) {
-            c.drawBitmap(bmp, x + i * 50, y, p);
-        }
     }
 }

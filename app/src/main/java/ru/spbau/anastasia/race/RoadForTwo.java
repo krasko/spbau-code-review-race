@@ -27,40 +27,10 @@ public class RoadForTwo extends BaseActivity implements mGame.SceneListener {
     private TwoPlayerGameView gameView;
     private mGameForTwo game;
 
-    private BluetoothService btService;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        boolean isServer = getIntent().getExtras().getBoolean("isServer");
-
-        setContentView(R.layout.activity_road_for_two);
-        gameView = (TwoPlayerGameView) findViewById(R.id.game_view);
-        gameView.initBackground(numOfTheme);
-
-
-        Sound sound = new Sound(getAssets(), numOfTheme, 0);
-        sound.isStopped = !isSound;
-
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
-
-        game = new mGameForTwo(getResources(), numOfTheme, sound);
-        synchronized (game) {
-            game.isServer = isServer;
-            gameView.game = game;
-            game.sceneListener = this;
-
-            bindService(new Intent(this, BluetoothService.class), connection, BIND_AUTO_CREATE);
-        }
-    }
-
-    public void onBackButtonClickRoadForOne(View view) {
-        finish();
-    }
-
     private boolean opponentStarted = false;
     private boolean started = false;
+
+    private BluetoothService btService;
 
     BluetoothService.MessageReceiver inGameReceiver = new BluetoothService.MessageReceiver() {
         @Override
@@ -116,6 +86,55 @@ public class RoadForTwo extends BaseActivity implements mGame.SceneListener {
     };
 
     @Override
+    public void onGameOver() {
+        gameView.gameStopped = true;
+        btService.write(new byte[]{GAME_OVER});
+    }
+
+    @Override
+    public void onNextStep() {
+        FileForSent toSend = game.getMsgToSend();
+        if (toSend != null) {
+            btService.write(toSend.toMsg());
+            Log.d(TAG, "MessageSent : " + Arrays.toString(toSend.toMsg()));
+        }
+    }
+
+    public void onClickButtonBackRoadForTwo(View view) {
+        finish();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        boolean isServer = getIntent().getExtras().getBoolean("isServer");
+
+        setContentView(R.layout.activity_road_for_two);
+        gameView = (TwoPlayerGameView) findViewById(R.id.game_view);
+        gameView.initBackground(numOfTheme);
+
+
+        Sound sound = new Sound(getAssets(), numOfTheme, 0);
+        sound.isStopped = !isSound;
+
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+
+        game = new mGameForTwo(getResources(), numOfTheme, sound);
+        synchronized (game) {
+            game.isServer = isServer;
+            gameView.game = game;
+            game.sceneListener = this;
+
+            bindService(new Intent(this, BluetoothService.class), connection, BIND_AUTO_CREATE);
+        }
+    }
+
+    protected void onBackButtonClickRoadForOne(View view) {
+        finish();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         sensorManager.registerListener(game, sensor, SensorManager.SENSOR_DELAY_GAME);
@@ -130,27 +149,8 @@ public class RoadForTwo extends BaseActivity implements mGame.SceneListener {
     }
 
     @Override
-    public void onGameOver() {
-        gameView.gameStopped = true;
-        btService.write(new byte[]{GAME_OVER});
-    }
-
-    @Override
     protected void onDestroy() {
         game.stop();
         super.onDestroy();
-    }
-
-    @Override
-    public void onNextStep() {
-        FileForSent toSend = game.getMsgToSend();
-        if (toSend != null) {
-            btService.write(toSend.toMsg());
-            Log.d(TAG, "MessageSent : " + Arrays.toString(toSend.toMsg()));
-        }
-    }
-
-    public void onClickButtonBackRoadForTwo(View view) {
-        finish();
     }
 }

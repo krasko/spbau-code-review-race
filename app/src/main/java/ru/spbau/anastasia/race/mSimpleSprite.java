@@ -45,6 +45,23 @@ public abstract class mSimpleSprite extends mBasic {
         this(x, y, dx, dy, BitmapFactory.decodeResource(res, id), height_);
     }
 
+    public boolean isSelected(mBasic player) {
+        return intersect(player.x, player.y, player.getWidth(), player.getHeight());
+    }
+
+    @Override
+    public void draw(Canvas c, Paint p) {
+        recalculateParameters();
+        if (type != TYPE_LIVE) {
+            dst.set(-(int) width, -2 * (int) width, (int) width, 2 * (int) width);
+        }
+
+        dst.offset((int) x, (int) y);
+        c.drawBitmap(bmp, src, dst, p);
+    }
+
+    protected abstract void update();
+
     private void initLog() {
         if (bmp == null) {
             Log.e(TAG, "Created invalid sprite with no bitmap, width = "
@@ -57,16 +74,10 @@ public abstract class mSimpleSprite extends mBasic {
         }
     }
 
-    abstract void update();
-
     private boolean intersect(float x1, float y1, float dx, float dy) {
         Rect a = new Rect((int) x1, (int) y1, (int) (x1 + dx), (int) (y1 + dy));
         Rect b = new Rect((int) x, (int) y, (int) (x + width), (int) (y + height));
         return Rect.intersects(a, b);
-    }
-
-    public boolean isSelected(mBasic player) {
-        return intersect(player.x, player.y, player.getWidth(), player.getHeight());
     }
 
     private void recalculateParameters() {
@@ -80,16 +91,5 @@ public abstract class mSimpleSprite extends mBasic {
                 width = height * mSettings.ScaleFactorX / 4;
                 break;
         }
-    }
-
-    @Override
-    public void draw(Canvas c, Paint p) {
-        recalculateParameters();
-        if (type != TYPE_LIVE) {
-            dst.set(-(int) width, -2 * (int) width, (int) width, 2 * (int) width);
-        }
-
-        dst.offset((int) x, (int) y);
-        c.drawBitmap(bmp, src, dst, p);
     }
 }

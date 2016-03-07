@@ -85,7 +85,7 @@ public class mPlayerSprite extends mSimpleSprite {
         return live;
     }
 
-    void updateStatus(boolean isSleeping, mGame game) {
+    public void updateStatus(boolean isSleeping, mGame game) {
 
         if (timerJump < JUMP_TIME) {
             timerJump++;
@@ -145,7 +145,7 @@ public class mPlayerSprite extends mSimpleSprite {
         src.set(0, 0, bmp.getWidth(), bmp.getHeight());
     }
 
-    void remoteUpdate(mGame game, FileForSent data) {
+    public void remoteUpdate(mGame game, FileForSent data) {
         this.x = data.getX();
         this.y = data.getY();
         this.isJumping = data.getIsJumping();
@@ -188,6 +188,14 @@ public class mPlayerSprite extends mSimpleSprite {
         exists = true;
     }
 
+    public String info() {
+        return String.valueOf(x) + " " + String.valueOf(y) + " " + String.valueOf(isJumping);
+    }
+
+    @Override
+    protected void update() {
+    }
+
     private void dying(mGame game) {
 
         for (mLayer line : game.layers) {
@@ -213,13 +221,5 @@ public class mPlayerSprite extends mSimpleSprite {
             this.dy = dy;
         }
         this.y += this.dy;
-    }
-
-    @Override
-    void update() {
-    }
-
-    public String info() {
-        return String.valueOf(x) + " " + String.valueOf(y) + " " + String.valueOf(isJumping);
     }
 }

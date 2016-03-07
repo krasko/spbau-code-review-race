@@ -37,32 +37,6 @@ public class DeviseChooser extends BaseActivity {
 
     private Intent btServiceIntent;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_choose);
-
-        Button enableDiscoverable = (Button) findViewById(R.id.enable_discoverable);
-        enableDiscoverable.setOnClickListener(onEnableDiscoverable);
-
-        Button scanForDevices = (Button) findViewById(R.id.scan_for_devices);
-        scanForDevices.setOnClickListener(onScanForDevices);
-
-        ListView deviceList = (ListView) findViewById(R.id.device_list);
-        ArrayOfDevisesCapableToConnecting = new ArrayAdapter<>(this, R.layout.device);
-        deviceList.setAdapter(ArrayOfDevisesCapableToConnecting);
-        deviceList.setOnItemClickListener(onItemClickListener);
-
-        btServiceIntent = new Intent(this, BluetoothService.class);
-
-        startService(btServiceIntent);
-        bindService(btServiceIntent, connection, Context.BIND_AUTO_CREATE);
-
-        IntentFilter intentFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        intentFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-        registerReceiver(broadcastReceiver, intentFilter);
-    }
-
     private ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -100,28 +74,13 @@ public class DeviseChooser extends BaseActivity {
         }
     };
 
-    private String getNameAndAddressFromDevice(BluetoothDevice bluetoothDevice) {
-        return bluetoothDevice.getName() + "\n" + bluetoothDevice.getAddress();
-    }
-
-    private void initBt() {
-        Set<BluetoothDevice> paired = btService.getBluetoothAdapter().getBondedDevices();
-        for (BluetoothDevice bluetoothDevice : paired) {
-            ArrayOfDevisesCapableToConnecting.add(getNameAndAddressFromDevice(bluetoothDevice));
-        }
-        btService.startAcceptThread();
-    }
-
-    private void makeToast(String s) {
-        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
-    }
-
     private View.OnClickListener onEnableDiscoverable = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             startActivityForResult(
                     new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE),
-                    REQUEST_ENABLE_DISCOVERABLE);
+                    REQUEST_ENABLE_DISCOVERABLE
+            );
         }
     };
 
@@ -164,6 +123,32 @@ public class DeviseChooser extends BaseActivity {
     };
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_choose);
+
+        Button enableDiscoverable = (Button) findViewById(R.id.enable_discoverable);
+        enableDiscoverable.setOnClickListener(onEnableDiscoverable);
+
+        Button scanForDevices = (Button) findViewById(R.id.scan_for_devices);
+        scanForDevices.setOnClickListener(onScanForDevices);
+
+        ListView deviceList = (ListView) findViewById(R.id.device_list);
+        ArrayOfDevisesCapableToConnecting = new ArrayAdapter<>(this, R.layout.device);
+        deviceList.setAdapter(ArrayOfDevisesCapableToConnecting);
+        deviceList.setOnItemClickListener(onItemClickListener);
+
+        btServiceIntent = new Intent(this, BluetoothService.class);
+
+        startService(btServiceIntent);
+        bindService(btServiceIntent, connection, Context.BIND_AUTO_CREATE);
+
+        IntentFilter intentFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        intentFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+        registerReceiver(broadcastReceiver, intentFilter);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_ENABLE_BT) {
             if (resultCode == RESULT_CANCELED) {
@@ -187,5 +172,21 @@ public class DeviseChooser extends BaseActivity {
         unregisterReceiver(broadcastReceiver);
         unbindService(connection);
         stopService(btServiceIntent);
+    }
+
+    private String getNameAndAddressFromDevice(BluetoothDevice bluetoothDevice) {
+        return bluetoothDevice.getName() + "\n" + bluetoothDevice.getAddress();
+    }
+
+    private void initBt() {
+        Set<BluetoothDevice> paired = btService.getBluetoothAdapter().getBondedDevices();
+        for (BluetoothDevice bluetoothDevice : paired) {
+            ArrayOfDevisesCapableToConnecting.add(getNameAndAddressFromDevice(bluetoothDevice));
+        }
+        btService.startAcceptThread();
+    }
+
+    private void makeToast(String s) {
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
 }

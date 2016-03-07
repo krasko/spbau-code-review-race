@@ -84,19 +84,6 @@ public abstract class mGame implements SensorEventListener {
         this.numOfTheme = numOfTheme;
     }
 
-    protected abstract void oneStep();
-
-    private class GameTask extends TimerTask {
-        @Override
-        public void run() {
-            Log.d(TAG, "next step");
-            oneStep();
-            if (sceneListener != null) {
-                sceneListener.onNextStep();
-            }
-        }
-    }
-
     public synchronized void start() {
         wasStartRequest = true;
         if (isGameInitiated) {
@@ -104,26 +91,9 @@ public abstract class mGame implements SensorEventListener {
         }
     }
 
-    private void startImpl() {
-        if (isGameStopped) {
-            Log.d(TAG, "started");
-            isGameStopped = false;
-            resumeImpl();
-        }
-    }
-
     public synchronized void resume() {
         if (isGameInitiated) {
             resumeImpl();
-        }
-    }
-
-    private void resumeImpl() {
-        if (isGamePaused) {
-            Log.d(TAG, "resumed");
-            timer = new Timer();
-            timer.schedule(new GameTask(), 0, 1000 / FPS);
-            isGamePaused = false;
         }
     }
 
@@ -142,6 +112,69 @@ public abstract class mGame implements SensorEventListener {
             isGameStopped = true;
             if (sceneListener != null)
                 sceneListener.onGameOver();
+        }
+    }
+
+    public void setWH(int w, int h) {
+        width = w;
+        height = h;
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        dx = (float) (-Math.sin(Math.toRadians(event.values[1])) * SCALE_INCREASE);
+        dy = (float) (Math.sin(Math.toRadians(event.values[2])) * SCALE_INCREASE);
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
+
+    public synchronized void initGame() {
+        isGameInitiated = true;
+        if (wasStartRequest) {
+            startImpl();
+        }
+    }
+
+    protected void updateExist() {
+        for (int i = 0; i < LAYER_COUNT; i++) {
+            layers[i].updateExist();
+        }
+        mBasic barrier = player.updateExist(this);
+        deleteBarrier(barrier);
+    }
+
+    protected abstract void restart();
+
+    protected synchronized void add() {
+        addBarrier();
+        addBackground();
+    }
+
+    protected synchronized void addBarrier() {
+        if (layers[0].tryToAdd()) {
+            NUM_OF_ITERATION_DIV_50++;
+            if (NUM_OF_ITERATION_DIV_50 >= 50) {
+                NUM_OF_ITERATION_DIV_50 = 0;
+            }
+            mBarrierSprite barrierSprite = new mBarrierSprite(speed, numOfTheme, height, RND.nextInt(5), RND.nextInt(5));
+            layers[NUM_BARRIERS_IN_LAYERS].add(barrierSprite);
+        }
+    }
+
+    protected void deleteBarrier(mBasic item) {
+        layers[NUM_BARRIERS_IN_LAYERS].delete(item);
+    }
+
+    protected void addBackground() {
+        if (numOfTheme != 1) {
+            for (int i = 1; i < 3; i++) {
+                if (layers[i].tryToAdd()) {
+                    mBackgroundSprite backgroundSprite = new mBackgroundSprite(speed, i == 1, numOfTheme, height);
+                    layers[i].add(backgroundSprite);
+                }
+            }
         }
     }
 
@@ -176,66 +209,33 @@ public abstract class mGame implements SensorEventListener {
         playerDidNotMoved = true;
     }
 
-    public void setWH(int w, int h) {
-        width = w;
-        height = h;
-    }
+    protected abstract void oneStep();
 
-    protected synchronized void add() {
-        addBarrier();
-        addBackground();
-    }
-
-    protected synchronized void addBarrier() {
-        if (layers[0].tryToAdd()) {
-            NUM_OF_ITERATION_DIV_50++;
-            if (NUM_OF_ITERATION_DIV_50 >= 50) {
-                NUM_OF_ITERATION_DIV_50 = 0;
-            }
-            mBarrierSprite barrierSprite = new mBarrierSprite(speed, numOfTheme, height, RND.nextInt(5), RND.nextInt(5));
-            layers[NUM_BARRIERS_IN_LAYERS].add(barrierSprite);
-        }
-    }
-
-    protected void deleteBarrier(mBasic item) {
-        layers[NUM_BARRIERS_IN_LAYERS].delete(item);
-    }
-
-    protected void addBackground() {
-        if (numOfTheme != 1) {
-            for (int i = 1; i < 3; i++) {
-                if (layers[i].tryToAdd()) {
-                    mBackgroundSprite backgroundSprite = new mBackgroundSprite(speed, i == 1, numOfTheme, height);
-                    layers[i].add(backgroundSprite);
-                }
+    private class GameTask extends TimerTask {
+        @Override
+        public void run() {
+            Log.d(TAG, "next step");
+            oneStep();
+            if (sceneListener != null) {
+                sceneListener.onNextStep();
             }
         }
     }
 
-    public synchronized void initGame() {
-        isGameInitiated = true;
-        if (wasStartRequest) {
-            startImpl();
+    private void startImpl() {
+        if (isGameStopped) {
+            Log.d(TAG, "started");
+            isGameStopped = false;
+            resumeImpl();
         }
     }
 
-    protected void updateExist() {
-        for (int i = 0; i < LAYER_COUNT; i++) {
-            layers[i].updateExist();
+    private void resumeImpl() {
+        if (isGamePaused) {
+            Log.d(TAG, "resumed");
+            timer = new Timer();
+            timer.schedule(new GameTask(), 0, 1000 / FPS);
+            isGamePaused = false;
         }
-        mBasic barrier = player.updateExist(this);
-        deleteBarrier(barrier);
-    }
-
-    protected abstract void restart();
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        dx = (float) (-Math.sin(Math.toRadians(event.values[1])) * SCALE_INCREASE);
-        dy = (float) (Math.sin(Math.toRadians(event.values[2])) * SCALE_INCREASE);
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 }

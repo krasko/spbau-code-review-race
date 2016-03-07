@@ -32,12 +32,12 @@ public class FileForSent {
         return ByteBuffer.allocate(15).put((byte) 0).putFloat(x).putFloat(y).put((byte) (isJumping ? 1 : 0)).put((byte) (isDied ? 1 : 0)).putInt(numOfBarrier).array();
     }
 
-    public float getX() {
-        return x * mSettings.CurrentXRes;
-    }
-
     public boolean getIsJumping() {
         return isJumping;
+    }
+
+    public float getX() {
+        return x * mSettings.CurrentXRes;
     }
 
     public float getY() {
