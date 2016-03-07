@@ -1,6 +1,5 @@
 package ru.spbau.anastasia.race;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -22,16 +21,21 @@ import android.widget.Toast;
 import java.util.Set;
 import java.util.concurrent.FutureTask;
 
-public class Choose extends Activity {
+public class DeviseChooser extends BaseActivity {
 
-    public static final int LENGTH_OF_USELESS_END_OF_STRING = -17;
+    private static final int LENGTH_OF_USELESS_END_OF_STRING = 17;
+
     private BluetoothService btService;
 
-    public static final int REQUEST_ENABLE_DISCOVERABLE = 1;
+    private static final int REQUEST_ENABLE_BT = 1;
+    private static final int REQUEST_ENABLE_DISCOVERABLE = 2;
+    private static final int GAME_CONNECTION = 3;
 
     private ArrayAdapter<String> ArrayOfDevisesCapableToConnecting;
 
     private int devicesFound;
+
+    private Intent btServiceIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,32 +53,45 @@ public class Choose extends Activity {
         deviceList.setAdapter(ArrayOfDevisesCapableToConnecting);
         deviceList.setOnItemClickListener(onItemClickListener);
 
-        bindService(new Intent(this, BluetoothService.class), serviceConnection, Context.BIND_AUTO_CREATE);
+        btServiceIntent = new Intent(this, BluetoothService.class);
+
+        startService(btServiceIntent);
+        bindService(btServiceIntent, connection, Context.BIND_AUTO_CREATE);
 
         IntentFilter intentFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         intentFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
         registerReceiver(broadcastReceiver, intentFilter);
     }
 
-    private ServiceConnection serviceConnection = new ServiceConnection() {
+    private ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             btService = ((BluetoothService.BtBinder) service).getService();
+            try {
+                btService.initBtAdapter();
+            } catch (BluetoothService.BtUnavailableException e) {
+                Toast.makeText(DeviseChooser.this, R.string.bluetooth_absent, Toast.LENGTH_LONG).show();
+                finish();
+                return;
+            }
             btService.setOnConnected(new BluetoothService.OnConnected() {
                 @Override
                 public FutureTask success() {
-                    FutureTask task = new FutureTask(new Runnable() {
+                    FutureTask task = new FutureTask<>(new Runnable() {
                         @Override
                         public void run() {
-                            Choose.this.setResult(RESULT_OK);
-                            Choose.this.finish();
+                            startActivityForResult(new Intent(DeviseChooser.this, GameConnection.class), GAME_CONNECTION);
                         }
-                    }, 1);
+                    }, null);
                     runOnUiThread(task);
                     return task;
                 }
             });
             initBt();
+            if (!btService.getBluetoothAdapter().isEnabled()) {
+                startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), REQUEST_ENABLE_BT);
+            }
+
         }
 
         @Override
@@ -83,7 +100,7 @@ public class Choose extends Activity {
         }
     };
 
-    private String getNameAndAddressFromDevice(BluetoothDevice bluetoothDevice){
+    private String getNameAndAddressFromDevice(BluetoothDevice bluetoothDevice) {
         return bluetoothDevice.getName() + "\n" + bluetoothDevice.getAddress();
     }
 
@@ -123,11 +140,12 @@ public class Choose extends Activity {
             btService.getBluetoothAdapter().cancelDiscovery();
 
             String str = ((TextView) view).getText().toString();
-            String address = str.substring(str.length() + LENGTH_OF_USELESS_END_OF_STRING);
+            String address = str.substring(str.length() - LENGTH_OF_USELESS_END_OF_STRING);
 
             makeToast(address);
 
             btService.startConnectThread(address);
+            initBt();
         }
     };
 
@@ -146,6 +164,20 @@ public class Choose extends Activity {
     };
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_ENABLE_BT) {
+            if (resultCode == RESULT_CANCELED) {
+                finish();
+            }
+        } else if (requestCode == GAME_CONNECTION) {
+            btService.write(GameConnection.STOP_MESSAGE.getBytes());
+            btService.closeConnection();
+            btService.startAcceptThread();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
 
@@ -153,6 +185,7 @@ public class Choose extends Activity {
             btService.getBluetoothAdapter().cancelDiscovery();
         }
         unregisterReceiver(broadcastReceiver);
-        unbindService(serviceConnection);
+        unbindService(connection);
+        stopService(btServiceIntent);
     }
 }

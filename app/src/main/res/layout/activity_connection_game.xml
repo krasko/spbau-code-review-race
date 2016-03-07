@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:background="#0099cc"
-    tools:context="ru.spbau.anastasia.race.ConnectionGame"
+    tools:context=".GameConnection"
     android:nestedScrollingEnabled="false"
     android:longClickable="false">
 
@@ -45,7 +45,8 @@
             android:layout_height="wrap_content"
             android:stackFromBottom="true"
             android:transcriptMode="alwaysScroll"
-            android:layout_gravity="top|left" />
+            android:layout_gravity="top|left"
+            android:smoothScrollbar="false" />
 
 
         <ImageButton
@@ -55,9 +56,9 @@
             android:layout_gravity="left|bottom|center_horizontal"
             android:layout_marginTop="40dp"
             android:src="@drawable/play"
-            android:onClick="onClickButtonStartPlay"
             android:nestedScrollingEnabled="false"
             android:background="@null"
+            android:onClick="onClickButtonStartPlay"
             android:contentDescription="@string/button_start_playing" />
 
         <EditText
@@ -69,28 +70,6 @@
             android:height="30dp"
             android:width="300dp" />
     </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/gave_layout">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/count2"
-            android:layout_gravity="center_horizontal|top" />
-
-        <ru.spbau.anastasia.race.TwoPlayerGameView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/game_view"
-            android:layout_gravity="left|bottom"
-            android:background="@android:color/transparent" />
-
-    </FrameLayout>
-
 
     <ImageButton
         android:layout_width="wrap_content"

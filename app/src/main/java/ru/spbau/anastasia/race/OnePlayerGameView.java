@@ -15,9 +15,12 @@ import android.widget.Toast;
 
 public class OnePlayerGameView extends View {
 
-    protected mScene scene;
+    public mGame game;
+    public boolean gameStopped = false;
+
     protected Paint mainPaint, textPaint;
-    private Bitmap fon;
+
+    private Bitmap background;
     private Bitmap restart;
 
     public OnePlayerGameView(Context context) {
@@ -32,7 +35,7 @@ public class OnePlayerGameView extends View {
 
     private void init() {
         mSettings.GenerateSettings(getWidth(), getHeight());
-        fon = BitmapFactory.decodeResource(getResources(), R.drawable.game_road_new);
+        background = BitmapFactory.decodeResource(getResources(), R.drawable.game_road_new);
         restart = BitmapFactory.decodeResource(getResources(), R.drawable.restart);
         mainPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         textPaint = new Paint();
@@ -43,10 +46,10 @@ public class OnePlayerGameView extends View {
 
     public void initBackground(int numOfTheme) {
         if (numOfTheme == GameMenu.IS_CHECKED) {
-            fon = BitmapFactory.decodeResource(getResources(), R.drawable.winter_road);
+            background = BitmapFactory.decodeResource(getResources(), R.drawable.winter_road);
             restart = BitmapFactory.decodeResource(getResources(), R.drawable.restart2);
         } else {
-            fon = BitmapFactory.decodeResource(getResources(), R.drawable.game_road_new);
+            background = BitmapFactory.decodeResource(getResources(), R.drawable.game_road_new);
             restart = BitmapFactory.decodeResource(getResources(), R.drawable.restart);
         }
     }
@@ -55,32 +58,37 @@ public class OnePlayerGameView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        if (scene == null) {
+        if (game == null) {
             return;
         }
 
-        scene.setWH(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.getSize(heightMeasureSpec));
-        mSettings.GenerateSettings(scene.width, scene.height);
-        fon = Bitmap.createScaledBitmap(fon, mSettings.CurrentXRes, mSettings.CurrentYRes, false);
+        game.setWH(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.getSize(heightMeasureSpec));
+        mSettings.GenerateSettings(game.width, game.height);
+        background = Bitmap.createScaledBitmap(background, mSettings.CurrentXRes, mSettings.CurrentYRes, false);
         restart = Bitmap.createScaledBitmap(restart, mSettings.CurrentXRes,
                 mSettings.CurrentYRes, false);
 
-        scene.initScene();
-        scene.start();
+        game.initGame();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        synchronized (scene) {
-            if (scene == null) {
-                return;
-            }
-            if (scene.status == mScene.PLAYED) {
-                canvas.drawBitmap(fon, 0, 0, mainPaint);
+        if (isInEditMode()) {
+            return;
+        }
 
-                for (mLayer l : scene.layers) {
+        if (game == null) {
+            return;
+        }
+
+        synchronized (game) {
+
+            if (!gameStopped) {
+                canvas.drawBitmap(background, 0, 0, mainPaint);
+
+                for (mLayer l : game.layers) {
                     if (l != null) {
                         for (mBasic tmp : l.data) {
                             tmp.draw(canvas, mainPaint);
@@ -88,51 +96,46 @@ public class OnePlayerGameView extends View {
                     }
                 }
 
-                scene.player.draw(canvas, mainPaint);
-                scene.live.draw(canvas, mainPaint);
+                game.player.draw(canvas, mainPaint);
+                game.live.draw(canvas, mainPaint);
 
-                if (scene.isNewRound) {
+                if (game.isNewRound) {
                     int x = (int) ((canvas.getWidth() / 2) - ((mainPaint.descent() + mainPaint.ascent()) / 2));
-                    canvas.drawText("New Round:  " + scene.round, x, mSettings.CurrentYRes / 2, textPaint);
+                    canvas.drawText("New Round:  " + game.round, x, mSettings.CurrentYRes / 2, textPaint);
                 } else {
                     int x = (int) ((canvas.getWidth() / 2) - ((mainPaint.descent() + mainPaint.ascent()) / 2));
-                    canvas.drawText(String.valueOf((int) scene.count), x, mSettings.CurrentXRes / 9, textPaint);
+                    canvas.drawText(String.valueOf((int) game.countOfRound), x, mSettings.CurrentXRes / 9, textPaint);
                 }
-
+                invalidate();
             } else {
                 canvas.drawBitmap(restart, 0, 0, mainPaint);
+                double newScore = game.countOfRound;
 
-                if (scene.dead) {
-                    double newScore = scene.count;
+                DataBaseHelper mDatabaseHelper = new DataBaseHelper(getContext(), "best_scores.db", null, 1);
+                SQLiteDatabase mSqLiteDatabase = mDatabaseHelper.getWritableDatabase();
 
-                    DataBaseHelper mDatabaseHelper = new DataBaseHelper(getContext(), "best_scores.db", null, 1);
-                    SQLiteDatabase mSqLiteDatabase = mDatabaseHelper.getWritableDatabase();
+                Cursor cursor = mSqLiteDatabase.query("Scores", new String[]{DataBaseHelper.SCORE_COLUMN},
+                        null, null, null, null, null);
 
-                    Cursor cursor = mSqLiteDatabase.query("Scores", new String[]{DataBaseHelper.SCORE_COLUMN},
-                            null, null, null, null, null) ;
+                cursor.moveToLast();
 
-                    cursor.moveToLast();
+                int bestScore = cursor.getInt(cursor.getColumnIndex(DataBaseHelper.SCORE_COLUMN));
 
-                    int bestScore = cursor.getInt(cursor.getColumnIndex(DataBaseHelper.SCORE_COLUMN));
+                cursor.close();
 
-                    cursor.close();
-
-                    if (newScore > bestScore) {
-                        ContentValues newValues = new ContentValues();
-                        newValues.put(DataBaseHelper.SCORE_COLUMN, newScore);
-                        mSqLiteDatabase.insert("Scores", null, newValues);
-                    }
-
-                    Toast toast = Toast.makeText(getContext(), "Your score: " +
-                            newScore + "; last best score: " + bestScore, Toast.LENGTH_SHORT);
-                    toast.show();
-
-                    scene.dead = false;
+                if (newScore > bestScore) {
+                    ContentValues newValues = new ContentValues();
+                    newValues.put(DataBaseHelper.SCORE_COLUMN, newScore);
+                    mSqLiteDatabase.insert("Scores", null, newValues);
                 }
+
+                Toast toast = Toast.makeText(getContext(), "Your score: " +
+                        (int) newScore + "; last best score: " + bestScore, Toast.LENGTH_SHORT);
+                toast.show();
+
+                gameStopped = false;
             }
         }
-
-        invalidate();
     }
 
     @Override
@@ -141,9 +144,9 @@ public class OnePlayerGameView extends View {
             return super.onTouchEvent(event);
         }
 
-        synchronized (scene) {
-            if (!scene.player.isDamaged) {
-                scene.player.startJump(scene.sound, scene.status == mScene.STOPPED);
+        synchronized (game) {
+            if (!game.player.isDamaged) {
+                game.player.startJump(game.sound, game.isGameStopped);
             }
         }
         return true;

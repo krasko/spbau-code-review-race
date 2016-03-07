@@ -1,13 +1,12 @@
 package ru.spbau.anastasia.race;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class GameAbout extends Activity {
+public class GameAbout extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +17,6 @@ public class GameAbout extends Activity {
         aboutTextView.setMovementMethod(new ScrollingMovementMethod());
 
         ImageView backGroundImage = (ImageView) findViewById(R.id.imageGameAbout);
-        int numOfTheme = getIntent().getExtras().getInt("theme");
 
         if (numOfTheme == GameMenu.IS_CHECKED) {
             backGroundImage.setImageResource(R.drawable.game_about2);

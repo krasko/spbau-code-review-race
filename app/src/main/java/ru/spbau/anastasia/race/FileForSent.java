@@ -4,54 +4,43 @@ import java.nio.ByteBuffer;
 
 public class FileForSent {
 
-    private float dx, dy;
-    private boolean isJumping;
+    public final boolean isDied;
+    public final int numOfBarrier;
 
-    public FileForSent(float dx, float dy, boolean isJumping_) {
-        this.dx = dx;
-        this.dy = dy;
-        isJumping = isJumping_;
+    private final float x, y;
+    private final boolean isJumping;
+
+    public FileForSent(float x, float y, boolean isJumping, boolean isDied, int numOfBarrier) {
+        this.x = x;
+        this.y = y;
+        this.isJumping = isJumping;
+        this.isDied = isDied;
+        this.numOfBarrier = numOfBarrier;
     }
 
-    public FileForSent(byte[] bytes) {
-        byte[] dxBytes = new byte[ConnectionGame.RECEIVED_BLOCK_LENGTH];
-        System.arraycopy(bytes, 0, dxBytes, 0, ConnectionGame.RECEIVED_BLOCK_LENGTH);
-        byte[] dyBytes = new byte[ConnectionGame.RECEIVED_BLOCK_LENGTH];
-        System.arraycopy(bytes, 0, dyBytes, 4, ConnectionGame.RECEIVED_BLOCK_LENGTH);
-
-        dx = ByteBuffer.wrap(dxBytes).getFloat();
-        dy = ByteBuffer.wrap(dyBytes).getFloat();
-
-        isJumping = bytes[8] != 0;
+    public FileForSent(byte[] bytes, int count) {
+        ByteBuffer buffer = ByteBuffer.wrap(bytes, 0, count);
+        buffer.get();
+        x = buffer.getFloat();
+        y = buffer.getFloat();
+        isJumping = buffer.get() != 0;
+        isDied = buffer.get() != 0;
+        numOfBarrier = buffer.getInt();
     }
 
     public byte[] toMsg() {
-
-        byte[] bytes = new byte[9];
-
-        byte[] bytesDX = ByteBuffer.allocate(4).putFloat(dx).array();
-        System.arraycopy(bytesDX, 0, bytes, 0, ConnectionGame.RECEIVED_BLOCK_LENGTH);
-
-        byte[] bytesDY = ByteBuffer.allocate(4).putFloat(dy).array();
-        System.arraycopy(bytesDY, 0, bytes, 4, ConnectionGame.RECEIVED_BLOCK_LENGTH);
-
-        bytes[8] = (byte) (isJumping ? 1 : 0);
-        return bytes;
+        return ByteBuffer.allocate(15).put((byte) 0).putFloat(x).putFloat(y).put((byte) (isJumping ? 1 : 0)).put((byte) (isDied ? 1 : 0)).putInt(numOfBarrier).array();
     }
 
-    public static FileForSent genServer() {
-        return new FileForSent(0, 0, false);
-    }
-
-    public float getDX() {
-        return dx;
+    public float getX() {
+        return x * mSettings.CurrentXRes;
     }
 
     public boolean getIsJumping() {
         return isJumping;
     }
 
-    public float getDY() {
-        return dy;
+    public float getY() {
+        return y * mSettings.CurrentYRes;
     }
 }

@@ -1,20 +1,17 @@
 package ru.spbau.anastasia.race;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-public class OnePlayerOption extends Activity {
+public class OnePlayerOption extends BaseActivity {
 
     private ImageButton finn;
     private ImageButton jake;
-    private boolean isSound;
 
     private int player_id;
-    private int numOfTheme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +20,6 @@ public class OnePlayerOption extends Activity {
 
         chooseCharacter(0);
 
-        numOfTheme = getIntent().getExtras().getInt("theme");
-        isSound = getIntent().getExtras().getBoolean("sound");
         ImageView fon = (ImageView) findViewById(R.id.imagePlayersOption);
 
         if (numOfTheme == GameMenu.IS_CHECKED) {
@@ -38,11 +33,7 @@ public class OnePlayerOption extends Activity {
     }
 
     public void onClickButtonStartOnePlayer(View view) {
-        Intent intent = new Intent(this, RoadForOne.class);
-        intent.putExtra("player", player_id);
-        intent.putExtra("theme", numOfTheme);
-        intent.putExtra("sound", isSound);
-        startActivity(intent);
+        startActivity(new Intent(this, RoadForOne.class).putExtra("player", player_id));
     }
 
     public void onClickButtonBackOnePlayerOption(View view) {

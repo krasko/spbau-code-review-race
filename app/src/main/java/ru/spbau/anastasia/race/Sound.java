@@ -14,18 +14,19 @@ import java.util.TimerTask;
 
 public class Sound {
 
-    public static final int MUSIC_TIME = 90000;
+    public boolean isStopped;
+    public int theme;
+
     public static final int CRASH = 1;
     public static final int LOSE = 2;
     public static final int JUMP = 3;
+
+    private static final int MUSIC_TIME = 90000;
 
     private int soundLose, soundCrash, soundJump, soundTheme;
     private SoundPool soundPool;
     private AssetManager assetManager;
     private int streamID;
-
-    public boolean isStopped;
-    public int theme;
 
     class SceneTask extends TimerTask {
         @Override
@@ -39,7 +40,7 @@ public class Sound {
 
     public Sound(AssetManager asset, int theme, int menu) {
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            // For devices with Android 5
+            // For devices to Android 5
             createOldSoundPool();
         } else {
             // For new devices

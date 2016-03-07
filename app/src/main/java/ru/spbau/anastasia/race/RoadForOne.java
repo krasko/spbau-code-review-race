@@ -1,6 +1,5 @@
 package ru.spbau.anastasia.race;
 
-import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
@@ -8,9 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
-public class RoadForOne extends Activity implements mScene.SceneListener {
+public class RoadForOne extends BaseActivity implements mGame.SceneListener {
 
-    private SceneManager sceneManager;
     private SensorManager sensorManager;
     private Sensor sensor;
     private ImageButton pause, restart;
@@ -25,42 +23,40 @@ public class RoadForOne extends Activity implements mScene.SceneListener {
         }
     };
 
+    private mGameForOne game;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int numOfTheme = getIntent().getExtras().getInt("theme");
 
         int player_id = getIntent().getExtras().getInt("player");
         setContentView(R.layout.activity_road_for_one);
 
         gameView = (OnePlayerGameView) findViewById(R.id.game_view);
-        boolean isSound = getIntent().getExtras().getBoolean("sound");
+        gameView.initBackground(numOfTheme);
 
         Sound sound = new Sound(getAssets(), numOfTheme, 0);
         sound.isStopped = !isSound;
 
-        final mScene scene = new mScene(getResources(), mScene.SINGLE_PLAY, numOfTheme, sound);
-        synchronized (scene) {
+        pause = (ImageButton) findViewById(R.id.pause);
+        restart = (ImageButton) findViewById(R.id.restart);
 
-            sceneManager = new SceneManager(scene);
-            sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-            sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
-            sensorManager.registerListener(sceneManager, sensor, SensorManager.SENSOR_DELAY_GAME);
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
 
-            scene.width = gameView.getWidth();
-            scene.height = gameView.getHeight();
-            scene.player_id = player_id;
-            sceneManager = new SceneManager(scene);
+        game = new mGameForOne(getResources(), numOfTheme, sound);
+        synchronized (game) {
+            game.player_id = player_id;
+            gameView.game = game;
+            game.sceneListener = this;
 
-            gameView.scene = scene;
-            pause = (ImageButton) findViewById(R.id.pause);
-            restart = (ImageButton) findViewById(R.id.restart);
+            game.start();
         }
 
         onPauseListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                scene.stop();
+                game.pause();
                 pause.setImageResource(R.drawable.play);
                 pause.setOnClickListener(onResumeListener);
             }
@@ -69,19 +65,14 @@ public class RoadForOne extends Activity implements mScene.SceneListener {
         onResumeListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                scene.start();
+                game.resume();
                 pause.setImageResource(R.drawable.pause);
                 pause.setOnClickListener(onPauseListener);
             }
         };
 
-        scene.sceneListener = this;
-
         restart.setVisibility(View.GONE);
         pause.setOnClickListener(onPauseListener);
-
-        gameView.initBackground(numOfTheme);
-
     }
 
     public void onBackButtonClickRoadForOne(View view) {
@@ -91,26 +82,38 @@ public class RoadForOne extends Activity implements mScene.SceneListener {
     @Override
     protected void onResume() {
         super.onResume();
-        sensorManager.registerListener(sceneManager, sensor, SensorManager.SENSOR_DELAY_GAME);
-        sceneManager.start();
+        sensorManager.registerListener(game, sensor, SensorManager.SENSOR_DELAY_GAME);
+        game.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        sensorManager.unregisterListener(sceneManager);
-        sceneManager.stop();
+        sensorManager.unregisterListener(game);
+        game.pause();
     }
 
     @Override
     public void onGameOver() {
-        gameView.scene.dead = true;
+        gameView.gameStopped = true;
         runOnUiThread(activateRestartButton);
     }
 
+    @Override
+    public void onNextStep() {
+    }
+
     public void onRestartButtonClick(View view) {
-        sceneManager.scene.restart();
+        game.restart();
+        gameView.invalidate();
         restart.setVisibility(View.GONE);
         pause.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        game.sceneListener = null;
+        game.stop();
+        super.onDestroy();
     }
 }

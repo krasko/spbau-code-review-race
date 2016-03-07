@@ -7,8 +7,9 @@ import android.provider.BaseColumns;
 
 public class DataBaseHelper extends SQLiteOpenHelper implements BaseColumns {
 
-    private static final String DATABASE_TABLE = "Scores";
     public static final String SCORE_COLUMN = "score";
+
+    private static final String DATABASE_TABLE = "Scores";
 
     private static final String DATABASE_CREATE_SCRIPT = "create table "
             + DATABASE_TABLE + " (" + BaseColumns._ID + " integer primary key autoincrement, "

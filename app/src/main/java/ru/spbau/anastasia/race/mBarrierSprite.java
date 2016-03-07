@@ -8,12 +8,12 @@ import android.util.Log;
 public class mBarrierSprite extends mSimpleSprite {
 
     private static Bitmap[][] barriersSprite = new Bitmap[2][6];
-    public static int row = 1;
+    private static int row = 1;
     private static float[] rowX = new float[5];
     private static float[] rowY = new float[5];
     private static float[] rowDX = new float[5];
     private static float[] rowDY = new float[5];
-    public static int numOfImage;
+    private static int numOfImage;
 
     public mBarrierSprite(float speed_, int numOfTheme_, float height_, int row_, int numOfImage_) {
         super(rowX[row_], rowY[row_], rowDX[row_] * speed_, rowDY[row_] * speed_,

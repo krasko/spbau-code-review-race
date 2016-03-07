@@ -10,30 +10,32 @@ import android.util.Log;
 
 public abstract class mSimpleSprite extends mBasic {
 
-    public static final String TAG = mSimpleSprite.class.getSimpleName();
-    public static final int SIZE_OF_BARRIER = 10;
-    public static final int SIZE_OF_DELTA_BARRIER = 90;
-    public static final int SIZE_OF_BACKGROUND = 8;
-    public static final int SIZE_OF_DELTA_BACKGROUND = 100;
+    public Rect src;
 
-    public float sizeOfBarrier;
-    public float delteOfSizeOfBarrier;
-    public float sizeOfBackgroun;
-    public float delteOfSizeOfBackgroun;
+    private Rect dst;
 
-    public Rect src, dst;
+    private static final String TAG = mSimpleSprite.class.getSimpleName();
+    private static final int SIZE_OF_BARRIER = 10;
+    private static final int SIZE_OF_DELTA_BARRIER = 90;
+    private static final int SIZE_OF_BACKGROUND = 8;
+    private static final int SIZE_OF_DELTA_BACKGROUND = 100;
+
+    private float sizeOfBarrier;
+    private float deltaOfSizeOfBarrier;
+    private float sizeOfBackground;
+    private float deltaOfSizeOfBackgrounds;
 
     public mSimpleSprite(float x, float y, float dx, float dy, Bitmap bmp, float height_) {
         sizeOfBarrier = height_ / SIZE_OF_BARRIER;
-        sizeOfBackgroun = height_ / SIZE_OF_BACKGROUND;
-        delteOfSizeOfBackgroun = height_ / SIZE_OF_DELTA_BACKGROUND;
-        delteOfSizeOfBarrier = height_ / SIZE_OF_DELTA_BARRIER;
+        sizeOfBackground = height_ / SIZE_OF_BACKGROUND;
+        deltaOfSizeOfBackgrounds = height_ / SIZE_OF_DELTA_BACKGROUND;
+        deltaOfSizeOfBarrier = height_ / SIZE_OF_DELTA_BARRIER;
         this.x = x;
         this.y = y;
         this.dx = dx;
         this.dy = dy;
         this.bmp = bmp;
-        recalcParametrs();
+        recalculateParameters();
         src = new Rect(0, 0, bmp.getWidth(), bmp.getHeight());
         dst = new Rect();
         initLog();
@@ -45,9 +47,13 @@ public abstract class mSimpleSprite extends mBasic {
 
     private void initLog() {
         if (bmp == null) {
-            Log.e(TAG, "Created invalid sprite with no bitmap, width = " + Integer.toString((int) width) + ", height = " + Integer.toString((int) height));
+            Log.e(TAG, "Created invalid sprite with no bitmap, width = "
+                    + Integer.toString((int) width) + ", height = "
+                    + Integer.toString((int) height));
         } else {
-            Log.d(TAG, "Created valid sprite with bitmap = " + bmp.toString() + ", width = " + Integer.toString((int) width) + ", height = " + Integer.toString((int) height));
+            Log.d(TAG, "Created valid sprite with bitmap = " + bmp.toString()
+                    + ", width = " + Integer.toString((int) width) + ", height = "
+                    + Integer.toString((int) height));
         }
     }
 
@@ -63,15 +69,14 @@ public abstract class mSimpleSprite extends mBasic {
         return intersect(player.x, player.y, player.getWidth(), player.getHeight());
     }
 
-
-    private void recalcParametrs() {
+    private void recalculateParameters() {
         switch (type) {
             case TYPE_BACKGROUND_SPRITE:
-                height = y / delteOfSizeOfBackgroun + sizeOfBackgroun;
+                height = y / deltaOfSizeOfBackgrounds + sizeOfBackground;
                 width = height / 4;
                 break;
             default:
-                height = y / delteOfSizeOfBarrier + sizeOfBarrier;
+                height = y / deltaOfSizeOfBarrier + sizeOfBarrier;
                 width = height * mSettings.ScaleFactorX / 4;
                 break;
         }
@@ -79,7 +84,7 @@ public abstract class mSimpleSprite extends mBasic {
 
     @Override
     public void draw(Canvas c, Paint p) {
-        recalcParametrs();
+        recalculateParameters();
         if (type != TYPE_LIVE) {
             dst.set(-(int) width, -2 * (int) width, (int) width, 2 * (int) width);
         }

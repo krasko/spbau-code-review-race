@@ -2,12 +2,13 @@ package ru.spbau.anastasia.race;
 
 public class mSettings {
 
-    public static int DefaultXRes = 800;
-    public static int DefaultYRes = 480;
     public static int CurrentXRes;
     public static int CurrentYRes;
     public static float ScaleFactorX = 1;
     public static float ScaleFactorY = 1;
+
+    private static int DefaultXRes = 800;
+    private static int DefaultYRes = 480;
 
     public static void GenerateSettings(int w, int h) {
 

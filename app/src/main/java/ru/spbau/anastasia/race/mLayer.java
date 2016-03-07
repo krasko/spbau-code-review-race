@@ -5,19 +5,17 @@ import java.util.Iterator;
 
 public class mLayer {
 
-    public int numOfTheme = 0;
     public float frequencyOfAdding = 5;
-
-    private int lastAdding;
 
     protected boolean isDamaged = false;
     protected ArrayList<mBasic> data = new ArrayList<>();
     protected int level;
 
-    public mLayer(int lev, int numOfTheme_) {
+    private int lastAdding;
+
+    public mLayer(int lev) {
         level = lev;
         lastAdding = (int) (frequencyOfAdding - 1);
-        numOfTheme = numOfTheme_;
     }
 
     public boolean tryToAdd() {
