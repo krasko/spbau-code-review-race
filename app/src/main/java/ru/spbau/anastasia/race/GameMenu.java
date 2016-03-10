@@ -83,7 +83,7 @@ public class GameMenu extends BaseActivity {
      *
      * @param view default parameter for this method
      */
-    protected void onClickButtonOnePlayerOption(View view) {
+    public void onClickButtonOnePlayerOption(View view) {
         startActivity(new Intent(GameMenu.this, OnePlayerOption.class));
     }
 
@@ -92,7 +92,7 @@ public class GameMenu extends BaseActivity {
      *
      * @param view default parameter for this method
      */
-    protected void onClickChooseWinterTheme(View view) {
+    public void onClickChooseWinterTheme(View view) {
         if (chooseWinterTheme.isChecked()) {
             backgroundImage.setImageResource(R.drawable.menu2);
             numOfTheme = IS_CHECKED;
@@ -108,7 +108,7 @@ public class GameMenu extends BaseActivity {
      *
      * @param view default parameter for this method
      */
-    protected void onClickSound(View view) {
+    public void onClickSound(View view) {
         if (isSound) {
             soundButton.setImageResource(R.drawable.no_sound);
         } else {
@@ -126,7 +126,7 @@ public class GameMenu extends BaseActivity {
      *
      * @param view default parameter for this method
      */
-    protected void onClickButtonTConnection(View view) {
+    public void onClickButtonTConnection(View view) {
         startActivity(new Intent(GameMenu.this, DeviseChooser.class));
     }
 
@@ -135,7 +135,7 @@ public class GameMenu extends BaseActivity {
      *
      * @param view default parameter for this method
      */
-    protected void onClickButtonGameInfo(View view) {
+    public void onClickButtonGameInfo(View view) {
         startActivity(new Intent(GameMenu.this, GameInfo.class));
     }
 
@@ -144,7 +144,7 @@ public class GameMenu extends BaseActivity {
      *
      * @param view default parameter for this method
      */
-    protected void onClickButtonGameAbout(View view) {
+    public void onClickButtonGameAbout(View view) {
         startActivity(new Intent(GameMenu.this, GameAbout.class));
     }
 }

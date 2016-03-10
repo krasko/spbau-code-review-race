@@ -38,6 +38,7 @@ public class GameConnection extends BaseActivity {
 
     private BluetoothService btService;
 
+
     @SuppressLint("HandlerLeak")
     private final Handler handler = new Handler() {
         @Override
@@ -48,24 +49,15 @@ public class GameConnection extends BaseActivity {
             if (bytes[0] == RoadForTwo.FINISH_ACTIVITY || bytes[0] == RoadForTwo.GAME_OVER) {
                 return;
             }
-            boolean stopFlag = true;
-            for (int i = 0; i < RECEIVED_BLOCK_LENGTH; i++) {
-                if (bytes[i] != STOP_MESSAGE.getBytes()[i]) {
-                    stopFlag = false;
-                }
-            }
+
+            boolean stopFlag = Arrays.equals(bytes, STOP_MESSAGE.getBytes());
             if (stopFlag) {
                 arrayAdapter.clear();
                 finish();
                 return;
             }
-            boolean startFlag = true;
-            for (int i = 0; i < 5; i++) { // TODO
-                if (bytes[i] !=
-                        START_MESSAGE.getBytes()[i]) {
-                    startFlag = false;
-                }
-            }
+
+            boolean startFlag = Arrays.equals(bytes, START_MESSAGE.getBytes());
             if (startFlag) {
                 startGame(false);
                 return;
@@ -129,18 +121,18 @@ public class GameConnection extends BaseActivity {
         bindService(new Intent(this, BluetoothService.class), connection, Context.BIND_AUTO_CREATE);
     }
 
-    protected void onClickButtonReconnection(View view) {
+    public void onClickButtonReconnection(View view) {
         finish();
     }
 
-    protected void onClickButtonStartPlay(View view) {
+    public void onClickButtonStartPlay(View view) {
         if (btService != null && btService.isConnectionBegin()) {
             btService.write(START_MESSAGE.getBytes());
             startGame(true);
         }
     }
 
-    protected void onClickButtonBackTwoPlayerOption(View view) {
+    public void onClickButtonBackTwoPlayerOption(View view) {
         finish();
     }
 
@@ -160,7 +152,7 @@ public class GameConnection extends BaseActivity {
         }
     }
 
-    protected void startGame(boolean isClient) {
+    public void startGame(boolean isClient) {
         btService.setMessageReceiver(null);
         startActivityForResult(new Intent(this, RoadForTwo.class).putExtra("isServer", !isClient), REQUEST_GAME);
     }

@@ -46,7 +46,7 @@ public class OnePlayerOption extends BaseActivity {
      *
      * @param view default parameter for this method
      */
-    protected void onClickButtonStartOnePlayer(View view) {
+    public void onClickButtonStartOnePlayer(View view) {
         startActivity(new Intent(this, RoadForOne.class).putExtra("player", player_id));
     }
 
@@ -55,7 +55,7 @@ public class OnePlayerOption extends BaseActivity {
      *
      * @param view default parameter for this method
      */
-    protected void onClickButtonBackOnePlayerOption(View view) {
+    public void onClickButtonBackOnePlayerOption(View view) {
         finish();
     }
 
@@ -74,7 +74,7 @@ public class OnePlayerOption extends BaseActivity {
      *
      * @param view default parameter for this method
      */
-    private void onFinnChosen(View view) {
+    public void onFinnChosen(View view) {
         chooseCharacter(0);
         finn.setImageResource(R.drawable.chosen_finn);
         jake.setImageResource(R.drawable.choose_jake);
@@ -86,7 +86,7 @@ public class OnePlayerOption extends BaseActivity {
      *
      * @param view default parameter for this method
      */
-    private void onJakeChosen(View view) {
+    public void onJakeChosen(View view) {
         chooseCharacter(1);
         finn.setImageResource(R.drawable.choose_finn);
         jake.setImageResource(R.drawable.chosen_jake);

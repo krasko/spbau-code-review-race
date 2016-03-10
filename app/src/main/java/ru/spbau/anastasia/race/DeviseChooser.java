@@ -61,11 +61,11 @@ public class DeviseChooser extends BaseActivity {
                     return task;
                 }
             });
-            initBt();
             if (!btService.getBluetoothAdapter().isEnabled()) {
                 startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), REQUEST_ENABLE_BT);
+            } else {
+                initBt();
             }
-
         }
 
         @Override
@@ -104,6 +104,7 @@ public class DeviseChooser extends BaseActivity {
             makeToast(address);
 
             btService.startConnectThread(address);
+            ArrayOfDevisesCapableToConnecting.clear();
             initBt();
         }
     };
@@ -153,6 +154,8 @@ public class DeviseChooser extends BaseActivity {
         if (requestCode == REQUEST_ENABLE_BT) {
             if (resultCode == RESULT_CANCELED) {
                 finish();
+            } else {
+                initBt();
             }
         } else if (requestCode == GAME_CONNECTION) {
             btService.write(GameConnection.STOP_MESSAGE.getBytes());

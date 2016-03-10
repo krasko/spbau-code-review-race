@@ -56,7 +56,7 @@ public class BluetoothService extends Service {
             try {
                 serverSocket = bluetoothAdapter.listenUsingRfcommWithServiceRecord(TAG, MY_UUID);
             } catch (IOException e) {
-                Log.d(TAG, "SocketData: " + bluetoothSocket.toString() + "; exception data: "
+                Log.e(TAG, "SocketData: " + (bluetoothSocket == null ? "" : bluetoothSocket.toString()) + "; exception data: "
                         + e.toString()
                         + "; BluetoothService.java: serverSocket was created with an error");
                 makeToast("ServerSocket was created with an error");

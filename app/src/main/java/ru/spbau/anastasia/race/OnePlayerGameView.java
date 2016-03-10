@@ -109,35 +109,10 @@ public class OnePlayerGameView extends View {
                     int x = (int) ((canvas.getWidth() / 2) - ((mainPaint.descent() + mainPaint.ascent()) / 2));
                     canvas.drawText(String.valueOf((int) game.countOfRound), x, mSettings.CurrentXRes / 9, textPaint);
                 }
-                invalidate();
             } else {
                 canvas.drawBitmap(restart, 0, 0, mainPaint);
-                double newScore = game.countOfRound;
-
-                DataBaseHelper mDatabaseHelper = new DataBaseHelper(getContext(), "best_scores.db", null, 1);
-                SQLiteDatabase mSqLiteDatabase = mDatabaseHelper.getWritableDatabase();
-
-                Cursor cursor = mSqLiteDatabase.query("Scores", new String[]{DataBaseHelper.SCORE_COLUMN},
-                        null, null, null, null, null);
-
-                cursor.moveToLast();
-
-                int bestScore = cursor.getInt(cursor.getColumnIndex(DataBaseHelper.SCORE_COLUMN));
-
-                cursor.close();
-
-                if (newScore > bestScore) {
-                    ContentValues newValues = new ContentValues();
-                    newValues.put(DataBaseHelper.SCORE_COLUMN, newScore);
-                    mSqLiteDatabase.insert("Scores", null, newValues);
-                }
-
-                Toast toast = Toast.makeText(getContext(), "Your score: " +
-                        (int) newScore + "; last best score: " + bestScore, Toast.LENGTH_SHORT);
-                toast.show();
-
-                gameStopped = false;
             }
+            invalidate();
         }
     }
 

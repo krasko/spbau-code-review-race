@@ -38,7 +38,7 @@ public class GameInfo extends BaseActivity {
      *
      * @param view default parameter for this method
      */
-    protected void onClickButtonBackGameInfo(View view) {
+    public void onClickButtonBackGameInfo(View view) {
         finish();
     }
 }

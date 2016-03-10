@@ -7,13 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
-public class RoadForOne extends BaseActivity implements mGame.SceneListener {
+public class RoadForOne extends BaseRoad implements mGame.SceneListener {
 
-    private SensorManager sensorManager;
-    private Sensor sensor;
     private ImageButton pause, restart;
     private View.OnClickListener onPauseListener, onResumeListener;
-    private OnePlayerGameView gameView;
 
     private Runnable activateRestartButton = new Runnable() {
         @Override
@@ -22,8 +19,6 @@ public class RoadForOne extends BaseActivity implements mGame.SceneListener {
             pause.setVisibility(View.GONE);
         }
     };
-
-    private mGameForOne game;
 
     @Override
     public void onGameOver() {
@@ -52,14 +47,8 @@ public class RoadForOne extends BaseActivity implements mGame.SceneListener {
         gameView = (OnePlayerGameView) findViewById(R.id.game_view);
         gameView.initBackground(numOfTheme);
 
-        Sound sound = new Sound(getAssets(), numOfTheme, 0);
-        sound.isStopped = !isSound;
-
         pause = (ImageButton) findViewById(R.id.pause);
         restart = (ImageButton) findViewById(R.id.restart);
-
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
 
         game = new mGameForOne(getResources(), numOfTheme, sound);
         synchronized (game) {
@@ -92,28 +81,7 @@ public class RoadForOne extends BaseActivity implements mGame.SceneListener {
         pause.setOnClickListener(onPauseListener);
     }
 
-    protected void onBackButtonClickRoadForOne(View view) {
+    public void onBackButtonClickRoadForOne(View view) {
         finish();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        sensorManager.registerListener(game, sensor, SensorManager.SENSOR_DELAY_GAME);
-        game.resume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        sensorManager.unregisterListener(game);
-        game.pause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        game.sceneListener = null;
-        game.stop();
-        super.onDestroy();
     }
 }

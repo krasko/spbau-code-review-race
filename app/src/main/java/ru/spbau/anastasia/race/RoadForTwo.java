@@ -13,7 +13,7 @@ import android.view.View;
 
 import java.util.Arrays;
 
-public class RoadForTwo extends BaseActivity implements mGame.SceneListener {
+public class RoadForTwo extends BaseRoad {
 
     public static final byte GAME_OVER = -1;
     public static final byte FINISH_ACTIVITY = -2;
@@ -21,11 +21,6 @@ public class RoadForTwo extends BaseActivity implements mGame.SceneListener {
     private static final String TAG = "RoadForTwo";
 
     private static final byte GAME_READY = -3;
-
-    private SensorManager sensorManager;
-    private Sensor sensor;
-    private TwoPlayerGameView gameView;
-    private mGameForTwo game;
 
     private boolean opponentStarted = false;
     private boolean started = false;
@@ -45,7 +40,7 @@ public class RoadForTwo extends BaseActivity implements mGame.SceneListener {
                     return;
                 }
                 FileForSent comeIn = new FileForSent(buffer, bytes);
-                game.registerMsg(comeIn);
+                ((mGameForTwo)game).registerMsg(comeIn);
                 Log.d(TAG, "MessageReceived : " + Arrays.toString(comeIn.toMsg()));
             }
         }
@@ -69,12 +64,12 @@ public class RoadForTwo extends BaseActivity implements mGame.SceneListener {
                 btService = ((BluetoothService.BtBinder) service).getService();
 
                 btService.setMessageReceiver(initialReceiver);
-                Log.d("SERVER", Boolean.toString(game.isServer));
+                Log.d(TAG, game.isServer ? "SERVER" : "CLIENT");
                 started = true;
                 btService.write(new byte[]{GAME_READY});
+                ((TwoPlayerGameView)gameView).playerInfo.show(2000);
                 if (opponentStarted) {
                     game.start();
-                    gameView.playerInfo.show();
                 }
             }
         }
@@ -87,13 +82,14 @@ public class RoadForTwo extends BaseActivity implements mGame.SceneListener {
 
     @Override
     public void onGameOver() {
-        gameView.gameStopped = true;
+        super.onGameOver();
+        ((TwoPlayerGameView)gameView).deathInfo.show(5000);
         btService.write(new byte[]{GAME_OVER});
     }
 
     @Override
     public void onNextStep() {
-        FileForSent toSend = game.getMsgToSend();
+        FileForSent toSend = ((mGameForTwo)game).getMsgToSend();
         if (toSend != null) {
             btService.write(toSend.toMsg());
             Log.d(TAG, "MessageSent : " + Arrays.toString(toSend.toMsg()));
@@ -113,13 +109,6 @@ public class RoadForTwo extends BaseActivity implements mGame.SceneListener {
         gameView = (TwoPlayerGameView) findViewById(R.id.game_view);
         gameView.initBackground(numOfTheme);
 
-
-        Sound sound = new Sound(getAssets(), numOfTheme, 0);
-        sound.isStopped = !isSound;
-
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
-
         game = new mGameForTwo(getResources(), numOfTheme, sound);
         synchronized (game) {
             game.isServer = isServer;
@@ -135,22 +124,8 @@ public class RoadForTwo extends BaseActivity implements mGame.SceneListener {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        sensorManager.registerListener(game, sensor, SensorManager.SENSOR_DELAY_GAME);
-        game.resume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        sensorManager.unregisterListener(game);
-        game.pause();
-    }
-
-    @Override
     protected void onDestroy() {
-        game.stop();
+        unbindService(connection);
         super.onDestroy();
     }
 }
