@@ -6,9 +6,6 @@
     android:background="#0099cc"
     tools:context="ru.spbau.anastasia.race.GameInfo">
 
-    <!-- The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc. -->
     <TextView
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
@@ -20,8 +17,6 @@
         android:gravity="center"
         android:text="" />
 
-    <!-- This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows. -->
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

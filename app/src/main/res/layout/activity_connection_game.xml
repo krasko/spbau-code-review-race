@@ -20,46 +20,23 @@
         android:id="@+id/message_frame">
 
 
-        <ImageButton
-            android:layout_width="103dp"
-            android:layout_height="103dp"
-            android:id="@+id/imageButton"
-            android:src="@drawable/play"
-            android:nestedScrollingEnabled="false"
-            android:onClick="onClickButtonReconnection"
-            android:background="@android:color/transparent"
-            android:adjustViewBounds="false"
-            android:contentDescription="@string/button_reconnect" />
-
         <Button
             android:id="@+id/send"
             android:text="@string/send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right" />
+            android:layout_gravity="right|bottom" />
 
 
         <ListView
             android:id="@+id/messages"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="291dp"
             android:stackFromBottom="true"
             android:transcriptMode="alwaysScroll"
             android:layout_gravity="top|left"
             android:smoothScrollbar="false" />
 
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageButton2"
-            android:layout_gravity="left|bottom|center_horizontal"
-            android:layout_marginTop="40dp"
-            android:src="@drawable/play"
-            android:nestedScrollingEnabled="false"
-            android:background="@null"
-            android:onClick="onClickButtonStartPlay"
-            android:contentDescription="@string/button_start_playing" />
 
         <EditText
             android:id="@+id/edit_text"
@@ -69,6 +46,18 @@
             android:layout_gravity="bottom|center_horizontal"
             android:height="30dp"
             android:width="300dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton2"
+            android:layout_gravity="left|bottom"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/play"
+            android:nestedScrollingEnabled="false"
+            android:background="@null"
+            android:onClick="onClickButtonStartPlay"
+            android:contentDescription="@string/button_start_playing" />
     </FrameLayout>
 
     <ImageButton
@@ -81,7 +70,7 @@
         android:layout_marginBottom="10dp"
         android:nestedScrollingEnabled="false"
         android:onClick="onClickButtonBackTwoPlayerOption"
-        android:layout_gravity="right|bottom"
+        android:layout_gravity="right|top"
         android:contentDescription="@string/button_back" />
 
 
