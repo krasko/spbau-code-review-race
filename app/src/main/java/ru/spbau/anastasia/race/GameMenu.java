@@ -1,4 +1,4 @@
-package ru.spbau.anastasia.race.Activities;
+package ru.spbau.anastasia.race;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -10,9 +10,8 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import ru.spbau.anastasia.race.DataBaseHelper;
-import ru.spbau.anastasia.race.R;
-import ru.spbau.anastasia.race.Sound;
+import ru.spbau.anastasia.race.Other.DataBaseHelper;
+import ru.spbau.anastasia.race.Other.Sound;
 
 /**
  * The GameMenu class is the main activity where everything starts.

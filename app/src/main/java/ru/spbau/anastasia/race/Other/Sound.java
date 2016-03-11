@@ -1,4 +1,4 @@
-package ru.spbau.anastasia.race;
+package ru.spbau.anastasia.race.Other;
 
 import android.annotation.TargetApi;
 import android.content.res.AssetFileDescriptor;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import ru.spbau.anastasia.race.Activities.GameMenu;
+import ru.spbau.anastasia.race.GameMenu;
 
 /**
  * The Sound class provides music and sounds in the game.

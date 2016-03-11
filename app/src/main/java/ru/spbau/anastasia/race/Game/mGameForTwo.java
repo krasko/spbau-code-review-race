@@ -3,15 +3,15 @@ package ru.spbau.anastasia.race.Game;
 import android.content.res.Resources;
 import android.util.Log;
 
-import ru.spbau.anastasia.race.FileForSent;
+import ru.spbau.anastasia.race.Other.FileForSent;
 import ru.spbau.anastasia.race.R;
-import ru.spbau.anastasia.race.Sound;
+import ru.spbau.anastasia.race.Other.Sound;
 import ru.spbau.anastasia.race.Sprites.mBackgroundSprite;
 import ru.spbau.anastasia.race.Sprites.mBarrierSprite;
 import ru.spbau.anastasia.race.Sprites.mLive;
 import ru.spbau.anastasia.race.Sprites.mPlayerSprite;
-import ru.spbau.anastasia.race.mLayer;
-import ru.spbau.anastasia.race.mSettings;
+import ru.spbau.anastasia.race.Other.mLayer;
+import ru.spbau.anastasia.race.Other.mSettings;
 
 public class mGameForTwo extends mGame {
 

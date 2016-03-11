@@ -1,4 +1,4 @@
-package ru.spbau.anastasia.race.Activities;
+package ru.spbau.anastasia.race;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;

@@ -1,4 +1,4 @@
-package ru.spbau.anastasia.race.Activities;
+package ru.spbau.anastasia.race;
 
 import android.content.ComponentName;
 import android.content.Intent;
@@ -10,10 +10,8 @@ import android.view.View;
 
 import java.util.Arrays;
 
-import ru.spbau.anastasia.race.BluetoothService;
-import ru.spbau.anastasia.race.FileForSent;
 import ru.spbau.anastasia.race.Game.mGameForTwo;
-import ru.spbau.anastasia.race.R;
+import ru.spbau.anastasia.race.Other.FileForSent;
 import ru.spbau.anastasia.race.View.TwoPlayerGameView;
 
 public class RoadForTwo extends BaseRoad {

@@ -10,13 +10,13 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import ru.spbau.anastasia.race.Sound;
+import ru.spbau.anastasia.race.Other.Sound;
 import ru.spbau.anastasia.race.Sprites.mBackgroundSprite;
 import ru.spbau.anastasia.race.Sprites.mBarrierSprite;
 import ru.spbau.anastasia.race.Sprites.mBasic;
 import ru.spbau.anastasia.race.Sprites.mLive;
 import ru.spbau.anastasia.race.Sprites.mPlayerSprite;
-import ru.spbau.anastasia.race.mLayer;
+import ru.spbau.anastasia.race.Other.mLayer;
 
 public abstract class mGame implements SensorEventListener {
 

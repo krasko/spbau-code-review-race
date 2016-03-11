@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import ru.spbau.anastasia.race.R;
-import ru.spbau.anastasia.race.mSettings;
+import ru.spbau.anastasia.race.Other.mSettings;
 
 public class mBackgroundSprite extends mSimpleSprite {
 

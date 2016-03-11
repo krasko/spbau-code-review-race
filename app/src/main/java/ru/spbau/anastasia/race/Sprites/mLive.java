@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import ru.spbau.anastasia.race.R;
-import ru.spbau.anastasia.race.mSettings;
+import ru.spbau.anastasia.race.Other.mSettings;
 
 public class mLive extends mSimpleSprite {
 

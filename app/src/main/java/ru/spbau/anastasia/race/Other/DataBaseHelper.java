@@ -1,4 +1,4 @@
-package ru.spbau.anastasia.race;
+package ru.spbau.anastasia.race.Other;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

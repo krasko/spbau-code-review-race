@@ -8,7 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
 
-import ru.spbau.anastasia.race.mSettings;
+import ru.spbau.anastasia.race.Other.mSettings;
 
 public abstract class mSimpleSprite extends mBasic {
 

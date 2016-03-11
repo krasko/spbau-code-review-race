@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import ru.spbau.anastasia.race.R;
-import ru.spbau.anastasia.race.mSettings;
+import ru.spbau.anastasia.race.Other.mSettings;
 
 public class mBarrierSprite extends mSimpleSprite {
 

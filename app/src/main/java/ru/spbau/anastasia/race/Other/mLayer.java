@@ -1,4 +1,4 @@
-package ru.spbau.anastasia.race;
+package ru.spbau.anastasia.race.Other;
 
 import java.util.ArrayList;
 import java.util.Iterator;

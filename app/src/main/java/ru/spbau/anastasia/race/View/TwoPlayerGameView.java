@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 
-import ru.spbau.anastasia.race.mSettings;
+import ru.spbau.anastasia.race.Other.mSettings;
 
 public class TwoPlayerGameView extends OnePlayerGameView {
 

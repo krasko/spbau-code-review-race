@@ -1,4 +1,4 @@
-package ru.spbau.anastasia.race.Activities;
+package ru.spbau.anastasia.race;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,9 +9,9 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import ru.spbau.anastasia.race.DataBaseHelper;
 import ru.spbau.anastasia.race.Game.mGame;
-import ru.spbau.anastasia.race.Sound;
+import ru.spbau.anastasia.race.Other.DataBaseHelper;
+import ru.spbau.anastasia.race.Other.Sound;
 import ru.spbau.anastasia.race.View.OnePlayerGameView;
 
 public abstract class BaseRoad extends BaseActivity implements mGame.SceneListener {
