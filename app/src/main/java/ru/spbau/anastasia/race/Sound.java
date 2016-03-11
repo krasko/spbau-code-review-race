@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import ru.spbau.anastasia.race.Activities.GameMenu;
+
 /**
  * The Sound class provides music and sounds in the game.
  */

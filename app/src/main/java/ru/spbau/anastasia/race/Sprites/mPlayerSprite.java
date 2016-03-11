@@ -1,8 +1,14 @@
-package ru.spbau.anastasia.race;
+package ru.spbau.anastasia.race.Sprites;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
+import ru.spbau.anastasia.race.FileForSent;
+import ru.spbau.anastasia.race.Game.mGame;
+import ru.spbau.anastasia.race.Sound;
+import ru.spbau.anastasia.race.mLayer;
+import ru.spbau.anastasia.race.mSettings;
 
 public class mPlayerSprite extends mSimpleSprite {
 
@@ -135,7 +141,7 @@ public class mPlayerSprite extends mSimpleSprite {
         y -= mSettings.CurrentYRes / 30;
     }
 
-    void update(float dx, float dy) {
+    public void update(float dx, float dy) {
 
         if (!isJumping && !isDamaged) {
             addDX(dx);
@@ -193,7 +199,7 @@ public class mPlayerSprite extends mSimpleSprite {
     }
 
     @Override
-    protected void update() {
+    public void update() {
     }
 
     private void dying(mGame game) {

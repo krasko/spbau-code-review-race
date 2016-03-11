@@ -1,4 +1,4 @@
-package ru.spbau.anastasia.race;
+package ru.spbau.anastasia.race.Activities;
 
 import android.app.Activity;
 import android.content.Intent;

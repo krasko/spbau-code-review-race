@@ -1,11 +1,13 @@
-package ru.spbau.anastasia.race;
+package ru.spbau.anastasia.race.Activities;
 
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+
+import ru.spbau.anastasia.race.Game.mGame;
+import ru.spbau.anastasia.race.Game.mGameForOne;
+import ru.spbau.anastasia.race.R;
+import ru.spbau.anastasia.race.View.OnePlayerGameView;
 
 public class RoadForOne extends BaseRoad implements mGame.SceneListener {
 

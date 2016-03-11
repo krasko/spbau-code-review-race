@@ -3,12 +3,14 @@ package ru.spbau.anastasia.race;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import ru.spbau.anastasia.race.Sprites.mBasic;
+
 public class mLayer {
 
     public float frequencyOfAdding = 5;
 
-    protected boolean isDamaged = false;
-    protected ArrayList<mBasic> data = new ArrayList<>();
+    public boolean isDamaged = false;
+    public ArrayList<mBasic> data = new ArrayList<>();
     protected int level;
 
     private int lastAdding;

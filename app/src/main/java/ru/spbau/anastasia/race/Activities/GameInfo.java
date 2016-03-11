@@ -1,10 +1,12 @@
-package ru.spbau.anastasia.race;
+package ru.spbau.anastasia.race.Activities;
 
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import ru.spbau.anastasia.race.R;
 
 /**
  * The GameInfo class only provides information about rules of the game.

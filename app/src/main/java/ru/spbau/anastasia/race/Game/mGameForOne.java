@@ -1,6 +1,15 @@
-package ru.spbau.anastasia.race;
+package ru.spbau.anastasia.race.Game;
 
 import android.content.res.Resources;
+
+import ru.spbau.anastasia.race.R;
+import ru.spbau.anastasia.race.Sound;
+import ru.spbau.anastasia.race.Sprites.mBackgroundSprite;
+import ru.spbau.anastasia.race.Sprites.mBarrierSprite;
+import ru.spbau.anastasia.race.Sprites.mLive;
+import ru.spbau.anastasia.race.Sprites.mPlayerSprite;
+import ru.spbau.anastasia.race.mLayer;
+import ru.spbau.anastasia.race.mSettings;
 
 public class mGameForOne extends mGame {
 
@@ -44,7 +53,7 @@ public class mGameForOne extends mGame {
         live.update(player);
     }
 
-    protected void restart() {
+    public void restart() {
         speed = 1;
         for (mLayer l : layers) {
             l.frequencyOfAdding = 5;

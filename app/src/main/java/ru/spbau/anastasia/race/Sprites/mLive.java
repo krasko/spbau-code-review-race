@@ -1,10 +1,13 @@
-package ru.spbau.anastasia.race;
+package ru.spbau.anastasia.race.Sprites;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+
+import ru.spbau.anastasia.race.R;
+import ru.spbau.anastasia.race.mSettings;
 
 public class mLive extends mSimpleSprite {
 
@@ -34,7 +37,7 @@ public class mLive extends mSimpleSprite {
     }
 
     @Override
-    protected void update() {
+    public void update() {
     }
 
     private void recalculateX() {

@@ -1,4 +1,4 @@
-package ru.spbau.anastasia.race;
+package ru.spbau.anastasia.race.Activities;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -20,6 +20,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.Arrays;
+
+import ru.spbau.anastasia.race.BluetoothService;
+import ru.spbau.anastasia.race.R;
 
 public class GameConnection extends BaseActivity {
 

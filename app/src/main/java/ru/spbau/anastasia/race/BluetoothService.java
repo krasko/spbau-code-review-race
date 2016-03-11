@@ -40,7 +40,7 @@ public class BluetoothService extends Service {
     private final IBinder binder = new BtBinder();
 
     public class BtBinder extends Binder {
-        BluetoothService getService() {
+        public BluetoothService getService() {
             return BluetoothService.this;
         }
     }

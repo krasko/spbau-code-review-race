@@ -1,4 +1,4 @@
-package ru.spbau.anastasia.race;
+package ru.spbau.anastasia.race.Sprites;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -13,17 +13,17 @@ public abstract class mBasic {
 
     protected Bitmap bmp;
     protected int type;
-    protected boolean exists = true;
+    public boolean exists = true;
 
     protected float x, y;
     protected float dx, dy;
     protected float width, height;
 
-    abstract void update();
+    public abstract void update();
 
     abstract boolean isSelected(mBasic player);
 
-    abstract void draw(Canvas c, Paint p);
+    public abstract void draw(Canvas c, Paint p);
 
     public float getWidth() {
         return width;

@@ -1,10 +1,12 @@
-package ru.spbau.anastasia.race;
+package ru.spbau.anastasia.race.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
+import ru.spbau.anastasia.race.R;
 
 /**
  * The OnePlayerOption class provides settings for one player game mode.

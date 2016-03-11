@@ -1,9 +1,12 @@
-package ru.spbau.anastasia.race;
+package ru.spbau.anastasia.race.Sprites;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+
+import ru.spbau.anastasia.race.R;
+import ru.spbau.anastasia.race.mSettings;
 
 public class mBarrierSprite extends mSimpleSprite {
 
@@ -47,7 +50,7 @@ public class mBarrierSprite extends mSimpleSprite {
     }
 
     @Override
-    protected void update() {
+    public void update() {
         x = x + dx;
         y = y + dy;
         updateExist();

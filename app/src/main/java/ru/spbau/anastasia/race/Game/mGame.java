@@ -1,4 +1,4 @@
-package ru.spbau.anastasia.race;
+package ru.spbau.anastasia.race.Game;
 
 import android.content.res.Resources;
 import android.hardware.Sensor;
@@ -9,6 +9,14 @@ import android.util.Log;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import ru.spbau.anastasia.race.Sound;
+import ru.spbau.anastasia.race.Sprites.mBackgroundSprite;
+import ru.spbau.anastasia.race.Sprites.mBarrierSprite;
+import ru.spbau.anastasia.race.Sprites.mBasic;
+import ru.spbau.anastasia.race.Sprites.mLive;
+import ru.spbau.anastasia.race.Sprites.mPlayerSprite;
+import ru.spbau.anastasia.race.mLayer;
 
 public abstract class mGame implements SensorEventListener {
 
@@ -42,13 +50,13 @@ public abstract class mGame implements SensorEventListener {
 
     protected float dx, dy = 0;
 
-    protected mLayer[] layers = new mLayer[LAYER_COUNT];
+    public mLayer[] layers = new mLayer[LAYER_COUNT];
 
     protected Resources res;
-    protected mPlayerSprite player;
-    protected mLive live;
-    protected mPlayerSprite player2;
-    protected mLive live2;
+    public mPlayerSprite player;
+    public mLive live;
+    public mPlayerSprite player2;
+    public mLive live2;
 
     private static final Random RND = new Random();
     private static final String TAG = "mGame";
@@ -145,7 +153,7 @@ public abstract class mGame implements SensorEventListener {
         deleteBarrier(barrier);
     }
 
-    protected abstract void restart();
+    public abstract void restart();
 
     protected synchronized void add() {
         addBarrier();

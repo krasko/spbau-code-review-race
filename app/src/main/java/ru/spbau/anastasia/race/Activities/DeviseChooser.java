@@ -1,4 +1,4 @@
-package ru.spbau.anastasia.race;
+package ru.spbau.anastasia.race.Activities;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -20,6 +20,9 @@ import android.widget.Toast;
 
 import java.util.Set;
 import java.util.concurrent.FutureTask;
+
+import ru.spbau.anastasia.race.BluetoothService;
+import ru.spbau.anastasia.race.R;
 
 public class DeviseChooser extends BaseActivity {
 

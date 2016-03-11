@@ -1,4 +1,4 @@
-package ru.spbau.anastasia.race;
+package ru.spbau.anastasia.race.Sprites;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -7,6 +7,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
+
+import ru.spbau.anastasia.race.mSettings;
 
 public abstract class mSimpleSprite extends mBasic {
 
@@ -60,7 +62,7 @@ public abstract class mSimpleSprite extends mBasic {
         c.drawBitmap(bmp, src, dst, p);
     }
 
-    protected abstract void update();
+    public abstract void update();
 
     private void initLog() {
         if (bmp == null) {

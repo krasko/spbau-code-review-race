@@ -1,9 +1,6 @@
-package ru.spbau.anastasia.race;
+package ru.spbau.anastasia.race.View;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -11,7 +8,13 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
+
+import ru.spbau.anastasia.race.Activities.GameMenu;
+import ru.spbau.anastasia.race.Game.mGame;
+import ru.spbau.anastasia.race.R;
+import ru.spbau.anastasia.race.Sprites.mBasic;
+import ru.spbau.anastasia.race.mLayer;
+import ru.spbau.anastasia.race.mSettings;
 
 public class OnePlayerGameView extends View {
 
