@@ -28,11 +28,11 @@ public class DataBaseHelper {
         });
     }
 
-    public static void setNewBestScore(long score) {
-        bestScoreDataBase.setValue(score);
-    }
-
     public static long getBestScore() {
         return bestScore;
+    }
+
+    public static void setBestScore(long score) {
+        bestScoreDataBase.setValue(score);
     }
 }

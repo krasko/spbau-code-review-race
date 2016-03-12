@@ -57,7 +57,7 @@ public abstract class BaseRoad extends BaseActivity implements mGame.SceneListen
         final long bestScore = DataBaseHelper.getBestScore();
 
         if (newScore > bestScore) {
-            DataBaseHelper.setNewBestScore(newScore);
+            DataBaseHelper.setBestScore(newScore);
         }
 
         runOnUiThread(new Runnable() {
