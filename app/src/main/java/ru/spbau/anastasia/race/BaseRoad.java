@@ -54,7 +54,7 @@ public abstract class BaseRoad extends BaseActivity implements mGame.SceneListen
     @Override
     public void onGameOver() {
         final long newScore = (long) game.countOfRound;
-        final long bestScore = DataBaseHelper.bestScore;
+        final long bestScore = DataBaseHelper.getBestScore();
 
         if (newScore > bestScore) {
             DataBaseHelper.setNewBestScore(newScore);

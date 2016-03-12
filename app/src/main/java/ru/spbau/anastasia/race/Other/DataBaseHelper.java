@@ -8,8 +8,8 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 public class DataBaseHelper {
-    public static Firebase bestScoreDataBase;
-    public static long bestScore = 0;
+    private static Firebase bestScoreDataBase;
+    private static long bestScore = 0;
 
     public static void initializeDataBase(Context context) {
         Firebase.setAndroidContext(context);
@@ -30,5 +30,9 @@ public class DataBaseHelper {
 
     public static void setNewBestScore(long score) {
         bestScoreDataBase.setValue(score);
+    }
+
+    public static long getBestScore() {
+        return bestScore;
     }
 }
