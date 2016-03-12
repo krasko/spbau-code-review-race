@@ -1,9 +1,6 @@
 package ru.spbau.anastasia.race;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -21,7 +18,6 @@ public abstract class BaseRoad extends BaseActivity implements mGame.SceneListen
     protected OnePlayerGameView gameView;
     protected mGame game;
     protected Sound sound;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,25 +53,13 @@ public abstract class BaseRoad extends BaseActivity implements mGame.SceneListen
 
     @Override
     public void onGameOver() {
-        final double newScore = game.countOfRound;
-
-        DataBaseHelper mDatabaseHelper = new DataBaseHelper(this, "best_scores.db", null, 1);
-        SQLiteDatabase mSqLiteDatabase = mDatabaseHelper.getWritableDatabase();
-
-        Cursor cursor = mSqLiteDatabase.query("Scores", new String[]{DataBaseHelper.SCORE_COLUMN},
-                null, null, null, null, null);
-
-        cursor.moveToLast();
-
-        final int bestScore = cursor.getInt(cursor.getColumnIndex(DataBaseHelper.SCORE_COLUMN));
-
-        cursor.close();
+        final long newScore = (long) game.countOfRound;
+        final long bestScore = DataBaseHelper.bestScore;
 
         if (newScore > bestScore) {
-            ContentValues newValues = new ContentValues();
-            newValues.put(DataBaseHelper.SCORE_COLUMN, newScore);
-            mSqLiteDatabase.insert("Scores", null, newValues);
+            DataBaseHelper.setNewBestScore(newScore);
         }
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -84,7 +68,6 @@ public abstract class BaseRoad extends BaseActivity implements mGame.SceneListen
                 toast.show();
             }
         });
-
 
         gameView.gameStopped = true;
     }

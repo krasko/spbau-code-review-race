@@ -1,8 +1,6 @@
 package ru.spbau.anastasia.race;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -58,6 +56,9 @@ public class GameMenu extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        DataBaseHelper.initializeDataBase(this);
+
         setContentView(R.layout.activity_game_menu);
 
         chooseWinterTheme = (CheckBox) findViewById(R.id.winter);
@@ -71,14 +72,6 @@ public class GameMenu extends BaseActivity {
 
         mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.race);
         mediaPlayer.start();
-
-        DataBaseHelper mDatabaseHelper = new DataBaseHelper(this, "best_scores.db", null, 1);
-
-        SQLiteDatabase mSqLiteDatabase = mDatabaseHelper.getWritableDatabase();
-
-        ContentValues newValues = new ContentValues();
-        newValues.put(DataBaseHelper.SCORE_COLUMN, "0");
-        mSqLiteDatabase.insert("Scores", null, newValues);
     }
 
     /**
