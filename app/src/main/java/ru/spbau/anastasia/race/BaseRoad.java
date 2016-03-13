@@ -9,7 +9,6 @@ import android.widget.Toast;
 import ru.spbau.anastasia.race.Game.mGame;
 import ru.spbau.anastasia.race.Other.DataBaseHelper;
 import ru.spbau.anastasia.race.Other.Sound;
-import ru.spbau.anastasia.race.View.OnePlayerGameView;
 
 public abstract class BaseRoad extends BaseActivity implements mGame.SceneListener {
 

@@ -12,7 +12,6 @@ import java.util.Arrays;
 
 import ru.spbau.anastasia.race.Game.mGameForTwo;
 import ru.spbau.anastasia.race.Other.FileForSent;
-import ru.spbau.anastasia.race.View.TwoPlayerGameView;
 
 public class RoadForTwo extends BaseRoad {
 
@@ -22,12 +21,6 @@ public class RoadForTwo extends BaseRoad {
     private static final String TAG = "RoadForTwo";
 
     private static final byte GAME_READY = -3;
-
-    private boolean opponentStarted = false;
-    private boolean started = false;
-
-    private BluetoothService btService;
-
     BluetoothService.MessageReceiver inGameReceiver = new BluetoothService.MessageReceiver() {
         @Override
         public void process(int bytes, byte[] buffer) {
@@ -46,7 +39,9 @@ public class RoadForTwo extends BaseRoad {
             }
         }
     };
-
+    private boolean opponentStarted = false;
+    private boolean started = false;
+    private BluetoothService btService;
     BluetoothService.MessageReceiver initialReceiver = new BluetoothService.MessageReceiver() {
         @Override
         public void process(int bytes, byte[] buffer) {
