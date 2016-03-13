@@ -8,8 +8,8 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import ru.spbau.anastasia.race.Other.DataBaseHelper;
-import ru.spbau.anastasia.race.Other.Sound;
+import ru.spbau.anastasia.race.util.DataBaseHelper;
+import ru.spbau.anastasia.race.util.Sound;
 
 /**
  * The GameMenu class is the main activity where everything starts.

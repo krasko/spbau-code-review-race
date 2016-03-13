@@ -9,10 +9,10 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import ru.spbau.anastasia.race.Game.mGame;
-import ru.spbau.anastasia.race.Sprites.mBasic;
-import ru.spbau.anastasia.race.Other.mLayer;
-import ru.spbau.anastasia.race.Other.mSettings;
+import ru.spbau.anastasia.race.game.mGame;
+import ru.spbau.anastasia.race.sprites.mBasic;
+import ru.spbau.anastasia.race.util.mLayer;
+import ru.spbau.anastasia.race.util.mSettings;
 
 public class OnePlayerGameView extends View {
 

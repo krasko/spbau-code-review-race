@@ -1,9 +1,9 @@
-package ru.spbau.anastasia.race.Other;
+package ru.spbau.anastasia.race.util;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import ru.spbau.anastasia.race.Sprites.mBasic;
+import ru.spbau.anastasia.race.sprites.mBasic;
 
 public class mLayer {
 

@@ -10,8 +10,8 @@ import android.view.View;
 
 import java.util.Arrays;
 
-import ru.spbau.anastasia.race.Game.mGameForTwo;
-import ru.spbau.anastasia.race.Other.FileForSent;
+import ru.spbau.anastasia.race.game.mGameForTwo;
+import ru.spbau.anastasia.race.util.FileForSent;
 
 public class RoadForTwo extends BaseRoad {
 

@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
-import ru.spbau.anastasia.race.Game.mGame;
-import ru.spbau.anastasia.race.Game.mGameForOne;
+import ru.spbau.anastasia.race.game.mGame;
+import ru.spbau.anastasia.race.game.mGameForOne;
 
 public class RoadForOne extends BaseRoad implements mGame.SceneListener {
 
@@ -22,6 +22,7 @@ public class RoadForOne extends BaseRoad implements mGame.SceneListener {
 
     @Override
     public void onGameOver() {
+        super.onGameOver();
         gameView.gameStopped = true;
         runOnUiThread(activateRestartButton);
     }

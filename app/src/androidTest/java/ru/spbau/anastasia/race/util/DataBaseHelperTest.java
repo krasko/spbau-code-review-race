@@ -1,4 +1,4 @@
-package ru.spbau.anastasia.race.Other;
+package ru.spbau.anastasia.race.util;
 
 /*
 public class DataBaseHelperTest extends TestCase {
