@@ -1,11 +1,11 @@
-package ru.spbau.anastasia.race.Sprites;
+package ru.spbau.anastasia.race.sprites;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import ru.spbau.anastasia.race.R;
-import ru.spbau.anastasia.race.Other.mSettings;
+import ru.spbau.anastasia.race.util.mSettings;
 
 public class mBackgroundSprite extends mSimpleSprite {
 

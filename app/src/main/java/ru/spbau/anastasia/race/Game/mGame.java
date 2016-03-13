@@ -1,4 +1,4 @@
-package ru.spbau.anastasia.race.Game;
+package ru.spbau.anastasia.race.game;
 
 import android.content.res.Resources;
 import android.hardware.Sensor;
@@ -10,13 +10,13 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import ru.spbau.anastasia.race.Other.Sound;
-import ru.spbau.anastasia.race.Sprites.mBackgroundSprite;
-import ru.spbau.anastasia.race.Sprites.mBarrierSprite;
-import ru.spbau.anastasia.race.Sprites.mBasic;
-import ru.spbau.anastasia.race.Sprites.mLive;
-import ru.spbau.anastasia.race.Sprites.mPlayerSprite;
-import ru.spbau.anastasia.race.Other.mLayer;
+import ru.spbau.anastasia.race.util.Sound;
+import ru.spbau.anastasia.race.sprites.mBackgroundSprite;
+import ru.spbau.anastasia.race.sprites.mBarrierSprite;
+import ru.spbau.anastasia.race.sprites.mBasic;
+import ru.spbau.anastasia.race.sprites.mLive;
+import ru.spbau.anastasia.race.sprites.mPlayerSprite;
+import ru.spbau.anastasia.race.util.mLayer;
 
 public abstract class mGame implements SensorEventListener {
 

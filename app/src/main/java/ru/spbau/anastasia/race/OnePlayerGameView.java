@@ -20,9 +20,8 @@ public class OnePlayerGameView extends View {
     public boolean gameStopped = false;
 
     protected Paint mainPaint, textPaint;
-
-    private Bitmap background;
-    private Bitmap restart;
+    protected Bitmap background;
+    protected Bitmap restart;
 
     public OnePlayerGameView(Context context) {
         super(context);

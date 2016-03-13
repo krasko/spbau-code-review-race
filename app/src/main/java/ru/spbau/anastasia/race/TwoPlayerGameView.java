@@ -1,6 +1,7 @@
 package ru.spbau.anastasia.race;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 
@@ -60,6 +61,17 @@ public class TwoPlayerGameView extends OnePlayerGameView {
             int x = (int) ((canvas.getWidth() / 2) - ((mainPaint.descent() + mainPaint.ascent()) / 2));
             canvas.drawText(game.player.getLive() == 0 ? "You're dead" : (game.player2.getLive() == 0 ? "Opponent is dead" : ""),
                     x, mSettings.CurrentYRes / 2 - 50, textPaint);
+        }
+    }
+
+    @Override
+    public void initBackground(int numOfTheme) {
+        if (numOfTheme == GameMenu.IS_CHECKED) {
+            background = BitmapFactory.decodeResource(getResources(), R.drawable.winter_road_two);
+            restart = BitmapFactory.decodeResource(getResources(), R.drawable.restart2);
+        } else {
+            background = BitmapFactory.decodeResource(getResources(), R.drawable.game_road_new_two);
+            restart = BitmapFactory.decodeResource(getResources(), R.drawable.restart);
         }
     }
 }

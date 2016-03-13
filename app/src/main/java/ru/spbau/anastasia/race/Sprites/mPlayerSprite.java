@@ -1,14 +1,14 @@
-package ru.spbau.anastasia.race.Sprites;
+package ru.spbau.anastasia.race.sprites;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import ru.spbau.anastasia.race.Other.FileForSent;
-import ru.spbau.anastasia.race.Game.mGame;
-import ru.spbau.anastasia.race.Other.Sound;
-import ru.spbau.anastasia.race.Other.mLayer;
-import ru.spbau.anastasia.race.Other.mSettings;
+import ru.spbau.anastasia.race.util.FileForSent;
+import ru.spbau.anastasia.race.game.mGame;
+import ru.spbau.anastasia.race.util.Sound;
+import ru.spbau.anastasia.race.util.mLayer;
+import ru.spbau.anastasia.race.util.mSettings;
 
 public class mPlayerSprite extends mSimpleSprite {
 

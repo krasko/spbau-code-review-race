@@ -1,4 +1,4 @@
-package ru.spbau.anastasia.race.Sprites;
+package ru.spbau.anastasia.race.sprites;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -8,7 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
 
-import ru.spbau.anastasia.race.Other.mSettings;
+import ru.spbau.anastasia.race.util.mSettings;
 
 public abstract class mSimpleSprite extends mBasic {
 

@@ -1,4 +1,4 @@
-package ru.spbau.anastasia.race.Sprites;
+package ru.spbau.anastasia.race.sprites;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import ru.spbau.anastasia.race.R;
-import ru.spbau.anastasia.race.Other.mSettings;
+import ru.spbau.anastasia.race.util.mSettings;
 
 public class mLive extends mSimpleSprite {
 

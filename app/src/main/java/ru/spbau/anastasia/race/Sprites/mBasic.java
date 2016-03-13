@@ -1,4 +1,4 @@
-package ru.spbau.anastasia.race.Sprites;
+package ru.spbau.anastasia.race.sprites;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
