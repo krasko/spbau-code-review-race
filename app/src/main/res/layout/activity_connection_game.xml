@@ -1,0 +1,77 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#0099cc"
+    tools:context=".GameConnection"
+    android:nestedScrollingEnabled="false"
+    android:longClickable="false">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/ConnectionView"
+        android:layout_gravity="center"
+        android:scaleType="fitXY"
+        android:contentDescription="@string/description_general_background" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/message_frame">
+
+
+        <Button
+            android:id="@+id/send"
+            android:text="@string/send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom" />
+
+
+        <ListView
+            android:id="@+id/messages"
+            android:layout_width="wrap_content"
+            android:layout_height="291dp"
+            android:stackFromBottom="true"
+            android:transcriptMode="alwaysScroll"
+            android:layout_gravity="top|left"
+            android:smoothScrollbar="false" />
+
+
+        <EditText
+            android:id="@+id/edit_text"
+            android:inputType="text"
+            android:layout_width="420dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:height="30dp"
+            android:width="300dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton2"
+            android:layout_gravity="left|bottom"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/play"
+            android:nestedScrollingEnabled="false"
+            android:background="@null"
+            android:onClick="onClickButtonStartPlay"
+            android:contentDescription="@string/button_start_playing" />
+    </FrameLayout>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/back"
+        android:src="@drawable/back"
+        android:layout_marginRight="10dp"
+        android:background="@null"
+        android:layout_marginBottom="10dp"
+        android:nestedScrollingEnabled="false"
+        android:onClick="onClickButtonBackTwoPlayerOption"
+        android:layout_gravity="right|top"
+        android:contentDescription="@string/button_back" />
+
+
+</FrameLayout>

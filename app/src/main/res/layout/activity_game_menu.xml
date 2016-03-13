@@ -1,0 +1,91 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0099cc"
+    tools:context=".GameMenu" >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/imageGameMenu"
+        android:layout_gravity="center"
+        android:scaleType="fitXY"
+        android:src="@drawable/menu"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/description_general_background" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonOnePlayer"
+        android:layout_gravity="center_horizontal|top"
+        android:src="@drawable/one_player"
+        android:onClick="onClickButtonOnePlayerOption"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/button_select_game_mode" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonTwoPlayers"
+        android:layout_gravity="center"
+        android:src="@drawable/two_players"
+        android:onClick="onClickButtonTConnection"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/button_select_game_mode" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonGameInfo"
+        android:layout_gravity="left|bottom"
+        android:onClick="onClickButtonGameInfo"
+        android:src="@drawable/rules"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/button_game_info" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonGameAbout"
+        android:layout_gravity="right|bottom"
+        android:src="@drawable/about"
+        android:onClick="onClickButtonGameAbout"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="30dp"
+        android:focusableInTouchMode="false"
+        android:focusable="false"
+        android:cropToPadding="false"
+        android:contextClickable="false"
+        android:clickable="false"
+        android:baselineAlignBottom="false"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/button_game_about" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonSound"
+        android:layout_gravity="right|top"
+        android:src="@drawable/sound"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:layout_marginRight="10dp"
+        android:onClick="onClickSound"
+        android:contentDescription="@string/button_sound" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/check_box_winter_theme"
+        android:id="@+id/winter"
+        android:layout_gravity="left|top"
+        android:onClick="onClickChooseWinterTheme"
+        android:checked="false" />
+
+</FrameLayout>

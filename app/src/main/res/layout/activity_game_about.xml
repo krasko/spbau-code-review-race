@@ -1,0 +1,56 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0099cc"
+    tools:context="ru.spbau.anastasia.race.GameAbout">
+
+    <TextView
+        android:id="@+id/fullscreen_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:keepScreenOn="true" android:textColor="#33b5e5"
+        android:textStyle="bold"
+        android:textSize="50sp"
+        android:gravity="center"
+        android:text="" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/imageGameAbout"
+        android:layout_gravity="center"
+        android:scaleType="fitXY"
+        android:src="@drawable/game_about"
+        android:contentDescription="@string/description_general_background" />
+
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonBack"
+        android:layout_gravity="right|bottom"
+        android:background="@android:color/transparent"
+        android:src="@drawable/back"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:onClick="onClickButtonBackGameAbout"
+        android:contentDescription="@string/button_back" />
+
+    <TextView
+        android:layout_width="397dp"
+        android:layout_height="fill_parent"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/game_about"
+        android:id="@+id/gameAbout"
+        android:layout_gravity="left|center_vertical"
+        android:layout_margin="5dp"
+        android:autoText="false"
+        android:textStyle="bold"
+        android:maxLines = "12"
+        android:scrollbars = "vertical"
+        android:textSize="@dimen/abc_dialog_padding_material"
+        android:textColor="#ffffff" />
+
+</FrameLayout>

@@ -1,0 +1,61 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#0099cc"
+    tools:context="ru.spbau.anastasia.race.OnePlayerOption">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/imagePlayersOption"
+        android:layout_gravity="center"
+        android:scaleType="fitXY"
+        android:src="@drawable/one_player_option"
+        android:contentDescription="@string/description_general_background" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonBack"
+        android:layout_gravity="right|bottom"
+        android:src="@drawable/back"
+        android:layout_marginRight="10dp"
+        android:background="@null"
+        android:layout_marginBottom="10dp"
+        android:onClick="onClickButtonBackOnePlayerOption"
+        android:contentDescription="@string/button_back" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonStart"
+        android:layout_gravity="center_horizontal|bottom"
+        android:src="@drawable/start"
+        android:onClick="onClickButtonStartOnePlayer"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/button_start_playing" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonChooseFinn"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_marginRight="100dp"
+        android:background="@null"
+        android:src="@drawable/chosen_finn"
+        android:onClick="onFinnChosen"
+        android:layout_marginTop="30dp"
+        android:contentDescription="@string/button_choose_character" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonChooseJake"
+        android:layout_gravity="center_horizontal|top"
+        android:src="@drawable/choose_jake"
+        android:background="@null"
+        android:layout_marginLeft="100dp"
+        android:onClick="onJakeChosen"
+        android:layout_marginTop="30dp"
+        android:contentDescription="@string/button_choose_character" />
+</FrameLayout>

@@ -1,0 +1,55 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#0099cc"
+    tools:context="ru.spbau.anastasia.race.RoadForOne">
+
+
+    <ru.spbau.anastasia.race.OnePlayerGameView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/game_view"
+        android:layout_gravity="right|bottom" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/back"
+        android:layout_gravity="right|bottom"
+        android:src="@drawable/back"
+        android:layout_marginRight="10dp"
+        android:background="@null"
+        android:layout_marginBottom="10dp"
+        android:onClick="onBackButtonClickRoadForOne"
+        android:contentDescription="@string/button_back" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pause"
+        android:layout_gravity="left|bottom"
+        android:src="@drawable/pause"
+        android:layout_marginBottom="10dp"
+        android:background="@null"
+        android:layout_marginLeft="10dp"
+        android:contentDescription="@string/button_stop_playing" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/count1"
+        android:layout_gravity="center_horizontal|top" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/restart"
+        android:layout_gravity="left|bottom"
+        android:src="@drawable/play"
+        android:onClick="onRestartButtonClick"
+        android:background="@null"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:contentDescription="@string/button_start_playing" />
+
+</FrameLayout>

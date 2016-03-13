@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">Race</string>
+
+    <string name="bluetooth_absent">Device is not supported</string>
+
+    <string name="title_activity_game_settings">GameSettings</string>
+    <string name="title_activity_one_gamer_option">OneGamerOption</string>
+    <string name="title_activity_two_gamers_option">TwoGamersOption</string>
+    <string name="title_activity_one_player_option">OnePlayerOption</string>
+    <string name="title_activity_two_players_option">TwoPlayersOption</string>
+    <string name="title_activity_game_info">GameInfo</string>
+    <string name="title_activity_game_about">GameAbout</string>
+    <string name="title_activity_road_for_one">RoadForOne</string>
+    <string name="title_activity_road_for_two">RoadForTwo</string>
+    <string name="title_activity_connection_game">ConnectionGame</string>
+    <string name="title_activity_device_chooser">DeviceChooser</string>
+    <string name="title_activity_choose">Choose</string>
+
+    <string name="send">Send</string>
+    <string name="close">Close</string>
+
+    <string name="enable_discoverable">Make discoverable</string>
+    <string name="scan_for_devices">Scan for devices</string>
+    <string name="scanning_for_devices">Scanning…</string>
+
+    <string name="n_devices_found_suffix">devices found</string>
+
+    <string name="choose_information">You can choose the character. Your choice: </string>
+
+    <string name="finn"> Finn</string>
+    <string name="jake"> Jake</string>
+
+    <string name="game_about">ABOUT:\n\nThe game is developed as coursework project of SPbAU second year bachelors.\n\nThe source code of the program you can find here:\nhttps://github.com/avgaydashenko/Race\n\nAuthors:\nAnastasia Gaydashenko, Alexandra Malysheva</string>
+    <string name="game_info">RULES:\n\nThe player has three lives. He loses one if he bumps into a barrier. Player can score points during the game, the best result will be shown.\n\nSingle player game: Player can choose a character to play. The game ends if the player runs out of lives.\n\nA game with a friend: To play with a friend you must connect to the device using Bluetooth. The game ends when one player runs out of life. He is a loser.</string>
+
+    <string name="description_general_background">General Background</string>
+
+    <string name="check_box_winter_theme">Winter Theme</string>
+    <string name="check_box_is_server">Is Server</string>
+
+    <string name="button_start_playing">Start playing button</string>
+    <string name="button_stop_playing">Stop playing button</string>
+    <string name="button_reconnect">Reconnect button</string>
+    <string name="button_back">Back for previous activity button</string>
+    <string name="button_select_game_mode">Select game mode button</string>
+    <string name="button_game_info">Go to GameInfo button</string>
+    <string name="button_game_about">Go to GameAbout button</string>
+    <string name="button_sound">Sound button</string>
+    <string name="button_choose_character">Choose character button</string>
+
+</resources>
